@@ -5,16 +5,36 @@ const LandingPage = () => {
 
     return (
         <AuthConsumer>
-            {({ isAuth }) =>
-                isAuth ? (
-                    <div>
-                        <p>Hey, you are authenticated. View your progress in leaderboard.</p>
-                    </div>
-                ) : (
-                    <div>
-                        <p>You are not authenticated. Your progress is not on leaderboard.</p>
-                    </div>
-                )
+            {( {Auth} ) =>  {
+
+                //If admin
+                if (Auth === 'Admin') {
+                    return (
+                        <div>
+                            <p>You are authenticated. Your progress is on the leaderboard.</p>
+                        </div>
+                    )
+                }
+
+                //If logged in user
+                else if (Auth === 'User') {
+                    return (
+                        <div>
+                            <p>You are authenticated. Your progress is on the leaderboard.</p>
+                        </div>
+                    )
+                }
+
+                //If guest
+                else {
+                    return (
+                        <div>
+                            <p>You are not authenticated. Your progress is not on the leaderboard.</p>
+                        </div>
+                    )
+                }
+            }
+                
             }
         </AuthConsumer>
     );

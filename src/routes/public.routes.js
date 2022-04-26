@@ -1,16 +1,18 @@
 import React from 'react';
 import { Router } from '@reach/router';
-import LandingPage from '../views/LabelPage';
+import LandingPage from '../views/LandingPage';
 import LabelPage from '../views/LabelPage';
-import SignIn from '../views/SignIn';
 import SignUp from '../views/SignUp';
+import Login from '../views/Login';
+import ResultsPage from '../views/ResultsPage';
 
 const PublicRoutes = () => (
     <Router>
         <LandingPage path='/' />
         <LabelPage path='label' />
-        <SignIn path='signin' />
+        <ResultsPage path='/results' />
         <SignUp path='signup' />
+        <Login path='login' />
     </Router>
 );
 

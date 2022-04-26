@@ -3,21 +3,48 @@ import React from 'react';
 const AuthContext = React.createContext();
 
 class AuthProvider extends React.Component {
-    state = { isAuth: false };
+    state = { Auth: 'Guest', Name: 'Guest', Results: 0 };
 
-    login = () => {
-        setTimeout(() => this.setState({ isAuth: true}), 1000);
+    componentDidMount() {
+        this.setState( {Auth: localStorage.getItem('Auth'), Name: localStorage.getItem('Name'), Results: localStorage.getItem('Results')})
+    }
+
+    login = ({email, password}) => {
+        console.log('Login Called');
+
+        let role = 'Guest';
+        if (email === 'admin@ufl.edu'){
+            role = 'Admin'
+        } else if( email === 'user@ufl.edu') {
+            role = 'User';
+        }
+
+        let result = this.state.Results;
+
+        this.setState( { Auth: role, Name: role, Results: result }, () => {
+            localStorage.setItem('Auth', role);
+            localStorage.setItem('Name', role);
+            localStorage.setItem('Results', result);
+        });
     };
 
     logout = () => {
-        this.setState({ isAuth: false });
+        console.log('Logout called');
+
+        this.setState({ Auth: 'Guest', Name: 'Guest', Results: 0}, () => {
+            localStorage.setItem('Auth', 'Guest');
+            localStorage.setItem('Name', 'Guest');
+            localStorage.setItem('Results', 0);
+        });
     }
 
     render() {
         return (
             <AuthContext.Provider
                 value={{
-                    isAuth: this.state.isAuth,
+                    Auth: this.state.Auth,
+                    Name: this.state.Name,
+                    Results: this.state.Results,
                     login: this.login,
                     logout: this.logout
                 }}
@@ -30,4 +57,4 @@ class AuthProvider extends React.Component {
 
 const AuthConsumer = AuthContext.Consumer;
 
-export { AuthProvider, AuthConsumer };
+export { AuthContext, AuthProvider, AuthConsumer };
