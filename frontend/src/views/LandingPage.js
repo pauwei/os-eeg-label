@@ -1,5 +1,6 @@
 import React from 'react';
 import { AuthConsumer } from "../helpers/AuthContext";
+import Sidebar from '../components/Sidebar';
 
 const LandingPage = () => {
 
@@ -11,6 +12,7 @@ const LandingPage = () => {
                 if (Auth === 'Admin') {
                     return (
                         <div>
+                            <Sidebar />
                             <p>You are authenticated. Your progress is on the leaderboard.</p>
                         </div>
                     )
@@ -20,6 +22,7 @@ const LandingPage = () => {
                 else if (Auth === 'User') {
                     return (
                         <div>
+                            <Sidebar />
                             <p>You are authenticated. Your progress is on the leaderboard.</p>
                         </div>
                     )
@@ -29,6 +32,7 @@ const LandingPage = () => {
                 else {
                     return (
                         <div>
+                            <Sidebar />
                             <p>You are not authenticated. Your progress is not on the leaderboard.</p>
                         </div>
                     )

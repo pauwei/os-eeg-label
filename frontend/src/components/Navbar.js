@@ -35,6 +35,7 @@ const ResponsiveAppBar = () => {
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
                                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                                             <Nav.Link href="/roles">Roles</Nav.Link>
+                                            <Nav.Link href="/datalist">Data</Nav.Link>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
                                             <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                                                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
@@ -75,14 +76,6 @@ const ResponsiveAppBar = () => {
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
                                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
-                                            <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                                <NavDropdown.Divider />
-                                                <NavDropdown.Item href="#action5">
-                                                    Something else here
-                                                </NavDropdown.Item>
-                                            </NavDropdown>
                                         </Nav>
                                     </Offcanvas.Body>
                                 </Navbar.Offcanvas>
@@ -116,14 +109,6 @@ const ResponsiveAppBar = () => {
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
                                             <Nav.Link href="/signup">Signup</Nav.Link>
                                             <Nav.Link href="/login">Login</Nav.Link>
-                                            <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                                <NavDropdown.Divider />
-                                                <NavDropdown.Item href="#action5">
-                                                    Something else here
-                                                </NavDropdown.Item>
-                                            </NavDropdown>
                                         </Nav>
                                     </Offcanvas.Body>
                                 </Navbar.Offcanvas>

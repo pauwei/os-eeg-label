@@ -1,5 +1,6 @@
 import React from 'react';
 import { AuthConsumer } from '../helpers/AuthContext';
+import Sidebar from '../components/Sidebar';
 
 const ResultsPage = () => {
 
@@ -11,6 +12,7 @@ const ResultsPage = () => {
                 if (Auth === 'Admin') {
                     return (
                         <div>
+                            <Sidebar />
                             <p>This page is in progress. You can view your progress here.</p>
                         </div>
                     )
@@ -20,6 +22,7 @@ const ResultsPage = () => {
                 else if (Auth === 'User') {
                     return (
                         <div>
+                            <Sidebar />
                             <p>This page is in progress. You can view your progress here.</p>
                         </div>
                     )
@@ -29,6 +32,7 @@ const ResultsPage = () => {
                 else {
                     return (
                         <div>
+                            <Sidebar />
                             <p>You are not authenticated to view the page.</p>
                         </div>
                     )
