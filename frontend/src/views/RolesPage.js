@@ -1,28 +1,32 @@
-import React from 'react';
-import { AuthConsumer } from '../helpers/AuthContext';
+import React from "react";
+import { AuthConsumer } from "../helpers/AuthContext";
 
 const RolesPage = () => {
-
     return (
         <AuthConsumer>
-            {( {Auth} ) =>  {
-
+            {({ Auth }) => {
                 //If admin
-                if (Auth === 'Admin') {
+                if (Auth === "Admin") {
                     return (
                         <div>
-                            <p>This page is in progress. Only admin can view roles.</p>
+                            <p>
+                                This page is in progress. Check back later,
+                                Admin.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If logged in user
-                else if (Auth === 'User') {
+                else if (Auth === "User") {
                     return (
                         <div>
-                            <p>This page is in progress. Only admin can view roles.</p>
+                            <p>
+                                This page is in progress. Only admin can view
+                                roles.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If guest
@@ -31,12 +35,11 @@ const RolesPage = () => {
                         <div>
                             <p>You are not authenticated to view the page.</p>
                         </div>
-                    )
+                    );
                 }
             }}
         </AuthConsumer>
-
     );
-}
+};
 
 export default RolesPage;

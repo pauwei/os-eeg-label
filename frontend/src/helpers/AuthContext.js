@@ -1,52 +1,97 @@
-import React from 'react';
+import axios from "axios";
+import React from "react";
 
 const AuthContext = React.createContext();
+const auth_API_URL = "http://localhost:8080/api/auth/";
 
 class AuthProvider extends React.Component {
-    state = { Auth: 'Guest', Name: 'Guest', Results: 0 };
+    state = { Auth: "Guest", Info: "Guest", Results: 0 };
 
     componentDidMount() {
-        this.setState( {Auth: localStorage.getItem('Auth'), Name: localStorage.getItem('Name'), Results: localStorage.getItem('Results')})
+        this.setState({
+            Auth: localStorage.getItem("Auth"),
+            Info: localStorage.getItem("Info"),
+            Results: localStorage.getItem("Results"),
+        });
     }
 
-    login = ({email, password}) => {
-        console.log('Login Called');
+    authHeader = () => {
+        let info = JSON.parse(localStorage.getItem("Info"));
 
-        let role = 'Guest';
-        if (email === 'admin@ufl.edu'){
-            role = 'Admin'
-        } else if( email === 'user@ufl.edu') {
-            role = 'User';
+        if (info.accessToken) {
+            return { "x-access-token": info.accessToken };
+        } else {
+            return {};
         }
+    };
 
-        let result = this.state.Results;
+    login = ({ email, password }) => {
+        console.log("Login called");
 
-        this.setState( { Auth: role, Name: role, Results: result }, () => {
-            localStorage.setItem('Auth', role);
-            localStorage.setItem('Name', role);
-            localStorage.setItem('Results', result);
-        });
+        return axios
+            .post(auth_API_URL + "signin", {
+                email,
+                password,
+            })
+            .then((response) => {
+                let role = "Guest";
+
+                if (response.data.roles.includes("ROLE_ADMIN")) {
+                    role = "Admin";
+                } else if (response.data.roles.includes("ROLE_USER")) {
+                    role = "User";
+                }
+
+                let result = this.state.Results;
+
+                if (response.data.accessToken) {
+                    this.setState(
+                        { Auth: role, Info: role, Results: result },
+                        () => {
+                            localStorage.setItem("Auth", role);
+                            localStorage.setItem(
+                                "Info",
+                                JSON.stringify(response.data)
+                            );
+                            localStorage.setItem("Results", result);
+                        }
+                    );
+                }
+
+                return response.data;
+            });
     };
 
     logout = () => {
-        console.log('Logout called');
+        console.log("Logout called");
 
-        this.setState({ Auth: 'Guest', Name: 'Guest', Results: 0}, () => {
-            localStorage.setItem('Auth', 'Guest');
-            localStorage.setItem('Name', 'Guest');
-            localStorage.setItem('Results', 0);
+        this.setState({ Auth: "Guest", Info: "Guest", Results: 0 }, () => {
+            localStorage.setItem("Auth", "Guest");
+            localStorage.setItem("Info", "Guest");
+            localStorage.setItem("Results", 0);
         });
-    }
+    };
+
+    signup = ({ email, password }) => {
+        console.log("Signup called");
+
+        return axios.post(auth_API_URL + "signup", {
+            email,
+            password,
+        });
+    };
 
     render() {
         return (
             <AuthContext.Provider
                 value={{
                     Auth: this.state.Auth,
-                    Name: this.state.Name,
+                    Info: this.state.Info,
                     Results: this.state.Results,
+                    authHeader: this.authHeader,
                     login: this.login,
-                    logout: this.logout
+                    logout: this.logout,
+                    signup: this.signup,
                 }}
             >
                 {this.props.children}

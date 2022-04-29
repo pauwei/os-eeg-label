@@ -1,31 +1,35 @@
-import React from 'react';
+import React from "react";
 import { AuthConsumer } from "../helpers/AuthContext";
-import Sidebar from '../components/Sidebar';
+import Sidebar from "../components/Sidebar";
 
 const LandingPage = () => {
-
     return (
         <AuthConsumer>
-            {( {Auth} ) =>  {
-
+            {({ Auth }) => {
                 //If admin
-                if (Auth === 'Admin') {
+                if (Auth === "Admin") {
                     return (
                         <div>
                             <Sidebar />
-                            <p>You are authenticated. Your progress is on the leaderboard.</p>
+                            <p>
+                                You are authenticated as an admin. Your progress
+                                is on the leaderboard.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If logged in user
-                else if (Auth === 'User') {
+                else if (Auth === "User") {
                     return (
                         <div>
                             <Sidebar />
-                            <p>You are authenticated. Your progress is on the leaderboard.</p>
+                            <p>
+                                You are authenticated as a user. Your progress
+                                is on the leaderboard.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If guest
@@ -33,13 +37,14 @@ const LandingPage = () => {
                     return (
                         <div>
                             <Sidebar />
-                            <p>You are not authenticated. Your progress is not on the leaderboard.</p>
+                            <p>
+                                You are not authenticated. Your progress is not
+                                on the leaderboard.
+                            </p>
                         </div>
-                    )
+                    );
                 }
-            }
-                
-            }
+            }}
         </AuthConsumer>
     );
 };

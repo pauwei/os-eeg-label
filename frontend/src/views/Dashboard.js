@@ -1,28 +1,32 @@
-import React from 'react';
+import React from "react";
 import { AuthConsumer } from "../helpers/AuthContext";
 
 const Dashboard = () => {
-
     return (
         <AuthConsumer>
-            {( {Auth} ) =>  {
-
+            {({ Auth }) => {
                 //If admin
-                if (Auth === 'Admin') {
+                if (Auth === "Admin") {
                     return (
                         <div>
-                            <p>Hey, you are authenticated. Your progress is below.</p>
+                            <p>
+                                Hey, you are authenticated as an admin. Your
+                                progress is below.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If logged in user
-                else if (Auth === 'User') {
+                else if (Auth === "User") {
                     return (
                         <div>
-                            <p>Hey, you are authenticated. Your progress is below.</p>
+                            <p>
+                                Hey, you are authenticated as a user. Your
+                                progress is below.
+                            </p>
                         </div>
-                    )
+                    );
                 }
 
                 //If guest
@@ -31,11 +35,9 @@ const Dashboard = () => {
                         <div>
                             <p>You are not authenticated. Please login.</p>
                         </div>
-                    )
+                    );
                 }
-            }
-                
-            }
+            }}
         </AuthConsumer>
     );
 };
