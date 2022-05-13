@@ -2,7 +2,12 @@ import { React, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import LoadingSpinner from "../components/LoadingSpinner";
+import LabelModal from "../components/LabelModal";
 import { AuthContext, AuthConsumer } from "../helpers/AuthContext";
 
 import Sidebar from "../components/Sidebar";
@@ -30,6 +35,9 @@ const LabelPage = () => {
     const [other, setOther] = useState(false);
     const [unsure, setUnsure] = useState(false);
 
+    //Submission
+    const [status, setStatus] = useState("");
+
     const handleWindowSizeChange = () => {
         setWidth(window.innerWidth);
     }
@@ -56,33 +64,41 @@ const LabelPage = () => {
                 weight: context.Weight,
             }
         ).then ( (res) => {
-            //Get the next image
-            getImage();
-
-            //Set all checkboxes to blank
-            setBrain(false);
-            setMuscle(false);
-            setEye(false);
-            setHeart(false);
-            setLinenoise(false);
-            setChannoise(false);
-            setOther(false);
-            setUnsure(false);
+            //Set status to true
+            setStatus("success");
         })
         .catch( (err) => {
+            //Set status based on error
+            setStatus("failed");
             console.log(err);
         });
     };
 
+    const getNext = () => {
+        setStatus("");
+        getImage();
+    }
+
     const getImage = () => {
+        //While getting image, loading is true
         setIsLoading(true);
+        
+        //Set all checkboxes to blank
+        setBrain(false);
+        setMuscle(false);
+        setEye(false);
+        setHeart(false);
+        setLinenoise(false);
+        setChannoise(false);
+        setOther(false);
+        setUnsure(false);
 
         //Get image file name first then the image data
         axios.get(
             '/dropbox/imagefile',
             { 
                 params: {
-                    id: context.Email,
+                    email: localStorage.getItem("Email"),
                 },
             }
         ).then ((response) => {
@@ -117,11 +133,13 @@ const LabelPage = () => {
             //TODO
             //Unable to get image
             if (isLoading) setIsLoading(false);
+            if (status) setStatus("");
         });
     };
 
     useEffect(() => {
-        getImage();
+        if (!status)
+            getImage();
 
         //Get window size
         window.addEventListener('resize', handleWindowSizeChange);
@@ -149,6 +167,7 @@ const LabelPage = () => {
                                         style={{
                                             display: 'flex',
                                             position: "relative",
+                                            opacity: status ? "0.33" : "1.0",
                                         }}
                                     >
                                         
@@ -244,6 +263,52 @@ const LabelPage = () => {
                                         </div>
                                     </div>
                                 }
+
+                                <br />
+                                {status === "success" && (
+                                    <Container style={{width: '50%'}}>
+                                        <Card
+                                            className="alert alert-success"
+                                            role="alert"
+                                        >
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        Label Successfully Submitted.
+                                                    </Col>
+                                                    <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                        <LabelModal />
+                                                        <Button variant="primary" onClick={getNext}>
+                                                            Next
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    </Container>
+                                )}
+                                {status === "failed" && (
+                                    <Container style={{width: '50%'}}>
+                                    <Card
+                                        className="alert alert-danger"
+                                        role="alert"
+                                    >
+                                        <Card.Body>
+                                            <Row>
+                                                <Col>
+                                                    Label Submission Unsuccessful.
+                                                </Col>
+                                                <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                    <LabelModal />
+                                                    <Button variant="primary" onClick={getNext}>
+                                                        Next
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                </Container>
+                                )}
                             </div>
                         </div>
                     );
@@ -256,7 +321,7 @@ const LabelPage = () => {
                             {width > 768 && <Sidebar /> }
                             <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
                                 <p>
-                                    Hey, you are authenticated as an admin. Your
+                                    Hey, you are authenticated as an user. Your
                                     labeling progress will be stored.
                                 </p>
                                 { isLoading ?
@@ -265,6 +330,7 @@ const LabelPage = () => {
                                         style={{
                                             display: 'flex',
                                             position: "relative",
+                                            opacity: status ? "0.33" : "1.0",
                                         }}
                                     >
                                         
@@ -360,6 +426,52 @@ const LabelPage = () => {
                                         </div>
                                     </div>
                                 }
+
+                                <br />
+                                {status === "success" && (
+                                    <Container style={{width: '50%'}}>
+                                        <Card
+                                            className="alert alert-success"
+                                            role="alert"
+                                        >
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        Label Successfully Submitted.
+                                                    </Col>
+                                                    <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                        <LabelModal />
+                                                        <Button variant="primary" onClick={getNext}>
+                                                            Next
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    </Container>
+                                )}
+                                {status === "failed" && (
+                                    <Container style={{width: '50%'}}>
+                                    <Card
+                                        className="alert alert-danger"
+                                        role="alert"
+                                    >
+                                        <Card.Body>
+                                            <Row>
+                                                <Col>
+                                                    Label Submission Unsuccessful.
+                                                </Col>
+                                                <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                    <LabelModal />
+                                                    <Button variant="primary" onClick={getNext}>
+                                                        Next
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </Card.Body>
+                                    </Card>
+                                </Container>
+                                )}
                             </div>
                         </div>
                     );

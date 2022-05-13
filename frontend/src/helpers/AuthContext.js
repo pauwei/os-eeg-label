@@ -47,9 +47,9 @@ class AuthProvider extends React.Component {
 
                 if (response.data.accessToken) {
                     this.setState(
-                        { Email: response.data.email, Domain: response.data.domain, Weight: response.data.weight, Auth: role, Info: role, Name: response.data.fname },
+                        { Email: email, Domain: response.data.domain, Weight: response.data.weight, Auth: role, Info: role, Name: response.data.fname },
                         () => {
-                            localStorage.setItem("Email", response.data.email);
+                            localStorage.setItem("Email", email);
                             localStorage.setItem("Domain", response.data.domain);
                             localStorage.setItem("Weight", response.data.weight);
                             localStorage.setItem("Auth", role);
