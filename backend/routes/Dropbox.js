@@ -36,7 +36,7 @@ generateDBXAuth = () => {
         console.log(err);
     });
 
-    //Set timeout for next authentication
+    //Set timeout for next authentication in 3 hours
     setTimeout(generateDBXAuth, 10800000);
 }
 
@@ -48,8 +48,8 @@ generateDBXAuth();
 ///// ROUTER PATHS /////
 ////////////////////////
 
-//Getting the image for eeg labelling
-router.get('/image', (req, res) => {
+//Getting the image file name for eeg labelling
+router.get('/imagefile', (req, res) => {
     //Algorithm to determine which image to send back
 
     //TO DO
@@ -79,10 +79,19 @@ router.get('/image', (req, res) => {
     //TO DO
     //Get list of completed labels
     //Need to pass user id in order to get labels
+    req.query.id;
+
+    const file = files[Math.floor(Math.random() * files.length)];
+
+    res.send(file);
+})
+
+//Getting the image for eeg labelling
+router.get('/imagedata', (req, res) => {
 
     //TO DO
     //Determine which file to get
-    const file = folderpath + "/" + files[Math.floor(Math.random() * files.length)];
+    const file = folderpath + "/" + req.query.imagefile;
 
     //Download file from Dropbox
     dropbox({

@@ -6,7 +6,8 @@ const Sidebar = () => {
         <Nav
             className="col-md-12 d-none d-md-block bg-light sidebar"
             style={{
-                position: "fixed",
+                display: "inline-block",
+                position: "absolute",
                 width: "250px",
                 height: "100%",
                 left: 0,

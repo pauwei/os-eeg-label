@@ -31,13 +31,14 @@ db.mongoose
     })
     .catch((err) => {
         console.error("Connection error.", err);
-        process.exit();
+        //process.exit();
     });
 
 app.get("/", (req, res) => res.send("Hello, this is the server!"));
 
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
+require("./routes/component.routes")(app);
 
 const port = process.env.PORT || 8080;
 

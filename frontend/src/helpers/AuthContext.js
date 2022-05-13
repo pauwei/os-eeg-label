@@ -5,13 +5,16 @@ const AuthContext = React.createContext();
 const auth_API_URL = "http://localhost:8080/api/auth/";
 
 class AuthProvider extends React.Component {
-    state = { Auth: "Guest", Info: "Guest", Results: 0 };
+    state = { Email: "guest", Domain: "guest", Weight: 1.0, Auth: "Guest", Info: "Guest", Name: "Guest" };
 
     componentDidMount() {
         this.setState({
+            Email: localStorage.getItem("Email"),
+            Domain: localStorage.getItem("Domain"),
+            Weight: localStorage.getItem("Weight"),
             Auth: localStorage.getItem("Auth"),
             Info: localStorage.getItem("Info"),
-            Results: localStorage.getItem("Results"),
+            Name: localStorage.getItem("Name"),
         });
     }
 
@@ -42,18 +45,19 @@ class AuthProvider extends React.Component {
                     role = "User";
                 }
 
-                let result = this.state.Results;
-
                 if (response.data.accessToken) {
                     this.setState(
-                        { Auth: role, Info: role, Results: result },
+                        { Email: response.data.email, Domain: response.data.domain, Weight: response.data.weight, Auth: role, Info: role, Name: response.data.fname },
                         () => {
+                            localStorage.setItem("Email", response.data.email);
+                            localStorage.setItem("Domain", response.data.domain);
+                            localStorage.setItem("Weight", response.data.weight);
                             localStorage.setItem("Auth", role);
                             localStorage.setItem(
                                 "Info",
                                 JSON.stringify(response.data)
                             );
-                            localStorage.setItem("Results", result);
+                            localStorage.setItem("Name", response.data.fname);
                         }
                     );
                 }
@@ -65,19 +69,35 @@ class AuthProvider extends React.Component {
     logout = () => {
         console.log("Logout called");
 
-        this.setState({ Auth: "Guest", Info: "Guest", Results: 0 }, () => {
+        this.setState({ Email: "guest", Domain: "guest", Weight: 1.0, Auth: "Guest", Info: "Guest", Name: "Guest" }, () => {
+            localStorage.setItem("Email", "guest");
+            localStorage.setItem("Domain", "guest");
+            localStorage.setItem("Weight", 1.0);
             localStorage.setItem("Auth", "Guest");
             localStorage.setItem("Info", "Guest");
-            localStorage.setItem("Results", 0);
+            localStorage.setItem("Name", "Guest");
         });
     };
 
-    signup = ({ email, password }) => {
+    signup = ({ fname, lname, assoc, edu, exp, email, password }) => {
         console.log("Signup called");
+        
+        const weight = 1.0;
+        const domain = 'user';
+        const components = [];
 
+        //Initialize new user
         return axios.post(auth_API_URL + "signup", {
+            fname,
+            lname,
+            assoc,
+            edu,
+            exp,
+            domain,
+            weight,
             email,
             password,
+            components,
         });
     };
 
@@ -85,9 +105,12 @@ class AuthProvider extends React.Component {
         return (
             <AuthContext.Provider
                 value={{
+                    Email: this.state.Email,
+                    Domain: this.state.Domain,
+                    Weight: this.state.Weight,
                     Auth: this.state.Auth,
                     Info: this.state.Info,
-                    Results: this.state.Results,
+                    Name: this.state.Name,
                     authHeader: this.authHeader,
                     login: this.login,
                     logout: this.logout,

@@ -6,7 +6,7 @@ const LoremIpsum = () => {
     return (
         <div>
             <Sidebar />
-            <p>
+            <p style={{paddingLeft: '250px'}}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
                 egestas interdum metus, a gravida dolor pellentesque et. Nunc
                 semper justo in massa sagittis, vel posuere neque pharetra.

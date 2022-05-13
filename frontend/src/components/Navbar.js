@@ -10,7 +10,7 @@ const ResponsiveAppBar = () => {
 
     return (
         <AuthConsumer>
-            {({Auth, Name, Results, login, logout}) => {
+            {({Auth, Name}) => {
 
                 if (Auth === 'Admin') {
                     return (
@@ -34,7 +34,7 @@ const ResponsiveAppBar = () => {
                                     <Offcanvas.Body>
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
                                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                                            <Nav.Link href="/roles">Roles</Nav.Link>
+                                            <Nav.Link href="/users">Users</Nav.Link>
                                             <Nav.Link href="/datalist">Data</Nav.Link>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
                                             <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">

@@ -2,6 +2,7 @@ import { React, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { AuthContext, AuthConsumer } from "../helpers/AuthContext";
 
 import Sidebar from "../components/Sidebar";
@@ -9,36 +10,124 @@ import Sidebar from "../components/Sidebar";
 const LabelPage = () => {
     const context = useContext(AuthContext);
 
+    //Loading variables
+    const [isLoading, setIsLoading] = useState(false);
+
+    //Width variables
+    const [width, setWidth] = useState(window.innerWidth);
+
+    //Label image data
     const [labelImage, setLabelImage] = useState(null);
+    const [labelFile, setLabelFile] = useState("");
+
+    //Checkbox values
+    const [brain, setBrain] = useState(false);
+    const [muscle, setMuscle] = useState(false);
+    const [eye, setEye] = useState(false);
+    const [heart, setHeart] = useState(false);
+    const [linenoise, setLinenoise] = useState(false);
+    const [channoise, setChannoise] = useState(false);
+    const [other, setOther] = useState(false);
+    const [unsure, setUnsure] = useState(false);
+
+    const handleWindowSizeChange = () => {
+        setWidth(window.innerWidth);
+    }
 
     const submitResults = () => {
-        //Save the results
+        let tags = [];
 
-        //Get the next image
-        getImage();
+        //Save the results
+        if (brain) { tags.push("Brain"); }
+        if (muscle) { tags.push("Muscle"); }
+        if (eye) { tags.push("Eye"); }
+        if (heart) { tags.push("Heart"); }
+        if (linenoise) { tags.push("Line Noise"); }
+        if (channoise) { tags.push("Channel Noise"); }
+        if (other) { tags.push("Other"); }
+        if (unsure) { tags.push("Unsure"); }
+
+        axios.post(
+            '/api/component/submit', {
+                name: labelFile,
+                email: context.Email,
+                tags: tags,
+                domain: context.Domain,
+                weight: context.Weight,
+            }
+        ).then ( (res) => {
+            //Get the next image
+            getImage();
+
+            //Set all checkboxes to blank
+            setBrain(false);
+            setMuscle(false);
+            setEye(false);
+            setHeart(false);
+            setLinenoise(false);
+            setChannoise(false);
+            setOther(false);
+            setUnsure(false);
+        })
+        .catch( (err) => {
+            console.log(err);
+        });
     };
 
     const getImage = () => {
-        axios
-            .get("/dropbox/image", {
-                responseType: "arraybuffer",
+        setIsLoading(true);
+
+        //Get image file name first then the image data
+        axios.get(
+            '/dropbox/imagefile',
+            { 
                 params: {
-                    id: context.Name,
+                    id: context.Email,
                 },
-            })
-            .then((res) => {
-                const base64 = btoa(
-                    new Uint8Array(res.data).reduce(
-                        (data, byte) => data + String.fromCharCode(byte),
-                        ""
-                    )
-                );
-                setLabelImage(base64);
-            });
+            }
+        ).then ((response) => {
+            //Set the image file
+            setLabelFile(response.data);
+
+            //Get the corresponding image file data
+            axios
+                .get("/dropbox/imagedata", {
+                    responseType: "arraybuffer",
+                    params: {
+                        imagefile: response.data,
+                    },
+                })
+                .then((res) => {
+                    const base64 = btoa(
+                        new Uint8Array(res.data).reduce(
+                            (data, byte) => data + String.fromCharCode(byte),
+                            ""
+                        )
+                    );
+                    setLabelImage(base64);
+                    setIsLoading(false);
+                })
+                .catch(() => {
+                    //TODO
+                    //Unable to get image
+                    setIsLoading(false);
+                });;
+        })
+        .catch(() => {
+            //TODO
+            //Unable to get image
+            if (isLoading) setIsLoading(false);
+        });
     };
 
     useEffect(() => {
         getImage();
+
+        //Get window size
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
     }, []);
 
     return (
@@ -48,71 +137,113 @@ const LabelPage = () => {
                 if (Auth === "Admin") {
                     return (
                         <div>
-                            <Sidebar />
-                            <p>
-                                Hey, you are authenticated as an admin. Your
-                                labelling progress will be stored.
-                            </p>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    position: "relative",
-                                }}
-                            >
-                                <img
-                                    src={`data:image/jpeg;charset=utf-8;base64,${labelImage}`}
-                                    alt="Labelling data"
-                                    width="1070"
-                                    height="547"
-                                />
-                                <div>
-                                    <Form.Group
-                                        className="flex-row"
-                                        controlId="formBasicCheckbox"
-                                    >
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Brain"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Muscle"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Eye"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Heart"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Line Noise"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Chan Noise"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Other"
-                                        />
-                                        <Form.Check type="checkbox" label="?" />
-                                    </Form.Group>
-                                    <Button
-                                        variant="primary"
-                                        type="submit"
-                                        onClick={submitResults}
+                            {width > 768 && <Sidebar /> }
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                                <p>
+                                    Hey, you are authenticated as an admin. Your
+                                    labeling progress will be stored.
+                                </p>
+                                { isLoading ?
+                                    <LoadingSpinner /> :
+                                    <div
                                         style={{
-                                            position: "absolute",
-                                            bottom: 0,
+                                            display: 'flex',
+                                            position: "relative",
                                         }}
                                     >
-                                        Submit
-                                    </Button>
-                                </div>
+                                        
+                                        <img
+                                            src={`data:image/jpeg;charset=utf-8;base64,${labelImage}`}
+                                            alt="Labeling data"
+                                            width="80%"
+                                            height="auto"
+                                            style={{border: '1px solid #000000'}}
+                                        />
+
+                                        <div>
+                                            <Form.Group
+                                                className="flex-row"
+                                                controlId="formBasicCheckbox"
+                                            >
+                                                <Form.Check
+                                                    id="brain"
+                                                    type="checkbox"
+                                                    label="Brain"
+                                                    checked={brain}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setBrain(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="muscle"
+                                                    type="checkbox"
+                                                    label="Muscle"
+                                                    checked={muscle}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setMuscle(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="eye"
+                                                    type="checkbox"
+                                                    label="Eye"
+                                                    checked={eye}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setEye(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="heart"
+                                                    type="checkbox"
+                                                    label="Heart"
+                                                    checked={heart}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setHeart(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="linenoise"
+                                                    type="checkbox"
+                                                    label="Line Noise"
+                                                    checked={linenoise}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setLinenoise(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="channoise"
+                                                    type="checkbox"
+                                                    label="Chan Noise"
+                                                    checked={channoise}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setChannoise(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="other"
+                                                    type="checkbox"
+                                                    label="Other"
+                                                    checked={other}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setOther(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="unsure"
+                                                    type="checkbox"
+                                                    label="?"
+                                                    checked={unsure}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setUnsure(e.target.checked)}
+                                                />
+                                            </Form.Group>
+                                            <Button
+                                                variant="primary"
+                                                type="submit"
+                                                onClick={submitResults}
+                                                style={{
+                                                    position: "absolute",
+                                                    bottom: 0,
+                                                }}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     );
@@ -122,71 +253,113 @@ const LabelPage = () => {
                 else if (Auth === "User") {
                     return (
                         <div>
-                            <Sidebar />
-                            <p>
-                                Hey, you are authenticated as a user. Your
-                                labelling progress will be stored.
-                            </p>
-                            <div
-                                style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    position: "relative",
-                                }}
-                            >
-                                <img
-                                    src={`data:image/jpeg;charset=utf-8;base64,${labelImage}`}
-                                    alt="Labelling data"
-                                    width="1070"
-                                    height="547"
-                                />
-                                <div>
-                                    <Form.Group
-                                        className="flex-row"
-                                        controlId="formBasicCheckbox"
-                                    >
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Brain"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Muscle"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Eye"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Heart"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Line Noise"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Chan Noise"
-                                        />
-                                        <Form.Check
-                                            type="checkbox"
-                                            label="Other"
-                                        />
-                                        <Form.Check type="checkbox" label="?" />
-                                    </Form.Group>
-                                    <Button
-                                        variant="primary"
-                                        type="submit"
-                                        onClick={submitResults}
+                            {width > 768 && <Sidebar /> }
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                                <p>
+                                    Hey, you are authenticated as an admin. Your
+                                    labeling progress will be stored.
+                                </p>
+                                { isLoading ?
+                                    <LoadingSpinner /> :
+                                    <div
                                         style={{
-                                            position: "absolute",
-                                            bottom: 0,
+                                            display: 'flex',
+                                            position: "relative",
                                         }}
                                     >
-                                        Submit
-                                    </Button>
-                                </div>
+                                        
+                                        <img
+                                            src={`data:image/jpeg;charset=utf-8;base64,${labelImage}`}
+                                            alt="Labeling data"
+                                            width="80%"
+                                            height="auto"
+                                            style={{border: '1px solid #000000'}}
+                                        />
+
+                                        <div>
+                                            <Form.Group
+                                                className="flex-row"
+                                                controlId="formBasicCheckbox"
+                                            >
+                                                <Form.Check
+                                                    id="brain"
+                                                    type="checkbox"
+                                                    label="Brain"
+                                                    checked={brain}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setBrain(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="muscle"
+                                                    type="checkbox"
+                                                    label="Muscle"
+                                                    checked={muscle}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setMuscle(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="eye"
+                                                    type="checkbox"
+                                                    label="Eye"
+                                                    checked={eye}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setEye(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="heart"
+                                                    type="checkbox"
+                                                    label="Heart"
+                                                    checked={heart}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setHeart(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="linenoise"
+                                                    type="checkbox"
+                                                    label="Line Noise"
+                                                    checked={linenoise}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setLinenoise(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="channoise"
+                                                    type="checkbox"
+                                                    label="Chan Noise"
+                                                    checked={channoise}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setChannoise(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="other"
+                                                    type="checkbox"
+                                                    label="Other"
+                                                    checked={other}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setOther(e.target.checked)}
+                                                />
+                                                <Form.Check
+                                                    id="unsure"
+                                                    type="checkbox"
+                                                    label="?"
+                                                    checked={unsure}
+                                                    style={{textAlign: 'left', paddingLeft: '40px'}}
+                                                    onChange={(e) => setUnsure(e.target.checked)}
+                                                />
+                                            </Form.Group>
+                                            <Button
+                                                variant="primary"
+                                                type="submit"
+                                                onClick={submitResults}
+                                                style={{
+                                                    position: "absolute",
+                                                    bottom: 0,
+                                                }}
+                                            >
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     );
@@ -197,57 +370,85 @@ const LabelPage = () => {
                     return (
                         <div>
                             <Sidebar />
-                            <p>
-                                You are not authenticated. Your labelling
-                                progress will not be stored
-                            </p>
                             <div
                                 style={{
                                     display: "flex",
                                     justifyContent: "center",
                                     position: "relative",
+                                    paddingLeft: "250px",
                                 }}
                             >
-                                <img
+                                <p>
+                                    Labeling is not available as you are not authenticated.
+                                </p>
+                                <br />
+                                <p>
+                                    Please either signup or login.
+                                </p>
+                                < br/>
+                                <p>
+                                    Tutorial section is in progress.
+                                </p>
+                                {/* <img
                                     src={`data:image/jpeg;charset=utf-8;base64,${labelImage}`}
                                     alt="Labelling data"
                                     width="1070"
                                     height="547"
                                 />
+
                                 <div>
                                     <Form.Group
                                         className="flex-row"
                                         controlId="formBasicCheckbox"
                                     >
                                         <Form.Check
+                                            id="brain"
                                             type="checkbox"
                                             label="Brain"
+                                            onChange={(e) => setBrain(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="muscle"
                                             type="checkbox"
                                             label="Muscle"
+                                            onChange={(e) => setMuscle(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="eye"
                                             type="checkbox"
                                             label="Eye"
+                                            onChange={(e) => setEye(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="heart"
                                             type="checkbox"
                                             label="Heart"
+                                            onChange={(e) => setHeart(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="linenoise"
                                             type="checkbox"
                                             label="Line Noise"
+                                            onChange={(e) => setLinenoise(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="channoise"
                                             type="checkbox"
                                             label="Chan Noise"
+                                            onChange={(e) => setChannoise(e.target.checked)}
                                         />
                                         <Form.Check
+                                            id="other"
                                             type="checkbox"
                                             label="Other"
+                                            onChange={(e) => setOther(e.target.checked)}
                                         />
-                                        <Form.Check type="checkbox" label="?" />
+                                        <Form.Check
+                                            id="unsure"
+                                            type="checkbox"
+                                            label="?"
+                                            onChange={(e) => setUnsure(e.target.checked)}
+                                        />
                                     </Form.Group>
                                     <Button
                                         variant="primary"
@@ -260,7 +461,7 @@ const LabelPage = () => {
                                     >
                                         Submit
                                     </Button>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     );

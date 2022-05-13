@@ -1,4 +1,7 @@
 import { React, useEffect, useContext } from 'react';
+import Container from "react-bootstrap/Container";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
 import { navigate } from '@reach/router';
 import { AuthContext, AuthConsumer } from "../helpers/AuthContext";
 
@@ -10,7 +13,7 @@ const Logout = () => {
         setTimeout(() => {
             context.logout();
             navigate('/login')
-        }, 5000);
+        }, 3000);
     });
 
     return (
@@ -21,8 +24,18 @@ const Logout = () => {
                 if (Auth === 'Admin') {
                     return (
                         <div>
-                            <p>Hey, progress has been saved. Sign back in to view any changes.</p>
-                            <p>You will be redirected in 5 seconds</p>
+                            <Container style={{paddingTop: '5%'}} >
+                                <Card>
+                                    <Card.Body>
+                                        <Row>
+                                            <p>Hey, progress has been saved. Sign back in to view any changes.</p>
+                                        </Row>
+                                        <Row>
+                                            <p>You will be redirected in 3 seconds</p>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Container>
                         </div>
                     )
                 }
@@ -31,8 +44,18 @@ const Logout = () => {
                 else if (Auth === 'User') {
                     return (
                         <div>
-                            <p>Hey, thanks for labelling. Have a great day!</p>
-                            <p>You will be redirected in 5 seconds</p>
+                            <Container style={{paddingTop: '5%'}}>
+                                <Card>
+                                    <Card.Body>
+                                        <Row>
+                                            <p>Hey, thanks for labelling. Have a great day!</p>
+                                        </Row>
+                                        <Row>
+                                            <p>You will be redirected in 3 seconds</p>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Container>
                         </div>
                     )
                 }
@@ -41,8 +64,18 @@ const Logout = () => {
                 else {
                     return (
                         <div>
-                            <p>You are not authenticated. Please login.</p>
-                            <p>You will be redirected in 5 seconds</p>
+                            <Container style={{paddingTop: '5%'}}>
+                                <Card>
+                                    <Card.Body>
+                                        <Row>
+                                            <p>You are not authenticated. Please login.</p>
+                                        </Row>
+                                        <Row>
+                                            <p>You will be redirected in 3 seconds</p>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Container>
                         </div>
                     )
                 }

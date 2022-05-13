@@ -10,4 +10,6 @@ db.role = require("./role.model");
 
 db.ROLES = ["user", "admin"];
 
+db.component = require("./component.model");
+
 module.exports = db;
