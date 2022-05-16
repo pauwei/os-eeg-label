@@ -80,7 +80,7 @@ const DataPage = () => {
                                     <tbody>
                                         {dataList.map((datapoint) => {
                                             return (
-                                                <tr>
+                                                <tr key={datapoint.name}>
                                                     <th>{datapoint.name}</th>
                                                     <th>{datapoint.jpg}</th>
                                                     <th>{datapoint.mat}</th>

@@ -52,7 +52,7 @@ const UsersPage = () => {
                                     <tbody>
                                         {userList.map((user) => {
                                             return (
-                                                <tr>
+                                                <tr key={user.email}>
                                                     <th>{user.email}</th>
                                                     <th>{user.domain}</th>
                                                     <th>{user.components.length}</th>

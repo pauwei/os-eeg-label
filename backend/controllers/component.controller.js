@@ -42,3 +42,14 @@ exports.submit = (req, res) => {
 
     res.send(message);
 };
+
+exports.getComponent = (req, res) => {
+    Component.findOne({ name: req.query.name}, (error, data) => {
+        if (error) {
+            res.send(error);
+            return;
+        }
+
+        res.send(data);
+    })
+}

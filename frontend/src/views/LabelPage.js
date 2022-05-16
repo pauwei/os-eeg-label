@@ -56,7 +56,7 @@ const LabelPage = () => {
         if (unsure) { tags.push("Unsure"); }
 
         axios.post(
-            '/api/component/submit', {
+            '/api/components/submit', {
                 name: labelFile,
                 email: context.Email,
                 tags: tags,
@@ -277,7 +277,7 @@ const LabelPage = () => {
                                                         Label Successfully Submitted.
                                                     </Col>
                                                     <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                        <LabelModal />
+                                                        <LabelModal getStatus={true} compName={labelFile} compData={null} />
                                                         <Button variant="primary" onClick={getNext}>
                                                             Next
                                                         </Button>
@@ -299,7 +299,7 @@ const LabelPage = () => {
                                                     Label Submission Unsuccessful.
                                                 </Col>
                                                 <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <LabelModal />
+                                                    <LabelModal getStatus={true} compName={labelFile} compData={null} />
                                                     <Button variant="primary" onClick={getNext}>
                                                         Next
                                                     </Button>
@@ -440,7 +440,7 @@ const LabelPage = () => {
                                                         Label Successfully Submitted.
                                                     </Col>
                                                     <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                        <LabelModal />
+                                                        <LabelModal getStatus={true} compName={labelFile} compData={null} />
                                                         <Button variant="primary" onClick={getNext}>
                                                             Next
                                                         </Button>
@@ -462,7 +462,7 @@ const LabelPage = () => {
                                                     Label Submission Unsuccessful.
                                                 </Col>
                                                 <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <LabelModal />
+                                                    <LabelModal getStatus={true} compName={labelFile} compData={null} />
                                                     <Button variant="primary" onClick={getNext}>
                                                         Next
                                                     </Button>

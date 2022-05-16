@@ -9,5 +9,7 @@ module.exports = function (app) {
         next();
     });
 
-    app.post("/api/component/submit", controller.submit);
+    app.post("/api/components/submit", controller.submit);
+
+    app.get("/api/components/component", controller.getComponent);
 };

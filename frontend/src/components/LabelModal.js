@@ -1,13 +1,41 @@
 import { React, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Table from "react-bootstrap/Table";
+import axios from "axios";
 
 const LabelModal = (props) => {
+    const { getStatus, compName, compData } = props;
+
     const [show, setShow] = useState(false);
+    const [data, setData] = useState(null);
+
+    const componentData = () => {
+        if(!data && getStatus) {
+            axios.get(
+                '/api/components/component',
+                {
+                    params: {
+                        name: compName
+                    },
+                }
+            ).then( (response) => {
+                setData(response.data.labels);
+                setShow(true);
+            }).catch( (error) => {
+                setShow(true);
+            });
+        } else if (!data && !getStatus) {
+            setData(compData);
+            setShow(true)
+        } else {
+            setShow(true);
+        }
+    }
 
     return (
         <div>
-            <Button variant="primary" onClick={() => setShow(true)} style={{marginRight: '10px'}}>
+            <Button variant="primary" onClick={componentData} style={{marginRight: '10px'}}>
                 Show Results
             </Button>
 
@@ -20,16 +48,49 @@ const LabelModal = (props) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Results
+                        {compName.substring(0, compName.lastIndexOf('.'))} Results
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4>Centered Modal</h4>
-                    <p>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                    dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                    </p>
+                    {data ? (
+                        <Table striped bordered hover size="sm">
+                            <thead>
+                                <tr>
+                                    <th>Domain</th>
+                                    <th>Brain</th>
+                                    <th>Muscle</th>
+                                    <th>Eye</th>
+                                    <th>Heart</th>
+                                    <th>Line Noise</th>
+                                    <th>Channel Noise</th>
+                                    <th>Other</th>
+                                    <th>?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map( (datapoint) => {
+                                    return (
+                                        <tr key={datapoint.email}>
+                                            <th>{datapoint.domain}</th>
+                                            <th>{datapoint.tags.includes("Brain") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Muscle") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Eye") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Heart") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Line Noise") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Channel Noise") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Other") ? "✓" : ""}</th>
+                                            <th>{datapoint.tags.includes("Unsure") ? "✓" : ""}</th>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </Table>
+                    ) : (
+                        
+                        <div className="alert alert-danger" role="alert">
+                            No Data Retrieved
+                        </div>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => setShow(false)}>Close</Button>
