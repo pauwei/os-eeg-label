@@ -33,9 +33,9 @@ generateDBXAuth = () => {
     .then((res) => {
         dropbox = dropboxV2Api.authenticate({
             token: res.data.access_token
-        }).then((success) => {
-            console.log("Dropbox successfully connected.");
-        });
+        })
+
+        if (dropbox) { console.log("Dropbox successfully authenticated."); }
     })
     .catch((err) => {
         console.log(err);
