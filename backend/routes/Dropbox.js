@@ -54,7 +54,7 @@ generateDBXAuth();
 //Getting the image file name for eeg labelling
 router.get('/imagefile', async (req, res) => {
 
-    if (req.query.email === "guest") {
+    if (!req.query.email || req.query.email === "guest") {
         console.log("Guest account detected, ", req.query.email);
         const files = [
             "test0101_IC46.jpg",
