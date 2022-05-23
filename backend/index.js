@@ -5,7 +5,7 @@ const dbx = require("./routes/Dropbox.js");
 const app = express();
 
 let corsOptions = {
-    origin: "http://localhost:3000",
+    origin: "https://icmobi.herokuapp.com:" + process.env.PORT,
 };
 
 app.use(cors(corsOptions));
@@ -34,6 +34,12 @@ db.mongoose
         //process.exit();
     });
 
+// app.get("/", (req, res) => res.send("Hello, this is the server!"));
+
+require("./routes/auth.routes")(app);
+require("./routes/user.routes")(app);
+require("./routes/component.routes")(app);
+
 //Accessing path module
 const path = require("path");
 
@@ -44,12 +50,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
         res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
     })
 }
-
-// app.get("/", (req, res) => res.send("Hello, this is the server!"));
-
-require("./routes/auth.routes")(app);
-require("./routes/user.routes")(app);
-require("./routes/component.routes")(app);
 
 const port = process.env.PORT || 8080;
 
