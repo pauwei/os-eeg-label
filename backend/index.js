@@ -34,6 +34,17 @@ db.mongoose
         //process.exit();
     });
 
+//Accessing path module
+const path = require("path");
+
+//Access production build
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+    app.use(express.static('../frontend/build'));
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(_dirname + '../frontend/build/index.html'));
+    });
+}
+
 app.get("/", (req, res) => res.send("Hello, this is the server!"));
 
 require("./routes/auth.routes")(app);
