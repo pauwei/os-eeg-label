@@ -5,7 +5,7 @@ const dbx = require("./routes/Dropbox.js");
 const app = express();
 
 let corsOptions = {
-    origin: "https://icmobi.herokuapp.com:" + process.env.PORT,
+    origin: "https://icmobi.herokuapp.com",
 };
 
 app.use(cors(corsOptions));

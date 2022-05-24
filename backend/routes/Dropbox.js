@@ -267,14 +267,14 @@ router.get('/imagedata', (req, res) => {
     }, (err, result, response) => {
         if (err) { return console.log('err: ', err); }
 
-        fs.readFile('../temp/labelling-image.jpg', (err, data) => {
+        fs.readFile('./temp/labelling-image.jpg', (err, data) => {
             if (err) throw err;
 
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
             res.end(data);
         });
        
-    }).pipe(fs.createWriteStream('../temp/labelling-image.jpg'));
+    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'));
 
 })
 
