@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
@@ -258,6 +259,9 @@ router.get('/imagedata', (req, res) => {
     //Determine which file to get
     const file = folderpath + "/" + req.query.imagefile;
 
+    
+    console.log(execSync('ls').toString());
+
     //Download file from Dropbox
     dropbox({
         resource: 'files/download',
@@ -274,7 +278,14 @@ router.get('/imagedata', (req, res) => {
             res.end(data);
         });
        
-    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'), { end: false });
+    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg')
+        .then((message) => {
+            console.log('res', message);
+        })
+        .catch((err) => {
+            console.log('err', err);
+            console.log(execSync('ls').toString());
+        }));
 
 })
 
