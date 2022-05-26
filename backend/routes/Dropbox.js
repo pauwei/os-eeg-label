@@ -258,10 +258,6 @@ router.get('/imagedata', (req, res) => {
     //Determine which file to get
     const file = folderpath + "/" + req.query.imagefile;
 
-    fs.readdirSync('./backend/temp').forEach(file => {
-        console.log(file);
-    });
-
     //Download file from Dropbox
     dropbox({
         resource: 'files/download',
