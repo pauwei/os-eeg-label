@@ -258,6 +258,10 @@ router.get('/imagedata', (req, res) => {
     //Determine which file to get
     const file = folderpath + "/" + req.query.imagefile;
 
+    fs.readdirSynce('./').forEach(file => {
+        console.log(file);
+    });
+
     //Download file from Dropbox
     dropbox({
         resource: 'files/download',
@@ -274,16 +278,7 @@ router.get('/imagedata', (req, res) => {
             res.end(data);
         });
        
-    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg')
-        .then((message) => {
-            console.log('res', message);
-        })
-        .catch((err) => {
-            console.log('err', err);
-            fs.readdirSynce('./').forEach(file => {
-                console.log(file);
-            });
-        }));
+    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'));
 
 })
 
