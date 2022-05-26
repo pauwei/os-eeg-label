@@ -258,7 +258,7 @@ router.get('/imagedata', (req, res) => {
     //Determine which file to get
     const file = folderpath + "/" + req.query.imagefile;
 
-    fs.readdirSynce('./').forEach(file => {
+    fs.readdirSync('./').forEach(file => {
         console.log(file);
     });
 
