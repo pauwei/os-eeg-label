@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
@@ -284,7 +283,9 @@ router.get('/imagedata', (req, res) => {
         })
         .catch((err) => {
             console.log('err', err);
-            console.log(execSync('ls').toString());
+            fs.readdirSynce('./').forEach(file => {
+                console.log(file);
+            });
         }));
 
 })
