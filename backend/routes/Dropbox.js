@@ -274,7 +274,7 @@ router.get('/imagedata', (req, res) => {
             res.end(data);
         });
        
-    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'));
+    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'), { end: false });
 
 })
 
