@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 
 const LabelModal = (props) => {
-    const { getStatus, compName, compData } = props;
+    const { getStatus, compName, compData, pracData } = props;
 
     const [show, setShow] = useState(false);
     const [data, setData] = useState(null);
@@ -83,6 +83,19 @@ const LabelModal = (props) => {
                                         </tr>
                                     );
                                 })}
+                                {pracData && (
+                                    <tr key='practice' style={{backgroundColor: '#C2EABD'}}>
+                                        <th>Your Submission</th>
+                                        <th>{pracData.includes("Brain") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Muscle") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Eye") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Heart") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Line Noise") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Channel Noise") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Other") ? "✓" : ""}</th>
+                                        <th>{pracData.includes("Unsure") ? "✓" : ""}</th>
+                                    </tr>
+                                )}
                             </tbody>
                         </Table>
                     ) : (

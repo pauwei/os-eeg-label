@@ -16,7 +16,7 @@ const ResponsiveAppBar = () => {
                     return (
                         <Navbar bg="light" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">UF OS EEG Label</Navbar.Brand>
+                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   
@@ -37,14 +37,6 @@ const ResponsiveAppBar = () => {
                                             <Nav.Link href="/users">Users</Nav.Link>
                                             <Nav.Link href="/datalist">Data</Nav.Link>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
-                                            <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                                <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                                <NavDropdown.Divider />
-                                                <NavDropdown.Item href="#action5">
-                                                    Something else here
-                                                </NavDropdown.Item>
-                                            </NavDropdown>
                                         </Nav>
                                     </Offcanvas.Body>
                                 </Navbar.Offcanvas>
@@ -57,7 +49,7 @@ const ResponsiveAppBar = () => {
                     return (
                         <Navbar bg="light" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">UF OS EEG Label</Navbar.Brand>
+                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   
@@ -89,7 +81,7 @@ const ResponsiveAppBar = () => {
                     return (
                         <Navbar bg="light" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">UF OS EEG Labelling</Navbar.Brand>
+                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   

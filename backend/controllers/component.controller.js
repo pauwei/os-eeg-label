@@ -53,3 +53,9 @@ exports.getComponent = (req, res) => {
         res.send(data);
     })
 }
+
+exports.componentList = (req, res) => {
+    Component.find({}, (err, data) => {
+        res.send(data);
+    });
+}

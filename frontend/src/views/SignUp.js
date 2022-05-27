@@ -266,6 +266,11 @@ const SignUp = () => {
                                         </Row>
                                     </Card.Body>
                                 </Card>
+                                {!message && (
+                                    <Container style={{padding: '20px'}}>
+                                        <a href="/login">Have an account? Login here</a>
+                                    </Container>
+                                )}
                             </Form>
 
                             <br />
