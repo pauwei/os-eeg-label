@@ -9,7 +9,7 @@ const ProtectedRoutes = () => (
     <Router>
         <Dashboard path='/dashboard' />
         <UsersPage path='/users' />
-        <DataPage path='datalist' />
+        <DataPage path='/datalist' />
         <Logout path='/logout' />
     </Router>
 );

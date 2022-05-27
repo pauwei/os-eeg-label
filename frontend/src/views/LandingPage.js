@@ -1,4 +1,6 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import { AuthConsumer } from "../helpers/AuthContext";
 import Sidebar from "../components/Sidebar";
 
@@ -13,8 +15,8 @@ const LandingPage = () => {
                             <Sidebar />
                             <div style={{paddingLeft: '250px'}}>
                                 <p>
-                                    You are authenticated as an admin. Your progress
-                                    is on the leaderboard.
+                                    You are logged in as an admin. Your labeling progress will
+                                    be recorded.
                                 </p>
                             </div>
                             
@@ -29,8 +31,8 @@ const LandingPage = () => {
                             <Sidebar />
                             <div style={{paddingLeft: '250px'}}>
                                 <p>
-                                    You are authenticated as a user. Your progress
-                                    is on the leaderboard.
+                                    You are logged in as a user. Your labeling progress will
+                                    be recorded.
                                 </p>
                             </div>
                         </div>
@@ -44,9 +46,17 @@ const LandingPage = () => {
                             <Sidebar />
                             <div style={{paddingLeft: '250px'}}>
                                 <p>
-                                    You are not authenticated. Your progress is not
-                                    on the leaderboard.
+                                    You are not logged in. Please login to contribute to labeling
+                                    and have your progress recorded.
                                 </p>
+                                <Container>
+                                    <Row style={{padding: '20px'}}>
+                                        <a href="/signup">Don't have an account? Sign up here</a>
+                                    </Row>
+                                    <Row style={{padding: '20px'}}>
+                                        <a href="/login">Have an account? Login here</a>
+                                    </Row>
+                                </Container>
                             </div>
                         </div>
                     );

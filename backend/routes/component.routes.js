@@ -12,4 +12,6 @@ module.exports = function (app) {
     app.post("/api/components/submit", controller.submit);
 
     app.get("/api/components/component", controller.getComponent);
+
+    app.get("/api/components/complist", controller.componentList);
 };

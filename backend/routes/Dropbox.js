@@ -13,7 +13,7 @@ const User = db.user;
 //Instantiate Dropbox instance
 const dropboxV2Api = require('dropbox-v2-api');
 let dropbox = null;
-const folderpath = '/test_ICs'
+const folderpath = '/ICMOBI_website/IC_images'
 
 //Get new short live token every 3 hours
 generateDBXAuth = () => {
@@ -57,25 +57,27 @@ router.get('/imagefile', async (req, res) => {
     if (req.query.email === "guest") {
         console.log("Guest account detected, ", req.query.email);
         const files = [
-            "test0101_IC46.jpg",
-            "test0101_IC43.jpg",
-            "test0101_IC45.jpg",
-            "test0101_IC51.jpg",
-            "test0101_IC66.jpg",
-            "test0101_IC71.jpg",
-            "test0101_IC73.jpg",
-            "test0101_IC8.jpg",
-            "test0101_IC12.jpg",
-            "test0101_IC14.jpg",
-            "test0101_IC26.jpg",
-            "test0101_IC9.jpg",
-            "test0101_IC17.jpg",
-            "test0101_IC28.jpg",
-            "test0101_IC34.jpg",
-            "test0101_IC29.jpg",
-            "test0101_IC30.jpg",
-            "test0101_IC38.jpg",
-            "test0101_IC39.jpg"
+            "1001001.jpg",
+            "1001002.jpg",
+            "1001003.jpg",
+            "1001004.jpg",
+            "1001005.jpg",
+            "1001006.jpg",
+            "1001007.jpg",
+            "1001008.jpg",
+            "1001009.jpg",
+            "1001010.jpg",
+            "1001011.jpg",
+            "1001012.jpg",
+            "1001013.jpg",
+            "1001019.jpg",
+            "1001034.jpg",
+            "1001038.jpg",
+            "1001042.jpg",
+            "1001061.jpg",
+            "1001065.jpg",
+            "1001077.jpg",
+            "1001088.jpg",
         ];
         res.send(files[Math.floor(Math.random() * files.length)])
         return;
@@ -94,7 +96,7 @@ router.get('/imagefile', async (req, res) => {
             }
         }, (err, result, response) => {
             //If error returned
-            if (err) { return console.log('err: ', err); }
+            if (err) { return console.log('get imagefile err: ', err); }
 
             //Filter out filenames (from folders)
             dropboxlist = result.entries.filter((entry) => {
@@ -118,7 +120,7 @@ router.get('/imagefile', async (req, res) => {
             ///Get list of components within mongodb///
             ///////////////////////////////////////////
 
-            let mongodblist;
+            let mongodblist = [];
             Component.find({}, (err, data) => {
                 if (err) { 
                     console.log(err);
@@ -127,15 +129,17 @@ router.get('/imagefile', async (req, res) => {
                 }
 
                 //No error and assign data
-                mongodblist = data;
-
-
+                if (data) {
+                    mongodblist = data;
+                }
+                
+                
 
                 //////////////////////////////////////////
                 //Get list of completed labels from user//
                 //////////////////////////////////////////
 
-                let usercomplist;
+                let usercomplist = [];
                 User.findOne({ email: req.query.email }, (err, data) => {
                     if (err) {
                         console.log(err);
@@ -144,7 +148,10 @@ router.get('/imagefile', async (req, res) => {
                     }
 
                     //No error and assign data
-                    usercomplist = data.components;
+                    if (data) {
+                        usercomplist = data.components;
+                    }
+                    
 
 
 
@@ -165,7 +172,7 @@ router.get('/imagefile', async (req, res) => {
                     });
 
                     //Get rid of components already at cap
-                    const cap = 10;
+                    const cap = 5;
                     mongodblist = mongodblist.filter((component) => {
                         return component.labels.length < cap;
                     });
@@ -263,7 +270,7 @@ router.get('/imagedata', (req, res) => {
             path: file
         }
     }, (err, result, response) => {
-        if (err) { return console.log('err: ', err); }
+        if (err) { return console.log('get image data err: ', err); }
 
         fs.readFile('./temp/labelling-image.jpg', (err, data) => {
             if (err) throw err;

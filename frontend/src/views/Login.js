@@ -117,6 +117,11 @@ const Login = () => {
                                         </Row>
                                     </Card.Body>
                                 </Card>
+                                {!message && (
+                                    <Container style={{padding: '20px'}}>
+                                        <a href="/signup">Don't have an account? Sign up here</a>
+                                    </Container>
+                                )}
                             </Form>
 
                             <br />
@@ -128,10 +133,6 @@ const Login = () => {
                                     {message}
                                 </div>
                             )}
-                            <p>
-                                You are not authenticated. Please make sure
-                                you signup before signing in. {Auth}
-                            </p>
                         </Container>
                     );
                 }
