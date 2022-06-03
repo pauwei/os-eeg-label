@@ -8,7 +8,7 @@
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
     "install": "concurrently \"cd backend && npm i\" \"cd frontend && npm i\" ",
     "start": " cd backend && node index.js",
-    "heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install && npm run build"
+    "heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install --legacy-peer-deps && npm run build"
   },
   "repository": {
     "type": "git",
