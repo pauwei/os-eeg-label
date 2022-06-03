@@ -6,7 +6,7 @@ const OverviewPage = () => {
     return (
         <div>
             <Sidebar />
-            <Container style={{paddingLeft: '250px'}}>
+            <Container style={{paddingLeft: '250px', paddingTop: '90px'}}>
                 <Container id="intro" className="Introduction">
                     <br/>
                     <h2>Introduction</h2>

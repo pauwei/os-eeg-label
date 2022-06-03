@@ -1,13 +1,13 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 
 const LabelModal = (props) => {
-    const { getStatus, compName, compData, pracData } = props;
+    const { open, getStatus, compName, compData, pracData } = props;
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(open);
     const [data, setData] = useState(null);
 
     const componentData = () => {
@@ -32,6 +32,10 @@ const LabelModal = (props) => {
             setShow(true);
         }
     }
+
+    useEffect(() => {
+        componentData();
+    }, [data])
 
     return (
         <div>

@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { CaretRightFill } from "react-bootstrap-icons";
 import LoadingSpinner from "../components/LoadingSpinner";
 import LabelModal from "../components/LabelModal";
 import { AuthContext, AuthConsumer } from "../helpers/AuthContext";
@@ -33,7 +34,6 @@ const LabelPage = () => {
     const [linenoise, setLinenoise] = useState(false);
     const [channoise, setChannoise] = useState(false);
     const [other, setOther] = useState(false);
-    const [unsure, setUnsure] = useState(false);
 
     //Submission
     const [status, setStatus] = useState("");
@@ -53,7 +53,6 @@ const LabelPage = () => {
         if (linenoise) { tags.push("Line Noise"); }
         if (channoise) { tags.push("Channel Noise"); }
         if (other) { tags.push("Other"); }
-        if (unsure) { tags.push("Unsure"); }
 
         axios.post(
             '/api/components/submit', {
@@ -91,7 +90,6 @@ const LabelPage = () => {
         setLinenoise(false);
         setChannoise(false);
         setOther(false);
-        setUnsure(false);
 
         //Get image file name first then the image data
         axios.get(
@@ -156,7 +154,7 @@ const LabelPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar /> }
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container>
                                     <Card>
                                         <Card.Header>
@@ -170,8 +168,8 @@ const LabelPage = () => {
                                     <div
                                         style={{
                                             display: 'flex',
-                                            position: "relative",
-                                            opacity: status ? "0.33" : "1.0",
+                                            position: 'relative',
+                                            minHeight: '400px',
                                         }}
                                     >
                                         
@@ -180,13 +178,19 @@ const LabelPage = () => {
                                             alt="Labeling data"
                                             width="80%"
                                             height="auto"
-                                            style={{border: '1px solid #000000'}}
+                                            style={{
+                                                border: '1px solid #000000',
+                                                opacity: status ? "0.33" : "1.0",
+                                            }}
                                         />
 
                                         <div>
                                             <Form.Group
                                                 className="flex-row"
                                                 controlId="formBasicCheckbox"
+                                                style={{
+                                                    opacity: status ? "0.33" : "1.0",
+                                                }}
                                             >
                                                 <Form.Check
                                                     id="brain"
@@ -244,26 +248,47 @@ const LabelPage = () => {
                                                     style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#DCF2B0', margin: '10px'}}
                                                     onChange={(e) => setOther(e.target.checked)}
                                                 />
-                                                <Form.Check
-                                                    id="unsure"
-                                                    type="checkbox"
-                                                    label="?"
-                                                    checked={unsure}
-                                                    style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#F7D1CD', margin: '10px'}}
-                                                    onChange={(e) => setUnsure(e.target.checked)}
-                                                />
                                             </Form.Group>
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                onClick={submitResults}
-                                                style={{
-                                                    position: "absolute",
-                                                    bottom: 0,
-                                                }}
-                                            >
-                                                Submit
-                                            </Button>
+
+                                            {!status && (
+                                                <Button
+                                                    variant="secondary"
+                                                    type="submit"
+                                                    onClick={getNext}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: '40px',
+                                                    }}
+                                                >
+                                                    Skip <CaretRightFill />
+                                                </Button>
+                                            )}
+                                            {!status ? (
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    onClick={submitResults}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: 0,
+                                                    }} 
+                                                >
+                                                    Submit
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    onClick={getNext}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: 0,
+                                                    }} 
+                                                >
+                                                    Next
+                                                </Button>
+                                            )}
+                                            
                                         </div>
                                     </div>
                                 }
@@ -281,10 +306,7 @@ const LabelPage = () => {
                                                         Label Successfully Submitted.
                                                     </Col>
                                                     <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                        <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={null}/>
-                                                        <Button variant="primary" onClick={getNext}>
-                                                            Next
-                                                        </Button>
+                                                        <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={null}/>
                                                     </Col>
                                                 </Row>
                                             </Card.Body>
@@ -293,25 +315,22 @@ const LabelPage = () => {
                                 )}
                                 {status === "failed" && (
                                     <Container style={{width: '50%'}}>
-                                    <Card
-                                        className="alert alert-danger"
-                                        role="alert"
-                                    >
-                                        <Card.Body>
-                                            <Row>
-                                                <Col>
-                                                    Label Submission Unsuccessful.
-                                                </Col>
-                                                <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={null}/>
-                                                    <Button variant="primary" onClick={getNext}>
-                                                        Next
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                </Container>
+                                        <Card
+                                            className="alert alert-danger"
+                                            role="alert"
+                                        >
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        Label Submission Unsuccessful.
+                                                    </Col>
+                                                    <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                        <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={null}/>
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    </Container>
                                 )}
                             </div>
                         </div>
@@ -323,7 +342,7 @@ const LabelPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar /> }
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container>
                                     <Card>
                                         <Card.Header>
@@ -337,8 +356,8 @@ const LabelPage = () => {
                                     <div
                                         style={{
                                             display: 'flex',
-                                            position: "relative",
-                                            opacity: status ? "0.33" : "1.0",
+                                            position: 'relative',
+                                            minHeight: '400px',
                                         }}
                                     >
                                         
@@ -347,13 +366,19 @@ const LabelPage = () => {
                                             alt="Labeling data"
                                             width="80%"
                                             height="auto"
-                                            style={{border: '1px solid #000000'}}
+                                            style={{
+                                                border: '1px solid #000000',
+                                                opacity: status ? "0.33" : "1.0",
+                                            }}
                                         />
 
                                         <div>
-                                        <Form.Group
+                                            <Form.Group
                                                 className="flex-row"
                                                 controlId="formBasicCheckbox"
+                                                style={{
+                                                    opacity: status ? "0.33" : "1.0",
+                                                }}
                                             >
                                                 <Form.Check
                                                     id="brain"
@@ -411,26 +436,47 @@ const LabelPage = () => {
                                                     style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#DCF2B0', margin: '10px'}}
                                                     onChange={(e) => setOther(e.target.checked)}
                                                 />
-                                                <Form.Check
-                                                    id="unsure"
-                                                    type="checkbox"
-                                                    label="?"
-                                                    checked={unsure}
-                                                    style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#F7D1CD', margin: '10px'}}
-                                                    onChange={(e) => setUnsure(e.target.checked)}
-                                                />
                                             </Form.Group>
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                onClick={submitResults}
-                                                style={{
-                                                    position: "absolute",
-                                                    bottom: 0,
-                                                }}
-                                            >
-                                                Submit
-                                            </Button>
+
+                                            {!status && (
+                                                <Button
+                                                    variant="secondary"
+                                                    type="submit"
+                                                    onClick={getNext}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: '40px',
+                                                    }}
+                                                >
+                                                    Skip <CaretRightFill />
+                                                </Button>
+                                            )}
+                                            {!status ? (
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    onClick={submitResults}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: 0,
+                                                    }} 
+                                                >
+                                                    Submit
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    onClick={getNext}
+                                                    style={{
+                                                        position: "absolute",
+                                                        bottom: 0,
+                                                    }} 
+                                                >
+                                                    Next
+                                                </Button>
+                                            )}
+                                            
                                         </div>
                                     </div>
                                 }
@@ -448,10 +494,7 @@ const LabelPage = () => {
                                                         Label Successfully Submitted.
                                                     </Col>
                                                     <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                        <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={null}/>
-                                                        <Button variant="primary" onClick={getNext}>
-                                                            Next
-                                                        </Button>
+                                                        <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={null}/>
                                                     </Col>
                                                 </Row>
                                             </Card.Body>
@@ -460,25 +503,22 @@ const LabelPage = () => {
                                 )}
                                 {status === "failed" && (
                                     <Container style={{width: '50%'}}>
-                                    <Card
-                                        className="alert alert-danger"
-                                        role="alert"
-                                    >
-                                        <Card.Body>
-                                            <Row>
-                                                <Col>
-                                                    Label Submission Unsuccessful.
-                                                </Col>
-                                                <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={null}/>
-                                                    <Button variant="primary" onClick={getNext}>
-                                                        Next
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                        </Card.Body>
-                                    </Card>
-                                </Container>
+                                        <Card
+                                            className="alert alert-danger"
+                                            role="alert"
+                                        >
+                                            <Card.Body>
+                                                <Row>
+                                                    <Col>
+                                                        Label Submission Unsuccessful.
+                                                    </Col>
+                                                    <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
+                                                        <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={null}/>
+                                                    </Col>
+                                                </Row>
+                                            </Card.Body>
+                                        </Card>
+                                    </Container>
                                 )}
                             </div>
                         </div>
@@ -490,7 +530,7 @@ const LabelPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar />}
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container style={{padding: '50px'}}>
                                     <Card>
                                         <Card.Header>Labeling is not available as you have not logged in.</Card.Header>
@@ -502,7 +542,7 @@ const LabelPage = () => {
                                             <Card>
                                                 <Card.Header as="h5">Practice</Card.Header>
                                                 <Card.Title style={{padding: '20px'}}>Available to all</Card.Title>
-                                                <Container>
+                                                <Container style={{paddingBottom: '20px'}}>
                                                     <Card.Text style={{textAlign: 'left'}}>
                                                         Practice allows you to test your skills and get 
                                                         feedback by seeing the results of labels submitted 
@@ -518,7 +558,7 @@ const LabelPage = () => {
                                             <Card>
                                                 <Card.Header as="h5">Contribute</Card.Header>
                                                 <Card.Title style={{padding: '20px'}}>Only Available to Logged In Users</Card.Title>
-                                                <Container>
+                                                <Container style={{paddingBottom: '20px'}}>
                                                     <Card.Text style={{textAlign: 'left'}}>
                                                         Contribute to the open source labeling by signing 
                                                         up and going to the labeling page. Once there, 

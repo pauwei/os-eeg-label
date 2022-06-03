@@ -18,3 +18,14 @@ exports.userList = (req, res) => {
         res.send(data);
     });
 }
+
+exports.user = (req, res) => {
+    User.findOne({ email: req.query.email}, (error, data) => {
+        if (error) {
+            res.send(error);
+            return;
+        }
+
+        res.send(data);
+    })
+}

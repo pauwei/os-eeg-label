@@ -29,7 +29,7 @@ const UsersPage = () => {
                 //If admin
                 if (Auth === 'Admin') {
                     return (
-                        <div>
+                        <div style={{paddingTop: '70px'}}>
                             <p>This page is in progress. You can view the data that can be pulled from dropbox.</p>
                             
                             <Container fluid style={{width: '75%'}}>
@@ -69,7 +69,7 @@ const UsersPage = () => {
                 //If logged in user
                 else if (Auth === 'User') {
                     return (
-                        <div>
+                        <div style={{paddingTop: '70px'}}>
                             <p>You are not authenticated to view the page.</p>
                         </div>
                     )
@@ -78,7 +78,7 @@ const UsersPage = () => {
                 //If guest
                 else {
                     return (
-                        <div>
+                        <div style={{paddingTop: '70px'}}>
                             <p>You are not authenticated to view the page.</p>
                         </div>
                     )

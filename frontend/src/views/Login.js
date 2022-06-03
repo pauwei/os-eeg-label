@@ -1,29 +1,63 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import { navigate } from '@reach/router';
 import { AuthConsumer } from "../helpers/AuthContext";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [redirect, setRedirect] = useState(false);
+
+    useEffect(() => {
+
+        //Check if redirect has already been called
+        if (redirect) {
+            return;
+        }
+
+        //Check if user has logged in
+        const email = localStorage.getItem("Email");
+        if (!email || email === "guest") {
+            return;
+        }
+
+        setTimeout(() => {
+            navigate('/dashboard')
+        }, 3000);
+    });
 
     return (
         <AuthConsumer>
-            {({ Auth, login }) => {
+            {({ Auth, Name, login }) => {
                 //If admin
                 if (Auth === "Admin") {
                     return (
-                        <div>
-                            <p>{Auth}</p>
-                            <p>
-                                Hey, you already signed in. Feel free to go to
-                                the labelling page.
-                            </p>
+                        <div style={{paddingTop: '100px'}}>
+                            <Container>
+                                <Card>
+                                    <Card.Header as="h3">Hi {Name}</Card.Header>
+                                    <Card.Body>
+                                        <Row>
+                                            <p>
+                                                You have been signed in as admin. 
+                                                Labeling progress will been saved.
+                                            </p>
+                                        </Row>
+                                        <Row>
+                                            <p>
+                                                You will be redirected to the 
+                                                dashboard in 3 seconds
+                                            </p>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Container>
                         </div>
                     );
                 }
@@ -31,12 +65,26 @@ const Login = () => {
                 //If logged in user
                 else if (Auth === "User") {
                     return (
-                        <div>
-                            <p>{Auth}</p>
-                            <p>
-                                Hey, you already signed in. Feel free to go to
-                                the labelling page.
-                            </p>
+                        <div style={{paddingTop: '100px'}}>
+                            <Container>
+                                <Card>
+                                    <Card.Header as="h3">Hi {Name}</Card.Header>
+                                    <Card.Body>
+                                        <Row>
+                                            <p>
+                                                You have been signed in. 
+                                                Labeling progress will been saved.
+                                            </p>
+                                        </Row>
+                                        <Row>
+                                            <p>
+                                                You will be redirected to the 
+                                                dashboard in 3 seconds
+                                            </p>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Container>
                         </div>
                     );
                 }
@@ -44,7 +92,7 @@ const Login = () => {
                 //If guest
                 else {
                     return (
-                        <Container>
+                        <Container style={{paddingTop: '100px'}}>
                             <br />
                             <h2>Login Below</h2>
                             <br />
@@ -99,9 +147,10 @@ const Login = () => {
                                                             password,
                                                         }).then(
                                                             () => {
-                                                                console.log(
-                                                                    "Login Success."
-                                                                );
+                                                                setRedirect(true);
+                                                                setTimeout(() => {
+                                                                    navigate('/dashboard')
+                                                                }, 3000);
                                                             },
                                                             (reason) => {
                                                                 console.error(reason);

@@ -1,18 +1,216 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
+import Badge from "react-bootstrap/Badge";
+import Table from "react-bootstrap/Table";
+import Alert from "react-bootstrap/Alert";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import axios from "axios";
+import Sidebar from "../components/Sidebar";
 import { AuthConsumer } from "../helpers/AuthContext";
 
+import "react-circular-progressbar/dist/styles.css";
+
 const Dashboard = () => {
+
+    //User variable
+    const [user, setUser] = useState(null);
+    const [rank, setRank] = useState("NA");
+    const [progress, setProgress] = useState(0);
+
+    //Width variables
+    const [width, setWidth] = useState(window.innerWidth);
+
+    const handleWindowSizeChange = () => {
+        setWidth(window.innerWidth);
+    }
+
+    //Set rank and progress
+    const getRank = (comp) => {
+        let perc = 0;
+
+        if (comp === 0) {
+            setRank("Newbie");
+            perc = 0;
+        } else if (comp <= 5) {
+            setRank("Rookie");
+            perc = Math.floor((comp / 5.0) * 100);
+        } else if (comp < 10) {
+            setRank("Beginner");
+            perc = Math.floor(((comp - 6) / 4.0) * 100);
+        } else if (comp < 25) {
+            setRank("Intermediate");
+            perc = Math.floor(((comp - 10) / 15.0) * 100);
+        } else if (comp < 30) {
+            setRank("Seasoned");
+            perc = Math.floor(((comp - 25) / 5.0) * 100);
+        } else if (comp < 50) {
+            setRank("Proficient");
+            perc = Math.floor(((comp - 30) / 20.0) * 100);
+        } else if (comp < 75) {
+            setRank("Experienced");
+            perc = Math.floor(((comp - 50) / 25.0) * 100)
+        } else if (comp < 100) {
+            setRank("Advanced");
+            perc = Math.floor(((comp - 75) / 25.0) * 100);
+        } else if (comp < 500) {
+            setRank("Expert");
+            perc = Math.floor(((comp - 100) / 400.0) * 100);
+        } else if (comp >= 500) {
+            setRank("Ultimate Master");
+            perc = 100;
+        } else {
+            setRank("You Don't Exist")
+            perc = 100;
+        }
+
+        setProgress(perc);
+    }
+
+    //Get user data
+    const getUserData = () => {
+
+        const email = localStorage.getItem("Email");
+
+        if (!email || email === "guest") {
+            return;
+        }
+
+        axios.get(
+            '/api/users/user',
+            {
+                params: {
+                    email
+                },
+            }
+        ).then((res) => {
+            setUser(res.data);
+            getRank(res.data.components.length);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        //Get user data
+        getUserData();
+
+        //Get window size
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    });
+
     return (
         <AuthConsumer>
-            {({ Auth }) => {
+            {({ Auth, Name }) => {
                 //If admin
                 if (Auth === "Admin") {
                     return (
                         <div>
-                            <p>
-                                Hey, you are authenticated as an admin. Your
-                                progress is below.
-                            </p>
+                            {width > 768 && <Sidebar /> }
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
+                                <Container style={{padding: '10px'}}>
+                                    <Card style={{marginBottom: '10px'}}>
+                                        <Card.Header as='h2'>
+                                            {Name} <Badge bg="secondary">{rank}</Badge>
+                                        </Card.Header>
+                                    </Card>
+                                    <Row>
+                                        <Col>
+                                            <Card>
+                                                <Card.Header as='h5'>Profile</Card.Header>
+                                                <Card.Body>
+                                                    <Container>
+                                                        {user ? (
+                                                            <Table hover>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>First Name</td>
+                                                                        <td>{user.fname}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Last Name</td>
+                                                                        <td>{user.lname}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Email</td>
+                                                                        <td>{user.email}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Association</td>
+                                                                        <td>{user.assoc}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Education</td>
+                                                                        <td>{user.edu}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Experience</td>
+                                                                        <td>{user.exp}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </Table>
+                                                        ) : (
+                                                            <Alert key="noprofile" variant="warning">
+                                                                No User Profile Retrieved
+                                                            </Alert>
+                                                        )}
+                                                    </Container>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col>
+                                            <Card>
+                                                <Card.Header as='h5'>Progress</Card.Header>
+                                                <Card.Body>
+                                                    {user ? (
+                                                        <Container>
+                                                            <Container style={{width: '50%'}}>
+                                                                <CircularProgressbar
+                                                                    value={progress}
+                                                                    text={rank}
+                                                                    strokeWidth={5}
+                                                                    style={{width: '50%'}}
+                                                                    styles={buildStyles({
+                                                                        strokeLinecap: "butt"
+                                                                    })}
+                                                                />
+                                                            </Container>
+                                                            <Container style={{paddingTop: '30px'}}>    
+                                                                <Table hover>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Components Labeled</td>
+                                                                            <td>{user.components.length}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Container>
+                                                        </Container>
+                                                        
+                                                    ) : (
+                                                        <Container>
+                                                            <Alert key="noprogress" variant="warning">
+                                                                No User Progress Retrieved
+                                                            </Alert>
+                                                        </Container>
+                                                    )}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                    <Card style={{marginTop: '10px'}}>
+                                        <Card.Header>Admin Links</Card.Header>
+                                        <p>
+                                            Hey, you are authenticated as an admin.
+                                        </p>
+                                    </Card>
+                                </Container>
+                            </div>
                         </div>
                     );
                 }
@@ -21,10 +219,100 @@ const Dashboard = () => {
                 else if (Auth === "User") {
                     return (
                         <div>
-                            <p>
-                                Hey, you are authenticated as a user. Your
-                                progress is below.
-                            </p>
+                            {width > 768 && <Sidebar /> }
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
+                                <Container style={{padding: '10px'}}>
+                                    <Card style={{marginBottom: '10px'}}>
+                                        <Card.Header as='h2'>
+                                            {Name} <Badge bg="secondary">{rank}</Badge>
+                                        </Card.Header>
+                                    </Card>
+                                    <Row>
+                                        <Col>
+                                            <Card>
+                                                <Card.Header as='h5'>Profile</Card.Header>
+                                                <Card.Body>
+                                                    <Container>
+                                                        {user ? (
+                                                            <Table hover>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>First Name</td>
+                                                                        <td>{user.fname}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Last Name</td>
+                                                                        <td>{user.lname}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Email</td>
+                                                                        <td>{user.email}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Association</td>
+                                                                        <td>{user.assoc}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Education</td>
+                                                                        <td>{user.edu}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Experience</td>
+                                                                        <td>{user.exp}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </Table>
+                                                        ) : (
+                                                            <Alert key="noprofile" variant="warning">
+                                                                No User Profile Retrieved
+                                                            </Alert>
+                                                        )}
+                                                    </Container>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                        <Col>
+                                            <Card>
+                                                <Card.Header as='h5'>Progress</Card.Header>
+                                                <Card.Body>
+                                                    {user ? (
+                                                        <Container>
+                                                            <Container style={{width: '50%'}}>
+                                                                <CircularProgressbar
+                                                                    value={progress}
+                                                                    text={rank}
+                                                                    strokeWidth={5}
+                                                                    style={{width: '50%'}}
+                                                                    styles={buildStyles({
+                                                                        strokeLinecap: "butt"
+                                                                    })}
+                                                                />
+                                                            </Container>
+                                                            <Container style={{paddingTop: '30px'}}>    
+                                                                <Table hover>
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>Components Labeled</td>
+                                                                            <td>{user.components.length}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Container>
+                                                        </Container>
+                                                        
+                                                    ) : (
+                                                        <Container>
+                                                            <Alert key="noprogress" variant="warning">
+                                                                No User Progress Retrieved
+                                                            </Alert>
+                                                        </Container>
+                                                    )}
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </Container>
+                            </div>
                         </div>
                     );
                 }
@@ -33,7 +321,14 @@ const Dashboard = () => {
                 else {
                     return (
                         <div>
-                            <p>You are not authenticated. Please login.</p>
+                            {width > 768 && <Sidebar /> }
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
+                                <Container style={{paddingTop: '70px'}}>
+                                    <Card>
+                                        <p>You are not authenticated. Please login.</p>
+                                    </Card>
+                                </Container>
+                            </div>
                         </div>
                     );
                 }

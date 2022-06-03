@@ -32,7 +32,6 @@ const PracticePage = () => {
     const [linenoise, setLinenoise] = useState(false);
     const [channoise, setChannoise] = useState(false);
     const [other, setOther] = useState(false);
-    const [unsure, setUnsure] = useState(false);
 
     //List of checkbox values
     const [prac, setPrac] = useState(null);
@@ -56,7 +55,6 @@ const PracticePage = () => {
         if (linenoise) { tags.push("Line Noise"); }
         if (channoise) { tags.push("Channel Noise"); }
         if (other) { tags.push("Other"); }
-        if (unsure) { tags.push("Unsure"); }
 
         setPrac(tags);
 
@@ -81,7 +79,6 @@ const PracticePage = () => {
         setLinenoise(false);
         setChannoise(false);
         setOther(false);
-        setUnsure(false);
 
         //Get image file name first then the image data
         axios.get(
@@ -144,7 +141,7 @@ const PracticePage = () => {
                 return (
                     <div>
                         {width > 768 && <Sidebar /> }
-                        <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                        <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                             <h2>
                                 Labeling Practice
                             </h2>
@@ -230,14 +227,6 @@ const PracticePage = () => {
                                                     style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#DCF2B0', margin: '10px'}}
                                                     onChange={(e) => setOther(e.target.checked)}
                                                 />
-                                                <Form.Check
-                                                    id="unsure"
-                                                    type="checkbox"
-                                                    label="?"
-                                                    checked={unsure}
-                                                    style={{textAlign: 'left', paddingLeft: '40px', borderRadius: '10px', background: '#F7D1CD', margin: '10px'}}
-                                                    onChange={(e) => setUnsure(e.target.checked)}
-                                                />
                                             </Form.Group>
                                         <Button
                                             variant="info"
@@ -267,7 +256,7 @@ const PracticePage = () => {
                                                     Label Successfully Submitted.
                                                 </Col>
                                                 <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                    <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={prac}/>
+                                                    <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={prac}/>
                                                     <Button variant="primary" onClick={getNext}>
                                                         Next
                                                     </Button>
@@ -289,7 +278,7 @@ const PracticePage = () => {
                                                 Label Submission Unsuccessful.
                                             </Col>
                                             <Col style={{display: 'flex', justifyContent: 'flex-end'}}>
-                                                <LabelModal getStatus={true} compName={labelFile} compData={null} pracData={prac}/>
+                                                <LabelModal open={true} getStatus={true} compName={labelFile} compData={null} pracData={prac}/>
                                                 <Button variant="primary" onClick={getNext}>
                                                     Next
                                                 </Button>

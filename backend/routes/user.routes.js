@@ -21,4 +21,6 @@ module.exports = function (app) {
     );
 
     app.get("/api/users/userlist", controller.userList);
+
+    app.get("/api/users/user", controller.user);
 };

@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Card from "react-bootstrap/Card";
+import { Trophy } from 'react-bootstrap-icons';
 import { AuthConsumer } from '../helpers/AuthContext';
 import Sidebar from '../components/Sidebar';
 
@@ -31,41 +32,68 @@ const ResultsPage = () => {
         setWidth(window.innerWidth);
     }
 
-    const getData = () => {
+    const getUserData = () => {
+        if (userList && pstats && lboard) {
+            return;
+        }
+
         axios.get('/api/users/userlist')
         .then( (res) => {
+            //setting user list
             setUserList(res.data);
-
-            const email = localStorage.getItem("Email");
-
-            if (email && email !== "guest") {
-                setPstats(userList.find(user => email === user.email));
-            }
-
-            //Sort users and get top results
-            userList.sort((a, b) => (a.components.length < b.components.length) ? 1 : -1);
-
-            const nor = 10;
-            setLboard(userList.slice(0, nor));
         });
+    }
+
+    const getCompData = () => {
+        if (total) {
+            return;
+        }
 
         axios.get('/api/components/complist')
         .then( (res) => {
-            //console.log(res.data);
+            //Setting overall stats
             setOstats(res.data);
-
-            let sum = 0;
-            for (let i = 0; i < ostats.length; i++) {
-                sum += ostats[i].labels.length;
-            }
-
-            setTotal(sum);
         })
     }
 
+    //Await until after user list is set
+    useEffect(() => {
+        if (!userList) {
+            return;
+        }
+
+        const email = localStorage.getItem("Email");
+
+        if (email && email !== "guest") {
+            setPstats(userList.find(user => email === user.email));
+        }
+
+        //Sort users and get top results
+        userList.sort((a, b) => (a.components.length < b.components.length) ? 1 : -1);
+
+        const nor = 10;
+        setLboard(userList.slice(0, nor));
+    }, [userList])
+
+    //Await until after overall stats have been set
+    useEffect(() => {
+        if (!ostats) {
+            return;
+        }
+
+        let sum = 0;
+        for (let i = 0; i < ostats.length; i++) {
+            sum += ostats[i].labels.length;
+        }
+
+        setTotal(sum);
+    }, [ostats])
+
+    //Page reload use effect
     useEffect(() => {
         //Get leaderboard data
-        getData();
+        getUserData();
+        getCompData();
 
         //Get window size
         window.addEventListener('resize', handleWindowSizeChange);
@@ -83,7 +111,7 @@ const ResultsPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar /> }
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container>
                                     <Row style={{padding: '20px'}}>
                                         <Col>
@@ -99,12 +127,12 @@ const ResultsPage = () => {
                                                         {ostats && (
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Unique Components Labeled</th>
-                                                                    <th>{ostats.length}</th>
+                                                                    <td>Unique Components Labeled</td>
+                                                                    <td>{ostats.length}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Total Components Labeled</th>
-                                                                    <th>{total}</th>
+                                                                    <td>Total Components Labeled</td>
+                                                                    <td>{total}</td>
                                                                 </tr>
                                                             </tbody>
                                                         )}
@@ -117,7 +145,7 @@ const ResultsPage = () => {
                                             <Card>
                                                 <Card.Header as="h5">Personal Stats</Card.Header>
                                                 {pstats ? (
-                                                    <Container>
+                                                    <Container style={{paddingTop: '20px'}}>
                                                         <Table bordered hover size="sm">
                                                             <thead>
                                                                 <tr>
@@ -126,18 +154,18 @@ const ResultsPage = () => {
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Domain</th>
-                                                                    <th>{pstats.domain}</th>
+                                                                    <td>Domain</td>
+                                                                    <td>{pstats.domain}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Components Labeled</th>
-                                                                    <th>{pstats.components.length}</th>
+                                                                    <td>Components Labeled</td>
+                                                                    <td>{pstats.components.length}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </Table>
                                                     </Container>
                                                 ) : (
-                                                    <Container style={{paddingTop: '20px'}}>
+                                                    <Container style={{paddingTop: '20px', paddingBottom: '20px'}}>
                                                         Please <a href="/signup">signup</a> or <a href="/login">login</a> to 
                                                         view your personal stats.
                                                     </Container>
@@ -162,9 +190,13 @@ const ResultsPage = () => {
                                                         {lboard && lboard.map((user, index) => {
                                                             return (
                                                                 <tr key={user.fname}>
-                                                                    <th>{index + 1}</th>
-                                                                    <th>{user.fname}</th>
-                                                                    <th>{user.components.length}</th>
+                                                                    <td>{index + 1}</td>
+                                                                    { index < 3 ? (
+                                                                        <td>{user.fname} <Trophy /></td>
+                                                                    ) : (
+                                                                        <td>{user.fname}</td>
+                                                                    )}
+                                                                    <td>{user.components.length}</td>
                                                                 </tr>
                                                             );
                                                         })}
@@ -184,7 +216,7 @@ const ResultsPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar /> }
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container>
                                     <Row style={{padding: '20px'}}>
                                         <Col>
@@ -200,12 +232,12 @@ const ResultsPage = () => {
                                                         {ostats && (
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Unique Components Labeled</th>
-                                                                    <th>{ostats.length}</th>
+                                                                    <td>Unique Components Labeled</td>
+                                                                    <td>{ostats.length}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Total Components Labeled</th>
-                                                                    <th>{total}</th>
+                                                                    <td>Total Components Labeled</td>
+                                                                    <td>{total}</td>
                                                                 </tr>
                                                             </tbody>
                                                         )}
@@ -218,7 +250,7 @@ const ResultsPage = () => {
                                             <Card>
                                                 <Card.Header as="h5">Personal Stats</Card.Header>
                                                 {pstats ? (
-                                                    <Container>
+                                                    <Container style={{paddingTop: '20px'}}>
                                                         <Table bordered hover size="sm">
                                                             <thead>
                                                                 <tr>
@@ -227,18 +259,18 @@ const ResultsPage = () => {
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Domain</th>
-                                                                    <th>{pstats.domain}</th>
+                                                                    <td>Domain</td>
+                                                                    <td>{pstats.domain}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Components Labeled</th>
-                                                                    <th>{pstats.components.length}</th>
+                                                                    <td>Components Labeled</td>
+                                                                    <td>{pstats.components.length}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </Table>
                                                     </Container>
                                                 ) : (
-                                                    <Container style={{paddingTop: '20px'}}>
+                                                    <Container style={{paddingTop: '20px', paddingBottom: '20px'}}>
                                                         Please <a href="/signup">signup</a> or <a href="/login">login</a> to 
                                                         view your personal stats.
                                                     </Container>
@@ -263,9 +295,13 @@ const ResultsPage = () => {
                                                         {lboard && lboard.map((user, index) => {
                                                             return (
                                                                 <tr key={user.fname}>
-                                                                    <th>{index + 1}</th>
-                                                                    <th>{user.fname}</th>
-                                                                    <th>{user.components.length}</th>
+                                                                    <td>{index + 1}</td>
+                                                                    { index < 3 ? (
+                                                                        <td>{user.fname} <Trophy /></td>
+                                                                    ) : (
+                                                                        <td>{user.fname}</td>
+                                                                    )}
+                                                                    <td>{user.components.length}</td>
                                                                 </tr>
                                                             );
                                                         })}
@@ -285,7 +321,7 @@ const ResultsPage = () => {
                     return (
                         <div>
                             {width > 768 && <Sidebar /> }
-                            <div style={{paddingLeft: width > 768 ? "250px" : "0px"}}>
+                            <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container>
                                     <Row style={{padding: '20px'}}>
                                         <Col>
@@ -301,16 +337,15 @@ const ResultsPage = () => {
                                                         {ostats && (
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Unique Components Labeled</th>
-                                                                    <th>{ostats.length}</th>
+                                                                    <td>Unique Components Labeled</td>
+                                                                    <td>{ostats.length}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Total Components Labeled</th>
-                                                                    <th>{total}</th>
+                                                                    <td>Total Components Labeled</td>
+                                                                    <td>{total}</td>
                                                                 </tr>
                                                             </tbody>
                                                         )}
-                                                        
                                                     </Table>
                                                 </Container>
                                             </Card>
@@ -319,7 +354,7 @@ const ResultsPage = () => {
                                             <Card>
                                                 <Card.Header as="h5">Personal Stats</Card.Header>
                                                 {pstats ? (
-                                                    <Container>
+                                                    <Container style={{paddingTop: '20px'}}>
                                                         <Table bordered hover size="sm">
                                                             <thead>
                                                                 <tr>
@@ -328,23 +363,22 @@ const ResultsPage = () => {
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <th>Domain</th>
-                                                                    <th>{pstats.domain}</th>
+                                                                    <td>Domain</td>
+                                                                    <td>{pstats.domain}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th>Components Labeled</th>
-                                                                    <th>{pstats.components.length}</th>
+                                                                    <td>Components Labeled</td>
+                                                                    <td>{pstats.components.length}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </Table>
                                                     </Container>
                                                 ) : (
-                                                    <Container style={{paddingTop: '20px'}}>
+                                                    <Container style={{paddingTop: '20px', paddingBottom: '20px'}}>
                                                         Please <a href="/signup">signup</a> or <a href="/login">login</a> to 
                                                         view your personal stats.
                                                     </Container>
                                                 )}
-                                                
                                             </Card>
                                         </Col>
                                     </Row>
@@ -364,9 +398,13 @@ const ResultsPage = () => {
                                                         {lboard && lboard.map((user, index) => {
                                                             return (
                                                                 <tr key={user.fname}>
-                                                                    <th>{index + 1}</th>
-                                                                    <th>{user.fname}</th>
-                                                                    <th>{user.components.length}</th>
+                                                                    <td>{index + 1}</td>
+                                                                    { index < 3 ? (
+                                                                        <td>{user.fname} <Trophy /></td>
+                                                                    ) : (
+                                                                        <td>{user.fname}</td>
+                                                                    )}
+                                                                    <td>{user.components.length}</td>
                                                                 </tr>
                                                             );
                                                         })}
