@@ -17,46 +17,42 @@ const LandingPage = () => {
                         <div>
                             <Sidebar />
                             <div style={{paddingLeft: '250px', paddingTop: '100px'}}>
-                                <Container >
+                            <Container >
                                     <Card>
                                         <Card.Header as='h3'>Welcome to ICMoBI</Card.Header>
-                                        <Card.Text>
-                                            <Container 
-                                                style={{
-                                                    paddingTop: '20px',
-                                                    paddingLeft: '40px',
-                                                    paddingRight: '40px',
-                                                    paddingBottom: '20px',
-                                                    textAlign: 'left'
-                                                }}
-                                            >
-                                                This is a collaborative project dedicated to 
-                                                identifying Independent Components of Mobile Brain Imaging. 
-                                                Our objectives are to 1) help train researchers to 
-                                                differentiate between neural and non-neural independent 
-                                                components (ICs) extracted from EEG data using independent 
-                                                component analysis and 2) collect crowd-sourced labels for 
-                                                independent components.
-                                            </Container>
-                                        </Card.Text>
+                                        <Container 
+                                            style={{
+                                                paddingTop: '20px',
+                                                paddingLeft: '40px',
+                                                paddingRight: '40px',
+                                                paddingBottom: '20px',
+                                                textAlign: 'left'
+                                            }}
+                                        >
+                                            This is a collaborative project dedicated to 
+                                            identifying Independent Components of Mobile Brain Imaging. 
+                                            Our objectives are to 1) help train researchers to 
+                                            differentiate between neural and non-neural independent 
+                                            components (ICs) extracted from EEG data using independent 
+                                            component analysis and 2) collect crowd-sourced labels for 
+                                            independent components.
+                                        </Container>
                                     </Card>
                                     <Row style={{paddingTop: '30px'}}>
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Still Figuring Things Out?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px',
-                                                            paddingRight: '40px',
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Checkout some of the resources to learn more about 
-                                                        or test out your knowledge on EEG labeling.
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px',
+                                                        paddingRight: '40px',
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Checkout some of the resources to learn more about 
+                                                    or test out your knowledge on EEG labeling.
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <a href="/overview">Learn more about the project?</a>
@@ -70,20 +66,18 @@ const LandingPage = () => {
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Ready To Begin Labeling?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px', 
-                                                            paddingRight: '40px', 
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Hi {Name}! You have logged in. You can either 
-                                                        choose to practice or start contributing 
-                                                        via the labeling page
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px', 
+                                                        paddingRight: '40px', 
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Hi {Name}! You have logged in. You can either 
+                                                    choose to practice or start contributing 
+                                                    via the labeling page
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <Col>
@@ -112,43 +106,39 @@ const LandingPage = () => {
                                 <Container >
                                     <Card>
                                         <Card.Header as='h3'>Welcome to ICMoBI</Card.Header>
-                                        <Card.Text>
-                                            <Container 
-                                                style={{
-                                                    paddingTop: '20px',
-                                                    paddingLeft: '40px',
-                                                    paddingRight: '40px',
-                                                    paddingBottom: '20px',
-                                                    textAlign: 'left'
-                                                }}
-                                            >
-                                                This is a collaborative project dedicated to 
-                                                identifying Independent Components of Mobile Brain Imaging. 
-                                                Our objectives are to 1) help train researchers to 
-                                                differentiate between neural and non-neural independent 
-                                                components (ICs) extracted from EEG data using independent 
-                                                component analysis and 2) collect crowd-sourced labels for 
-                                                independent components.
-                                            </Container>
-                                        </Card.Text>
+                                        <Container 
+                                            style={{
+                                                paddingTop: '20px',
+                                                paddingLeft: '40px',
+                                                paddingRight: '40px',
+                                                paddingBottom: '20px',
+                                                textAlign: 'left'
+                                            }}
+                                        >
+                                            This is a collaborative project dedicated to 
+                                            identifying Independent Components of Mobile Brain Imaging. 
+                                            Our objectives are to 1) help train researchers to 
+                                            differentiate between neural and non-neural independent 
+                                            components (ICs) extracted from EEG data using independent 
+                                            component analysis and 2) collect crowd-sourced labels for 
+                                            independent components.
+                                        </Container>
                                     </Card>
                                     <Row style={{paddingTop: '30px'}}>
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Still Figuring Things Out?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px',
-                                                            paddingRight: '40px',
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Checkout some of the resources to learn more about 
-                                                        or test out your knowledge on EEG labeling.
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px',
+                                                        paddingRight: '40px',
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Checkout some of the resources to learn more about 
+                                                    or test out your knowledge on EEG labeling.
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <a href="/overview">Learn more about the project?</a>
@@ -162,20 +152,18 @@ const LandingPage = () => {
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Ready To Begin Labeling?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px', 
-                                                            paddingRight: '40px', 
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Hi {Name}! You have logged in. You can either 
-                                                        choose to practice or start contributing 
-                                                        via the labeling page
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px', 
+                                                        paddingRight: '40px', 
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Hi {Name}! You have logged in. You can either 
+                                                    choose to practice or start contributing 
+                                                    via the labeling page
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <Col>
@@ -204,43 +192,39 @@ const LandingPage = () => {
                                 <Container >
                                     <Card>
                                         <Card.Header as='h3'>Welcome to ICMoBI</Card.Header>
-                                        <Card.Text>
-                                            <Container 
-                                                style={{
-                                                    paddingTop: '20px',
-                                                    paddingLeft: '40px',
-                                                    paddingRight: '40px',
-                                                    paddingBottom: '20px',
-                                                    textAlign: 'left'
-                                                }}
-                                            >
-                                                This is a collaborative project dedicated to 
-                                                identifying Independent Components of Mobile Brain Imaging. 
-                                                Our objectives are to 1) help train researchers to 
-                                                differentiate between neural and non-neural independent 
-                                                components (ICs) extracted from EEG data using independent 
-                                                component analysis and 2) collect crowd-sourced labels for 
-                                                independent components.
-                                            </Container>
-                                        </Card.Text>
+                                        <Container 
+                                            style={{
+                                                paddingTop: '20px',
+                                                paddingLeft: '40px',
+                                                paddingRight: '40px',
+                                                paddingBottom: '20px',
+                                                textAlign: 'left'
+                                            }}
+                                        >
+                                            This is a collaborative project dedicated to 
+                                            identifying Independent Components of Mobile Brain Imaging. 
+                                            Our objectives are to 1) help train researchers to 
+                                            differentiate between neural and non-neural independent 
+                                            components (ICs) extracted from EEG data using independent 
+                                            component analysis and 2) collect crowd-sourced labels for 
+                                            independent components.
+                                        </Container>
                                     </Card>
                                     <Row style={{paddingTop: '30px'}}>
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Still Figuring Things Out?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px',
-                                                            paddingRight: '40px',
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Checkout some of the resources to learn more about 
-                                                        or test out your knowledge on EEG labeling.
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px',
+                                                        paddingRight: '40px',
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Checkout some of the resources to learn more about 
+                                                    or test out your knowledge on EEG labeling.
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <a href="/overview">Learn more about the project?</a>
@@ -254,19 +238,17 @@ const LandingPage = () => {
                                         <Col>
                                             <Card>
                                                 <Card.Header as='h5'>Ready To Begin Labeling?</Card.Header>
-                                                <Card.Text>
-                                                    <Container 
-                                                        style={{
-                                                            paddingTop: '20px',
-                                                            paddingLeft: '40px', 
-                                                            paddingRight: '40px', 
-                                                            textAlign: 'left'
-                                                        }}
-                                                    >
-                                                        Please login to contribute to labeling
-                                                        and have your progress recorded.
-                                                    </Container>
-                                                </Card.Text>
+                                                <Container 
+                                                    style={{
+                                                        paddingTop: '20px',
+                                                        paddingLeft: '40px', 
+                                                        paddingRight: '40px', 
+                                                        textAlign: 'left'
+                                                    }}
+                                                >
+                                                    Please login to contribute to labeling
+                                                    and have your progress recorded.
+                                                </Container>
                                                 <Container style={{padding: '20px'}}>
                                                     <Row style={{padding: '5px'}}>
                                                         <a href="/signup">Don't have an account? Sign up here</a>

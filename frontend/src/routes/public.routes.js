@@ -8,6 +8,7 @@ import ResultsPage from "../views/ResultsPage";
 import OverviewPage from "../views/OverviewPage";
 import TutorialPage from "../views/TutorialPage";
 import PracticePage from "../views/PracticePage";
+import ContactUs from "../views/ContactUs";
 
 const PublicRoutes = () => (
     <Router>
@@ -17,6 +18,7 @@ const PublicRoutes = () => (
         <OverviewPage path="/overview" />
         <TutorialPage path="/tutorial" />
         <PracticePage path="/practice" />
+        <ContactUs path="/contact" />
         <SignUp path="signup" />
         <Login path="login" />
     </Router>
