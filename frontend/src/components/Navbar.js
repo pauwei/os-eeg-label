@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
+import icmobi from '../logos/ICMOBI_logoArtboard_1.svg'
 
 const ResponsiveAppBar = () => {
 
@@ -14,9 +14,11 @@ const ResponsiveAppBar = () => {
 
                 if (Auth === 'Admin') {
                     return (
-                        <Navbar bg="light" expand={false}>
+                        <Navbar bg="light" fixed="top" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
+                                <Navbar.Brand href="/">
+                                    <img src={icmobi} alt="ICMOBI logo" height="50px" style={{paddingLeft: '10%'}}/>
+                                </Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   
@@ -29,7 +31,7 @@ const ResponsiveAppBar = () => {
                                     placement="end"
                                 >
                                 <Offcanvas.Header closeButton>
-                                        <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
+                                    <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
                                 </Offcanvas.Header>
                                     <Offcanvas.Body>
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -47,9 +49,11 @@ const ResponsiveAppBar = () => {
 
                 else if (Auth === 'User') {
                     return (
-                        <Navbar bg="light" expand={false}>
+                        <Navbar bg="light" fixed="top" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
+                                <Navbar.Brand href="/">
+                                    <img src={icmobi} alt="ICMOBI logo" height="50px" style={{paddingLeft: '10%'}}/>
+                                </Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   
@@ -62,7 +66,7 @@ const ResponsiveAppBar = () => {
                                     placement="end"
                                 >
                                 <Offcanvas.Header closeButton>
-                                        <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
+                                    <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
                                 </Offcanvas.Header>
                                     <Offcanvas.Body>
                                         <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -79,9 +83,11 @@ const ResponsiveAppBar = () => {
 
                 else {
                     return (
-                        <Navbar bg="light" expand={false}>
+                        <Navbar bg="light" fixed="top" expand={false}>
                             <Container fluid>
-                                <Navbar.Brand href="/">&nbsp; ICMOBI</Navbar.Brand>
+                                <Navbar.Brand href="/">
+                                    <img src={icmobi} alt="ICMOBI logo" height="50px" style={{paddingLeft: '10%'}}/>
+                                </Navbar.Brand>
                                 <Nav className="flex-row">
                                     <Nav.Link className="mx-5" href="/label">Label</Nav.Link>
                                     <Nav.Link className="mx-5" href="/results">Leaderboard</Nav.Link>   
@@ -95,7 +101,7 @@ const ResponsiveAppBar = () => {
                                     placement="end"
                                 >
                                 <Offcanvas.Header closeButton>
-                                        <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
+                                    <Offcanvas.Title id="offcanvasNavbarLabel">Hi {Name}</Offcanvas.Title>
                                 </Offcanvas.Header>
                                     <Offcanvas.Body>
                                         <Nav className="justify-content-end flex-grow-1 pe-3">

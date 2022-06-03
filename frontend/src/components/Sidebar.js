@@ -17,7 +17,7 @@ const Sidebar = () => {
                 height: "100%",
                 left: 0,
                 zIndex: 100,
-                padding: "48px 0 0",
+                padding: "120px 0 0",
                 boxShadow: "inset -1px 0 0 rgba(0, 0, 0, .1)",
             }}
         >
@@ -47,43 +47,36 @@ const Sidebar = () => {
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="3">
-                    <Accordion.Header>Resources</Accordion.Header>
+                    <Accordion.Header>Contact Us</Accordion.Header>
                     <Accordion.Body>
-                        <Nav.Link href="">Leave a comment</Nav.Link>
+                        <Nav.Link href="">Contributing Data</Nav.Link>
+                        <Nav.Link href="">Feedback</Nav.Link>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
             <div style={{width: '250px', margin: 'auto', position: 'fixed', bottom: "30px"}}>
                 <Row>
                     <Col style={{paddingRight: 0}}>
-                        <img src={hnl} alt="HNL Logo" width="80px"/>
+                        <a 
+                            href="https://faculty.eng.ufl.edu/human-neuromechanics-laboratory/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            <img src={hnl} alt="HNL Logo" width="80px"/>
+                        </a>
                     </Col>
                     <Col style={{paddingLeft: 0}}>
-                        <img src={tu} alt="TU Logo" width="80px"/>
+                        <a 
+                            href='https://blogs.tu-berlin.de/bpn_bemobil/' 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                        >
+                            <img src={tu} alt="TU Logo" width="80px"/>
+                        </a>
                     </Col>
                 </Row>
             </div>
         </Nav>
-        // <Nav
-        //     className="col-md-12 d-none d-md-block bg-light sidebar"
-        //     style={{
-        //         display: "inline-block",
-        //         position: "absolute",
-        //         width: "250px",
-        //         height: "100%",
-        //         left: 0,
-        //         zIndex: 100,
-        //         padding: "48px 0 0",
-        //         boxShadow: "inset -1px 0 0 rgba(0, 0, 0, .1)",
-        //     }}
-        // >
-        //     <Nav.Link href="/lorem">Overview</Nav.Link>
-        //     <Nav.Link href="/lorem">How does this help us?</Nav.Link>
-        //     <Nav.Link href="/lorem">Labelling Tutorial</Nav.Link>
-        //     <Nav.Link href="/lorem">Labelling Practice</Nav.Link>
-        //     <Nav.Link href="/lorem">Telling Components Apart</Nav.Link>
-        //     <Nav.Link href="/lorem">Leave a Comment</Nav.Link>
-        // </Nav>
     );
 };
 

@@ -29,7 +29,6 @@ class AuthProvider extends React.Component {
     };
 
     login = ({ email, password }) => {
-        console.log("Login called");
 
         return axios
             .post(auth_API_URL + "signin", {
@@ -67,7 +66,6 @@ class AuthProvider extends React.Component {
     };
 
     logout = () => {
-        console.log("Logout called");
 
         this.setState({ Email: "guest", Domain: "guest", Weight: 1.0, Auth: "Guest", Info: "Guest", Name: "Guest" }, () => {
             localStorage.setItem("Email", "guest");
@@ -80,7 +78,6 @@ class AuthProvider extends React.Component {
     };
 
     signup = ({ fname, lname, assoc, edu, exp, email, password }) => {
-        console.log("Signup called");
         
         const weight = 1.0;
         const domain = 'user';

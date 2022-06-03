@@ -55,7 +55,6 @@ generateDBXAuth();
 router.get('/imagefile', async (req, res) => {
 
     if (req.query.email === "guest") {
-        console.log("Guest account detected, ", req.query.email);
         const files = [
             "1001001.jpg",
             "1001002.jpg",

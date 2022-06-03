@@ -24,7 +24,7 @@ const Logout = () => {
                 if (Auth === 'Admin') {
                     return (
                         <div>
-                            <Container style={{paddingTop: '5%'}} >
+                            <Container style={{paddingTop: '120px'}} >
                                 <Card>
                                     <Card.Body>
                                         <Row>
@@ -44,7 +44,7 @@ const Logout = () => {
                 else if (Auth === 'User') {
                     return (
                         <div>
-                            <Container style={{paddingTop: '5%'}}>
+                            <Container style={{paddingTop: '120px'}}>
                                 <Card>
                                     <Card.Body>
                                         <Row>
@@ -64,7 +64,7 @@ const Logout = () => {
                 else {
                     return (
                         <div>
-                            <Container style={{paddingTop: '5%'}}>
+                            <Container style={{paddingTop: '120px'}}>
                                 <Card>
                                     <Card.Body>
                                         <Row>

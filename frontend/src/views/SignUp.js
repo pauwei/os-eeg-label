@@ -50,7 +50,7 @@ const SignUp = () => {
                 //If guest
                 else {
                     return (
-                        <Container>
+                        <Container style={{paddingTop: '70px'}}>
                             <br />
                             <h2>Signup Below</h2>
                             <br />
