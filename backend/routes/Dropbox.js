@@ -34,6 +34,8 @@ generateDBXAuth = () => {
         dropbox = dropboxV2Api.authenticate({
             token: res.data.access_token
         });
+
+        if (dropbox) { console.log("Dropbox successfully authenticated!"); }
     })
     .catch((err) => {
         console.log(err);
@@ -54,31 +56,53 @@ generateDBXAuth();
 //Getting the image file name for eeg labelling
 router.get('/imagefile', async (req, res) => {
 
-    if (req.query.email === "guest") {
-        const files = [
-            "1001001.jpg",
-            "1001002.jpg",
-            "1001003.jpg",
-            "1001004.jpg",
-            "1001005.jpg",
-            "1001006.jpg",
-            "1001007.jpg",
-            "1001008.jpg",
-            "1001009.jpg",
-            "1001010.jpg",
-            "1001011.jpg",
-            "1001012.jpg",
-            "1001013.jpg",
-            "1001019.jpg",
-            "1001034.jpg",
-            "1001038.jpg",
-            "1001042.jpg",
-            "1001061.jpg",
-            "1001065.jpg",
-            "1001077.jpg",
-            "1001088.jpg",
-        ];
-        res.send(files[Math.floor(Math.random() * files.length)])
+    if (!req.query.email || req.query.email === "guest") {
+        let files = [];
+
+        //Grab list of completed components
+        Component.find({}, (err, data) => {
+            if (err) { 
+                console.log(err);
+                res.status(500).json({ error: "MongoDB not responding"});
+                return;
+            }
+
+            //No error and assign data
+            if (data) {
+                files = data;
+            } else {
+                files = [
+                    "1001001.jpg",
+                    "1001002.jpg",
+                    "1001003.jpg",
+                    "1001004.jpg",
+                    "1001005.jpg",
+                    "1001006.jpg",
+                    "1001007.jpg",
+                    "1001008.jpg",
+                    "1001009.jpg",
+                    "1001010.jpg",
+                    "1001011.jpg",
+                    "1001012.jpg",
+                    "1001013.jpg",
+                    "1001019.jpg",
+                    "1001034.jpg",
+                    "1001038.jpg",
+                    "1001042.jpg",
+                    "1001061.jpg",
+                    "1001065.jpg",
+                    "1001077.jpg",
+                    "1001088.jpg",
+                ];
+            }
+
+            //Get a completed component
+            const filename = files[Math.floor(Math.random() * files.length)].name;
+            res.send(filename);
+            return;
+        });
+
+        //If somehow mongodb not accessed
         return;
     }
 

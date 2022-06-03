@@ -105,7 +105,7 @@ const LabelModal = (props) => {
                     ) : (
                         
                         <div className="alert alert-danger" role="alert">
-                            No Data Retrieved
+                            No Data Retrieved (You Are The First To Label This Component!)
                         </div>
                     )}
                 </Modal.Body>
