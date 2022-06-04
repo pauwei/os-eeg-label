@@ -2,7 +2,9 @@ import axios from "axios";
 import React from "react";
 
 const AuthContext = React.createContext();
-const auth_API_URL = "https://icmobi.herokuapp.com/api/auth/";
+
+//Relative path for api
+const auth_API_URL = "/api/auth/";
 
 class AuthProvider extends React.Component {
     state = { Email: "guest", Domain: "guest", Weight: 1.0, Auth: "Guest", Info: "Guest", Name: "Guest" };
