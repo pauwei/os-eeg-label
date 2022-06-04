@@ -27,10 +27,39 @@ const Dashboard = () => {
         setWidth(window.innerWidth);
     }
 
-    //Set rank and progress
-    const getRank = (comp) => {
-        let perc = 0;
+    //Get user data
+    const getUserData = () => {
 
+        const email = localStorage.getItem("Email");
+
+        if (!email || email === "guest") {
+            return;
+        }
+
+        axios.get(
+            '/api/users/user',
+            {
+                params: {
+                    email
+                },
+            }
+        ).then((res) => {
+            setUser(res.data);
+        }).catch((err) => {
+            // console.log(err);
+            // econaborted, axios error? fix?
+        })
+    }
+
+    //await until user data is set, to set rank and progress
+    useEffect(() => {
+        if (!user) {
+            return;
+        }
+
+        const comp = user.components.length;
+        let perc = 0;
+        
         if (comp === 0) {
             setRank("Newbie");
             perc = 0;
@@ -67,32 +96,10 @@ const Dashboard = () => {
         }
 
         setProgress(perc);
-    }
 
-    //Get user data
-    const getUserData = () => {
+    }, [user])
 
-        const email = localStorage.getItem("Email");
-
-        if (!email || email === "guest") {
-            return;
-        }
-
-        axios.get(
-            '/api/users/user',
-            {
-                params: {
-                    email
-                },
-            }
-        ).then((res) => {
-            setUser(res.data);
-            getRank(res.data.components.length);
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-
+    //on page reload use effect
     useEffect(() => {
         //Get user data
         getUserData();

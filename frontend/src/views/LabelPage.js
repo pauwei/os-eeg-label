@@ -155,7 +155,7 @@ const LabelPage = () => {
                         <div>
                             {width > 768 && <Sidebar /> }
                             <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
-                                <Container>
+                                <Container style={{paddingBottom: '10px'}}>
                                     <Card>
                                         <Card.Header>
                                             Hey, you are logged in as an admin. Your
@@ -343,7 +343,7 @@ const LabelPage = () => {
                         <div>
                             {width > 768 && <Sidebar /> }
                             <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
-                                <Container>
+                                <Container style={{paddingBottom: '10px'}}>
                                     <Card>
                                         <Card.Header>
                                             Hey, you are logged in. Your
