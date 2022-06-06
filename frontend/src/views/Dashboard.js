@@ -172,14 +172,14 @@ const Dashboard = () => {
                                         </Col>
                                         <Col>
                                             <Card>
-                                                <Card.Header as='h5'>Progress</Card.Header>
+                                                <Card.Header as='h5'>Progress To Next Level</Card.Header>
                                                 <Card.Body>
                                                     {user ? (
                                                         <Container>
                                                             <Container style={{width: '50%'}}>
                                                                 <CircularProgressbar
                                                                     value={progress}
-                                                                    text={rank}
+                                                                    text={`${progress}%`}
                                                                     strokeWidth={5}
                                                                     style={{width: '50%'}}
                                                                     styles={buildStyles({
@@ -190,6 +190,10 @@ const Dashboard = () => {
                                                             <Container style={{paddingTop: '30px'}}>    
                                                                 <Table hover>
                                                                     <tbody>
+                                                                        <tr>
+                                                                            <td>Skill Level</td>
+                                                                            <td><Badge bg="secondary">{rank}</Badge></td>
+                                                                        </tr>
                                                                         <tr>
                                                                             <td>Components Labeled</td>
                                                                             <td>{user.components.length}</td>
@@ -280,14 +284,14 @@ const Dashboard = () => {
                                         </Col>
                                         <Col>
                                             <Card>
-                                                <Card.Header as='h5'>Progress</Card.Header>
+                                                <Card.Header as='h5'>Progress To Next Level</Card.Header>
                                                 <Card.Body>
                                                     {user ? (
                                                         <Container>
                                                             <Container style={{width: '50%'}}>
                                                                 <CircularProgressbar
                                                                     value={progress}
-                                                                    text={rank}
+                                                                    text={`${progress}%`}
                                                                     strokeWidth={5}
                                                                     style={{width: '50%'}}
                                                                     styles={buildStyles({
@@ -298,6 +302,10 @@ const Dashboard = () => {
                                                             <Container style={{paddingTop: '30px'}}>    
                                                                 <Table hover>
                                                                     <tbody>
+                                                                        <tr>
+                                                                            <td>Skill Level</td>
+                                                                            <td><Badge bg="secondary">{rank}</Badge></td>
+                                                                        </tr>
                                                                         <tr>
                                                                             <td>Components Labeled</td>
                                                                             <td>{user.components.length}</td>
