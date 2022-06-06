@@ -148,7 +148,7 @@ const LabelPage = () => {
 
     return (
         <AuthConsumer>
-            {({ Auth }) => {
+            {({ Auth, Name }) => {
                 //If admin
                 if (Auth === "Admin") {
                     return (
@@ -158,7 +158,7 @@ const LabelPage = () => {
                                 <Container style={{paddingBottom: '10px'}}>
                                     <Card>
                                         <Card.Header>
-                                            Hey, you are logged in as an admin. Your
+                                            Hey {Name}, you are logged in as an admin. Your
                                             labeling progress will be stored.
                                         </Card.Header>
                                     </Card>
@@ -179,7 +179,7 @@ const LabelPage = () => {
                                             width="80%"
                                             height="auto"
                                             style={{
-                                                border: '1px solid #000000',
+                                                border: '2px solid #C0C2C9',
                                                 opacity: status ? "0.33" : "1.0",
                                             }}
                                         />
@@ -346,7 +346,7 @@ const LabelPage = () => {
                                 <Container style={{paddingBottom: '10px'}}>
                                     <Card>
                                         <Card.Header>
-                                            Hey, you are logged in. Your
+                                            Hey {Name}, you are logged in. Your
                                             labeling progress will be stored.
                                         </Card.Header>
                                     </Card>
@@ -367,7 +367,7 @@ const LabelPage = () => {
                                             width="80%"
                                             height="auto"
                                             style={{
-                                                border: '1px solid #000000',
+                                                border: '2px solid #C0C2C9',
                                                 opacity: status ? "0.33" : "1.0",
                                             }}
                                         />

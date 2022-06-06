@@ -163,7 +163,7 @@ const PracticePage = () => {
                                         alt="Labeling data"
                                         width="80%"
                                         height="auto"
-                                        style={{border: '1px solid #000000'}}
+                                        style={{border: '2px solid #C0C2C9'}}
                                     />
 
                                     <div>
