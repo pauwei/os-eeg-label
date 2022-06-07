@@ -13,10 +13,9 @@ class AuthProvider extends React.Component {
         //If state is not stored in local storage, use original state
         if (!localStorage.getItem("Email") && !localStorage.getItem("Domain") && !localStorage.getItem("Weight") &&
             !localStorage.getItem("Auth") && !localStorage.getItem("Info") && !localStorage.getItem("Name")) {
-                return;
+            return;
         }
 
-        //Get state from local storage
         this.setState({
             Email: localStorage.getItem("Email"),
             Domain: localStorage.getItem("Domain"),

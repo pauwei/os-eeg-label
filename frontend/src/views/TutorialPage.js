@@ -458,15 +458,6 @@ const TutorialPage = () => {
                                                 This section discusses how to label components on this 
                                                 website.
 
-                                                <br/><br/>
-                                                <ul>
-                                                    <li><b>Component Number</b></li>
-                                                    <ul>
-                                                        <li>The last three digits represent the component number</li>
-                                                        <li>i.e. IC1001088 represents 88th component</li>
-                                                    </ul>
-                                                </ul>
-
                                                 <Alert variant="warning">
                                                     Note: The following instructions apply specifically to the labeling page. The practice page may differ slightly.
                                                 </Alert>
