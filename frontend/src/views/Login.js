@@ -142,8 +142,11 @@ const Login = () => {
                                                     variant="primary"
                                                     type="button"
                                                     onClick={() => {
+                                                        //convert email to lowercase
+                                                        const lemail = email.toLowerCase();
+
                                                         login({
-                                                            email,
+                                                            lemail,
                                                             password,
                                                         }).then(
                                                             () => {
