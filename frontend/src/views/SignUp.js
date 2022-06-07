@@ -245,6 +245,9 @@ const SignUp = () => {
                                                             return;
                                                         }
 
+                                                        //Convert email to lower case
+                                                        const lemail = email.toLowerCase();
+
                                                         //Signup the user
                                                         signup({
                                                             fname,
@@ -252,7 +255,7 @@ const SignUp = () => {
                                                             assoc,
                                                             edu,
                                                             exp,
-                                                            email,
+                                                            lemail,
                                                             password,
                                                         }).then(
                                                             () => {
