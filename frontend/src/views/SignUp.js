@@ -1,10 +1,12 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import axios from "axios";
+import { Typeahead } from "react-bootstrap-typeahead";
 import { navigate } from '@reach/router';
 import { AuthConsumer } from "../helpers/AuthContext";
 
@@ -19,6 +21,19 @@ const SignUp = () => {
     const [exp, setExp] = useState("");
     const [message, setMessage] = useState("");
     const [success, setStatus] = useState("");
+
+    const [options, setOptions] = useState([])
+
+    useEffect(() => {
+        axios.get('/api/users/userlist')
+        .then( (res) => {
+            //getting all associations
+            const allAssoc = res.data.map( (user) => {
+                return user.assoc;
+            });
+            setOptions([...new Set(allAssoc)]);
+        });
+    })
 
     return (
         <AuthConsumer>
@@ -102,12 +117,13 @@ const SignUp = () => {
                                                 controlId="signUpAssociation"
                                             >
                                                 <Form.Label style={{ float: 'left'}} >University / Company</Form.Label>
-                                                <Form.Control
-                                                    type="email"
+                                                <hr style={{visibility: "hidden"}}/>
+                                                <Typeahead 
+                                                    id="assoc-typeahead-single"
+                                                    labelKey="assoc"
+                                                    onChange={setAssoc}
+                                                    options={options}
                                                     placeholder="Enter University / Company"
-                                                    onChange={(e) =>
-                                                        setAssoc(e.target.value)
-                                                    }
                                                 />
                                             </Form.Group>
                                         </Row>
@@ -218,7 +234,7 @@ const SignUp = () => {
                                                     style={{ width: '50%'}}
                                                     onClick={() => {
                                                         //Check if any fields are empty
-                                                        if (!fname || !lname || !assoc || !edu || !exp || !email || !password) {
+                                                        if (!fname || !lname || !assoc[0] || !edu || !exp || !email || !password) {
                                                             alert('Please fill out all the fields.');
                                                             return;
                                                         }
