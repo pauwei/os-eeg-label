@@ -19,6 +19,9 @@ const SignUp = () => {
     const [assoc, setAssoc] = useState("");
     const [edu, setEdu] = useState("");
     const [exp, setExp] = useState("");
+
+    const [typedAssoc, setTypedAssoc] = useState("");
+
     const [message, setMessage] = useState("");
     const [success, setStatus] = useState("");
 
@@ -135,6 +138,7 @@ const SignUp = () => {
                                                     labelKey="assoc"
                                                     allowNew
                                                     onChange={setAssoc}
+                                                    onInputChange={setTypedAssoc}
                                                     options={options}
                                                     placeholder="Enter University / Company"
                                                 />
@@ -246,8 +250,8 @@ const SignUp = () => {
                                                     type="button"
                                                     style={{ width: '50%'}}
                                                     onClick={() => {
-                                                        if (!assoc[0]) {
-                                                            alert('Please select University / Company from selection dropdown');
+                                                        if (!assoc[0] && !typedAssoc) {
+                                                            alert('Please select University / Company');
                                                             return;
                                                         }
 
@@ -271,8 +275,10 @@ const SignUp = () => {
 
                                                         if (typeof assoc[0] === 'string' || assoc[0] instanceof String) {
                                                             assocSel = assoc[0];
-                                                        } else {
+                                                        } else if (typeof assoc[0] === 'object' && assoc[0] !== null) {
                                                             assocSel = assoc[0].assoc;
+                                                        } else if (typeof typedAssoc === 'string') {
+                                                            assocSel = typedAssoc;
                                                         }
 
                                                         //Signup the user
