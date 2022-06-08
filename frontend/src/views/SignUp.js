@@ -133,6 +133,7 @@ const SignUp = () => {
                                                 <Typeahead 
                                                     id="assoc-typeahead-single"
                                                     labelKey="assoc"
+                                                    allowNew
                                                     onChange={setAssoc}
                                                     options={options}
                                                     placeholder="Enter University / Company"
@@ -245,8 +246,13 @@ const SignUp = () => {
                                                     type="button"
                                                     style={{ width: '50%'}}
                                                     onClick={() => {
+                                                        if (!assoc[0]) {
+                                                            alert('Please select University / Company from selection dropdown');
+                                                            return;
+                                                        }
+
                                                         //Check if any fields are empty
-                                                        if (!fname || !lname || !assoc[0] || !edu || !exp || !email || !password) {
+                                                        if (!fname || !lname || !edu || !exp || !email || !password) {
                                                             alert('Please fill out all the fields.');
                                                             return;
                                                         }
@@ -259,9 +265,15 @@ const SignUp = () => {
 
                                                         //Convert email to lower case
                                                         const emailLower = email.toLowerCase();
-                                                        
+
                                                         //Get the first selected association
-                                                        const assocSel = assoc[0];
+                                                        let assocSel = "";
+
+                                                        if (typeof assoc[0] === 'string' || assoc[0] instanceof String) {
+                                                            assocSel = assoc[0];
+                                                        } else {
+                                                            assocSel = assoc[0].assoc;
+                                                        }
 
                                                         //Signup the user
                                                         signup({
