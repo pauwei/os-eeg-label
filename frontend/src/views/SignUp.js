@@ -245,11 +245,14 @@ const SignUp = () => {
                                                             return;
                                                         }
 
+                                                        //Get the first selected association
+                                                        const selassoc = assoc[0];
+
                                                         //Signup the user
                                                         signup({
                                                             fname,
                                                             lname,
-                                                            assoc,
+                                                            selassoc,
                                                             edu,
                                                             exp,
                                                             email,
