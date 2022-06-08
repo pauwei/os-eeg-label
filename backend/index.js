@@ -36,6 +36,7 @@ db.mongoose
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/component.routes")(app);
+require("./routes/mail.routes")(app);
 
 //Accessing path module
 const path = require("path");

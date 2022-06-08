@@ -85,7 +85,7 @@ class AuthProvider extends React.Component {
         });
     };
 
-    signup = ({ fname, lname, assoc, edu, exp, email, password }) => {
+    signup = ({ fname, lname, assocSel, edu, exp, emailLower, password }) => {
         
         const weight = 1.0;
         const domain = 'user';
@@ -95,12 +95,12 @@ class AuthProvider extends React.Component {
         return axios.post(auth_API_URL + "signup", {
             fname,
             lname,
-            assoc,
+            assocSel,
             edu,
             exp,
             domain,
             weight,
-            email,
+            emailLower,
             password,
             components,
         });

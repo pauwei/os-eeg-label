@@ -10,12 +10,12 @@ exports.signup = (req, res) => {
     const user = new User({
         fname: req.body.fname,
         lname: req.body.lname,
-        assoc: req.body.assoc,
+        assoc: req.body.assocSel,
         edu: req.body.edu,
         exp: req.body.exp,
         domain: req.body.domain,
         weight: req.body.weight,
-        email: req.body.email,
+        email: req.body.emailLower,
         password: bcrypt.hashSync(req.body.password, 8),
         components: req.body.components,
     });
