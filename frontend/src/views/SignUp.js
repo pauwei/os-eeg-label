@@ -261,14 +261,20 @@ const SignUp = () => {
                                                             return;
                                                         }
 
+                                                        //Convert email to lower case
+                                                        const emailLower = email.toLowerCase();
+
+                                                        //Check for valid email
+                                                        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailLower))) {
+                                                            alert("Please enter a valid email address!");
+                                                            return;
+                                                        }
+
                                                         //Check if passwords match
                                                         if (password !== confirmpass) {
                                                             alert('Please make sure the passwords match.');
                                                             return;
                                                         }
-
-                                                        //Convert email to lower case
-                                                        const emailLower = email.toLowerCase();
 
                                                         //Get the first selected association
                                                         let assocSel = "";

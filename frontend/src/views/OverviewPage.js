@@ -76,8 +76,9 @@ const OverviewPage = () => {
                     <br/>
                     <h2>Acknowledgments</h2>
                     <p style={{textAlign: 'left'}}>
-                        This project is supported by the National Institutes of 
-                        Health under grants …. 
+                        This project is supported by the National Institutes of Health 
+                        and National Science Foundation under grants T32- NS082128 and 
+                        NSF 1835317. 
                     </p>
                     <p style={{textAlign: 'left'}}>
                         Primary support was provided by the Human Neuromechanics 
