@@ -18,8 +18,18 @@ exports.submit = (req, res) => {
     sendSmtpEmail.htmlContent=` \
         <html> \
             <body> \
-                <h1>Website Feedback Form</h1> \
-                <p> ${req.body.content}</p>\
+                <h1>Website Feedback Form - ${req.body.name}</h1> \
+                <p> ${req.body.content}</p> \
             </body> \
         </html>`;
+    sendSmtpEmail.sender = {"name": "ICMOBI", "email": "icmobiproject@gmail.com"};
+    sendSmtpEmail.to = [{"name": "ICMOBI Inobox", "email": "icmobiproject@gmail.com"}];
+    sendSmtpEmail.textContent = req.body.content;
+    sendSmtpEmail.replyTo = {"email": req.body.replyEmail, "name": req.body.name};
+
+    api.sendTransacEmail(sendSmtpEmail).then( (data) => {
+        res.send("Email successfully sent: ", data);
+    }, (err) => {
+        res.send(err);
+    });
 };

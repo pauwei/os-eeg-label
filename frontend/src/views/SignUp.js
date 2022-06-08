@@ -25,15 +25,27 @@ const SignUp = () => {
     const [options, setOptions] = useState([])
 
     useEffect(() => {
+        if (options.length !== 0) {
+            return;
+        }
+
         axios.get('/api/users/userlist')
         .then( (res) => {
             //getting all associations
             const allAssoc = res.data.map( (user) => {
                 return user.assoc;
             });
-            setOptions([...new Set(allAssoc)]);
+
+            const uniqueAssoc = [...new Set(allAssoc)];
+
+            const autoComp = uniqueAssoc.filter(element => {
+                return element !== undefined;
+            })
+            
+            setOptions(autoComp);
+            
         });
-    })
+    }, [options])
 
     return (
         <AuthConsumer>
@@ -246,19 +258,19 @@ const SignUp = () => {
                                                         }
 
                                                         //Convert email to lower case
-                                                        const lemail = email.toLowerCase();
+                                                        const emailLower = email.toLowerCase();
                                                         
                                                         //Get the first selected association
-                                                        const selassoc = assoc[0];
+                                                        const assocSel = assoc[0];
 
                                                         //Signup the user
                                                         signup({
                                                             fname,
                                                             lname,
-                                                            selassoc,
+                                                            assocSel,
                                                             edu,
                                                             exp,
-                                                            lemail,
+                                                            emailLower,
                                                             password,
                                                         }).then(
                                                             () => {
