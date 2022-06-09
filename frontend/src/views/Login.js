@@ -142,11 +142,10 @@ const Login = () => {
                                                     variant="primary"
                                                     type="button"
                                                     onClick={() => {
-                                                        //convert email to lowercase
-                                                        const lemail = email.toLowerCase();
+                                                        //email lowercased on the backend
 
                                                         login({
-                                                            lemail,
+                                                            email,
                                                             password,
                                                         }).then(
                                                             () => {
