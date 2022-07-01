@@ -3,7 +3,6 @@ import Container from "react-bootstrap/Container";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import { navigate } from '@reach/router';
 import Sidebar from "../components/Sidebar";
@@ -43,10 +42,19 @@ const ContactUs = () => {
                         <Card>
                             <Container style={{padding: '20px'}}>
                                 <Container style={{textAlign: 'left'}}>
+                                    <iframe
+                                        title="feedbackform"
+                                        src="https://docs.google.com/forms/d/e/1FAIpQLSeubG98EZ-YlF14mg44-4xI9sGPlJkwUJFko5Wy8vSUqETdeg/viewform?embedded=true"
+                                        width="100%"
+                                        height="960"
+                                        frameborder="0"
+                                        marginheight="0"
+                                        marginwidth="0"
+                                    >
+                                        Loading…
+                                    </iframe>
                                     <Alert variant="info">
-                                        We are working on creating a feedback form to make it
-                                        easier for you to give us feedback. If you need to give 
-                                        immediate feedback, please go to
+                                        If you would like to contact us directly, please go to
                                         the <a href="/contact#info">Contact Info Tab</a> to
                                         get information on how to reach us.
                                     </Alert>

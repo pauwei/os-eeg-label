@@ -12,23 +12,51 @@ import { navigate } from '@reach/router';
 import Sidebar from "../components/Sidebar";
 import Divider from "../components/Divider";
 
-//Importing example images - currently pulling from word doc
-// import brain1002001 from "../images/1002001.jpg";
-// import brain6003002 from "../images/6003002.jpg";
-// import eyevert5014001 from "../images/5014001.jpg";
-// import eyevert1001001 from "../images/1001001.jpg";
-// import eyehorz1005006 from "../images/1005006.jpg";
-// import eyehorz6004002 from "../images/6004002.jpg";
-// import muscle2012010 from "../images/2012010.jpg";
-// import muscle5013014 from "../images/5013014.jpg";
-// import heart5013001 from "../images/5013001.jpg";
-// import heart3007012 from "../images/3007012.jpg";
-// import linno1005059 from "../images/1005059.jpg";
-// import linno1008026 from "../images/1008026.jpg";
-// import channo2012033 from "../images/2012033.jpg";
-// import channo6003033 from "../images/6003033.jpg";
-// import other5013007 from "../images/5013007.jpg";
-// import other5012016 from "../images/5012016.jpg";
+//Importing images for brain
+import brainscalptopography1 from "../images/brainscalptopography1.jpg";
+import brainpsd1 from "../images/brainpsd1.png";
+import brainpsd2 from "../images/brainpsd2.jpg";
+import braindipole1 from "../images/braindipole1.jpg";
+import brainppc1 from "../images/brainppc1.jpg";
+import brainexample1 from "../images/brainexample1.jpg";
+import brainexample2 from "../images/brainexample2.jpg";
+import brainexample3 from "../images/brainexample3.jpg";
+
+//Importing images for muscle
+import musclescalptopography1 from "../images/musclescalptopography1.jpg";
+import muscletimeseries1 from "../images/muscletimeseries1.png";
+import muscledipole1 from "../images/muscledipole1.jpg";
+import musclepsd1 from "../images/musclepsd1.jpg";
+import muscleppc1 from "../images/muscleppc1.jpg";
+import muscleppc2 from "../images/muscleppc2.jpg";
+import muscleexample1 from "../images/muscleexample1.jpg";
+import muscleexample2 from "../images/muscleexample2.jpg";
+import muscleexample3 from "../images/muscleexample3.jpg";
+
+//Importing images for eye
+import eyeppc1 from "../images/eyeppc1.jpg";
+import eyeexample1 from "../images/eyeexample1.jpg";
+import eyeexample2 from "../images/eyeexample2.jpg";
+import eyeexample3 from "../images/eyeexample3.jpg";
+import eyeexample4 from "../images/eyeexample4.jpg";
+import eyeexample5 from "../images/eyeexample5.jpg";
+
+//Importing images for heart
+import heartexample1 from "../images/heartexample1.jpg";
+import heartexample2 from "../images/heartexample2.jpg";
+import heartexample3 from "../images/heartexample3.jpg";
+
+//Importing images for line noise
+import linenoiseexample1 from "../images/linenoiseexample1.jpg";
+import linenoiseexample2 from "../images/linenoiseexample2.jpg";
+
+//Importing images for channel noise
+import channelnoiseexample1 from "../images/channelnoiseexample1.jpg";
+import channelnoiseexample2 from "../images/channelnoiseexample2.jpg";
+
+//Importing images for other noise
+import otherexample1 from "../images/otherexample1.jpg";
+import otherexample2 from "../images/otherexample2.jpg";
 
 //Importing practice images
 import step1 from "../images/howtolabel_01.jpg";
@@ -116,13 +144,15 @@ const TutorialPage = () => {
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header>Overview</Accordion.Header>
                                         <Accordion.Body style={{textAlign: 'left'}}>
-                                            ICs of EEG data can be classified into 7 different categories: 
-                                            Brain, Muscle, Eye, Heart, Line Noise, Channel Noise and Other. 
-                                            Each IC includes unique characteristics, and these characteristics 
-                                            can be viewed through looking at various features of the component. 
-                                            Therefore, the classifications of ICs can be predicted by recognizing 
-                                            characteristics from the features. The following sections are to 
-                                            give brief descriptions of characteristics each classification pertains.  
+                                            ICs of EEG data can be classified into different categories with the following being previously 
+                                            used for classification: Brain, Muscle, Eye, Heart, Line Noise, Channel Noise and Other. Each 
+                                            IC includes unique characteristics, and these characteristics can be viewed by looking at various 
+                                            features of the components. Therefore, the classifications of ICs can be based on recognizing 
+                                            characteristics from these features. However, this classification could be challenging since ICs 
+                                            might not be fully separated sometimes and contain characteristics of more than one class. Hence, 
+                                            when labeling ICs, users need to fully understand the characteristics of various classes and choose 
+                                            one or multiple classifications for each IC component. The following sections are provided to give 
+                                            brief descriptions of the characteristics of each classification pertains.  
                                         </Accordion.Body>
                                     </Accordion.Item>
                                     <Accordion.Item eventKey="1">
@@ -135,7 +165,24 @@ const TutorialPage = () => {
                                             <br/><br/>
                                             <ul>
                                                 <li>
-                                                    <b>Power spectral density (PSD)</b>: describes the power of a signal as a function of frequency
+                                                    <b>Scalp topography</b>: illustrates the projection of electrical source activity onto the scalp electrode.
+                                                </li>
+                                                <li>
+                                                    <b>Time series</b> (aka activation, time course): change in voltage of the IC over time
+                                                </li>
+                                                <li>
+                                                    <b>Continuous data</b> (aka epoched activity): the large colored image represents a raster 
+                                                    image formed by a collection of single-trial data epochs with IC activation coded by color. 
+                                                    Below this image is the standard trial average activation ERP. However, because the experimental 
+                                                    paradigm is not known, data has been epoched in 2s windows and not to any experimental event; 
+                                                    therefore, the ERP is not very informative and will not be discussed further in this tutorial.  
+                                                </li>
+                                                <li>
+                                                    <b>Dipole</b>: a model of electric potentials generated by synchronous populations of neurons 
+                                                    composed of two equal and opposite charges separated by a small distance.  
+                                                </li>
+                                                <li>
+                                                    <b>Power spectral density (PSD)</b>: describes the power of a signal (i.e., the squared amplitude) as a function of its frequency.
                                                 </li>
                                                 <li>
                                                     <b>Scalp topography</b>: illustrates the projection of electrical source activity onto the scalp electrode.
@@ -144,10 +191,11 @@ const TutorialPage = () => {
                                                     <b>IC activiation</b>: change in voltage of the IC over time (i.e., IC time series)
                                                 </li>
                                                 <li>
-                                                    <b>Power-power coupling (PPC)</b>: provides temporal information about spectral power by calculating spectral 
-                                                    covariance. PPC occurs when the amplitude of oscillatory activity in different frequencies covaries over time. 
-                                                    Spectral covariance can be illustrated by a square matrix plot called a comodulogram (or comodugram), where red 
-                                                    indicates positive coupling (correlation) and blue indicates negative coupling (anti-correlation).
+                                                    <b>Power-power coupling (PPC)</b>: provides temporal information about spectral power 
+                                                    by calculating spectral covariance. PPC occurs when the amplitude of oscillatory activity 
+                                                    in different frequencies covaries over time. Spectral covariance can be illustrated by a 
+                                                    square matrix plot called a comodulogram (or comodugram), where red indicates positive coupling 
+                                                    (correlation) and blue indicates negative coupling (anti-correlation).
                                                 </li>
                                             </ul>
                                         </Accordion.Body>
@@ -157,62 +205,62 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                            Brain ICs contain any brain activities. These components are believed to be 
-                                            generated from local synchronous activity in one cortical patch (an area of 
-                                            cortex that comprises several thousands of cortical neurons) or sometimes two 
-                                            patches if they are well-connected. Due to the location and anatomical characteristics 
-                                            of these small cortical patches, the brain components present dipolar projections 
-                                            onto the scalp topography. The resultant scalp topography depends on the 
-                                            location and orientation of the field potentials generated by synchronously 
-                                            active neurons.  
+                                            Brain ICs contain any kind of brain activity. These components are believed to be 
+                                            generated from local synchronous activity in one cortical patch (an area of cortex 
+                                            that comprises several thousands of cortical neurons) or sometimes more patches if 
+                                            they are well-connected. Due to the location and anatomical characteristics of these 
+                                            small cortical patches, the brain components present dipolar projections onto the scalp 
+                                            topography. The resultant scalp topography depends on the location and orientation 
+                                            of the field potentials generated by synchronously active neurons.  
                                             
                                             <br/><br/>
-                                            The brain signals that usually get captured through EEG tend to occur at lower 
-                                            frequencies: between 5 to 30Hz where 10 Hz (alpha wave) is the most often. The 
-                                            power spectral density of brain components has a 1/f profile, with the power 
-                                            being greatest at the lowest frequencies and decreasing rapidly as frequency 
-                                            increases. An additional feature to pay attention to is the cross-frequency 
-                                            power-power coupling (PPC) plot. Brain components show cross-frequency PPC (red) 
-                                            at around 5 Hz and 30 Hz (located at the middle of the plot), near the 
-                                            positive-correlation diagonal line. Also, these components present anti-correlation 
-                                            on the other corners (top left and bottom right) of the plot, which is depicted 
-                                            as blue.   
+                                            The brain signals that usually get captured through EEG tend to occur most prominently at 
+                                            lower frequencies: between 1 to 30Hz (even though higher frequencies also reflect functional 
+                                            brain activity) where 10 Hz (alpha wave) is the most often observed peak in the power 
+                                            spectrum. The power spectral density of brain components has a 1/f profile, with the 
+                                            power being greatest at the lowest frequencies and decreasing rapidly as frequency 
+                                            increases. An additional feature to pay attention to is the cross-frequency power-power 
+                                            coupling (PPC) plot. Brain components show cross-frequency PPC (red) in the lower frequency 
+                                            ranges (&lt;30Hz in the lower left quadrant and extending up to the middle of the plot), near 
+                                            the positive-correlation diagonal line. Also, these components present anti-correlation on 
+                                            the other corners (top left and bottom right) of the plot, which is depicted as blue.   
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>Activity Power Spectrum</b></li>
+                                                <li><b>Scalp topography</b></li>
                                                 <ul>
-                                                    <li>Inverse relationship (1/f)</li>
-                                                    <li>Peak between 5 to 30 Hz (10 Hz the most common)</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/wXLuP_ox1rJ50X?quality=480" alt="brain activity power spectrum" width="40%"/>
-                                                </ul>
-                                                <br/>
-                                                <li><b>Topograhy</b></li>
-                                                <ul>
-                                                    <li>Smoothly varying dipolar</li>
+                                                    <li>Dependent on location and dipole moment (radial, oblique, or tangential) dipolar topography.</li>
                                                     <li>Diffuse</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/7I4MaceFfjlRMH?quality=480" alt="brain topography" width="40%"/>
+                                                    <img src={brainscalptopography1} alt="brain scalp topography" width="40%"/>
                                                 </ul>
                                                 <br/>
-                                                <li><b>IC activity</b></li>
+                                                <li><b>Time series</b></li>
                                                 <ul>
                                                     <li>Visible ERP with epoched data</li>
-                                                    <li>May see alpha oscillatory activity in time series data</li>
-                                                    <li>Epoched activity should be consistently active across trials</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/0tkRISX0e-KWl9?quality=640" alt="brain ic activity" width="60%"/>
+                                                    <li>May see low frequency (theta to alpha) oscillatory activity in time series data</li>
+                                                </ul>
+                                                <br/>
+                                                <li><b>Continuous data</b></li>
+                                                <br/>
+                                                <li><b>Power Spectral Density (PSD)</b></li>
+                                                <ul>
+                                                    <li>Inverse relationship (1/f)</li>
+                                                    <li>Peak between 1 to 30 Hz often with high theta power between 3 to 7 Hz in anterior components and 10 Hz power peaks for central and more posterior components</li>
+                                                    <img src={brainpsd1} alt="Brain IC Activity" width="40%"/>
+                                                    <img src={brainpsd2} alt="Brain IC Activity with time series" width="40%"/>
                                                 </ul>
                                                 <br/>
                                                 <li><b>Dipole</b></li>
                                                 <ul>
-                                                    <li>Located in the brain area</li>
+                                                    <li>Located in the grey matter of the head model</li>
                                                     <li>Residual variance &lt;15%</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/NYInU37w3ROtkg?quality=480" alt="brain dipole" width="40%"/>
+                                                    <img src={braindipole1} alt="brain dipole" width="40%"/>
                                                 </ul>
                                                 <br/>
                                                 <li><b>Cross-frequency power-power coupling (PPC)</b></li>
                                                 <ul>
-                                                    <li>Higher cross-frequency PPC between 5 Hz and 30 Hz</li>
+                                                    <li>Higher cross-frequency PPC between 1 Hz and 30 Hz</li>
                                                     <ul>
                                                         <li>Near the positive-correlation diagonal line</li>
                                                     </ul>
@@ -220,7 +268,7 @@ const TutorialPage = () => {
                                                     <ul>
                                                         <li>Depicted as blue on the top left and bottom right corners of the plot</li>
                                                     </ul>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/NxkScUP4Sr7IXA?quality=480" alt="brain cross-frequency ppc " />
+                                                    <img src={brainppc1} alt="brain cross-frequency ppc" width="40%"/>
                                                 </ul>
                                             </ul>
 
@@ -228,32 +276,33 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/9JSin45CHYfsDq?quality=640" alt="Brain example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={brainexample1} alt="Brain example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic' }}>Example #1 of Brain Data </figcaption>
                                                 <p>
-                                                    This component is an example of a Brain IC. Clear clues are given in the topography, dipole and power spectrum. 
-                                                    The scalp topography contains a smooth dipolar projection. This projection is clearly located inside the brain, 
-                                                    which could be identified by looking at the dipole position. Although the power spectrum contains a small peak at 
-                                                    60 Hz, which means a little bit of Line Noise could be mixed in (refer to Line Noise section), a high peak is 
-                                                    located at around 10 Hz. These clues to Brain IC could also be supported by the cross-frequency PPC plot, where 
-                                                    a higher correlation is located at around 9 to 10 Hz.
+                                                    This component is an example of a Brain IC as indicated by several features including the topography, dipole location 
+                                                    and power spectrum. The scalp topography contains a smooth dipolar projection (in this case a tangential dipole) pointing 
+                                                    towards a dipole located inside the brain (see dipole position). Although the power spectrum contains a small peak at 60 Hz, 
+                                                    which means the IC contains Line Noise (refer to Line Noise section), a strong peak in power is located at around 10 Hz. These 
+                                                    features indicate a Brain IC, which is further supported by the cross-frequency PPC plot, with a high correlation located in the 
+                                                    lower frequency range (lower left corner) at around 9 to 10 Hz.
                                                 </p>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/Je_nZFQH93krXb?quality=640" alt="Brain example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={brainexample2} alt="Brain example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Brain Data </figcaption>
                                                 <p>
-                                                    Same as the example above, the topography, dipole, power spectrum and cross-frequency PPC of this component clearly 
-                                                    present characteristics of a Brain IC. The high peak shown in the power spectrum and cross-frequency PPC occurred at 
-                                                    a lower frequency than in the previous example, but the frequency value is still within the range of 5 to 30 Hz.
+                                                    Same as the example above, the topography, dipole, power spectrum and cross-frequency PPC of this component present characteristics 
+                                                    of a Brain IC. The high peak shown in the power spectrum and cross-frequency PPC occurred at a lower frequency than in the previous 
+                                                    example, but the strongest correlations can be seen within the range of 1 to 20 Hz. 
                                                 </p>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/QFVDn30vOzkkus?quality=640" alt="Brain example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={brainexample3} alt="Brain example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #3 of Brain Data </figcaption>
                                                 <p>
-                                                    The figure is also an example of a Brain component originating from a different location than the previous examples. 
-                                                    While the scalp topography, dipole position and power spectrum are showing characteristics of a Brain component, 
-                                                    the cross-frequency PPC is not showing any signs of a brain component. However, a component can still be considered a 
-                                                    certain type even with an absence of one or two features as long as other features strongly direct to a certain classification.
+                                                    The figure is an example of a radially projecting Brain component originating from a more anterior location compared to the previous 
+                                                    examples. While the scalp topography and dipole position show characteristics of a Brain component, the power spectrum (very pronounced 
+                                                    low-frequency peak and an additional peak/plateau around 20 Hz) and the cross-frequency PPC (no strong cross correlation in the lower left 
+                                                    quadrant) show mixed featured that are not necessarily indicative of a brain component. This could be indicative of a Brain component with 
+                                                    additional features from a non-brain component.
                                                 </p>
                                                 <br/>
                                             </Container>
@@ -264,46 +313,45 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                                Muscle components represent the electrical activities of muscle tissues, and the 
-                                                recordings of these muscle activities are called electromyography (EMG). Muscle 
-                                                components are known to contain a broadband activity of high frequency (equal to 
-                                                or above 20 Hz) due to combination of many motor unit (MU) action potentials (MUAP). 
-                                                Since these MUAPs do not synchronize, the EMG powers are usually more spread out 
-                                                than those of other signals. The components could be viewed as dipolar; however, 
-                                                the dipoles will most often be located outside the brain, near the skull. The 
-                                                dipolar projection on the scalp topography also will be highly concentrated and 
-                                                located near the skull (could be called as being “shallow”). Additionally, muscle 
-                                                components present parallel lines (parallel to the positive correlation line) at 
-                                                higher frequency levels on cross-frequency PPC plots.
+                                            Muscle components represent the electrical activities of muscle tissues, and the recordings of these muscle activities are called electromyography (EMG). 
+                                            Muscle components are known to contain broadband activity with power dominant in the 50-150 Hz range due to combination of many motor unit (MU) action 
+                                            potentials (MUAP). The amplitude of muscle activity can range between 0-10 mV (peak-to-peak). Since these MUAPs do not synchronize, the EMG powers are 
+                                            usually spread out over a wider frequency range than those of other signals. The components could be viewed as dipolar; however, the dipoles will most 
+                                            often be located outside the brain, near the skull. Dependent on the muscle location (neck or skull), the dipolar projection on the scalp topography 
+                                            will be concentrated and located near the skull. Additionally, muscle components may present parallel lines (parallel to the positive correlation line) 
+                                            at higher frequency levels on cross-frequency PPC plots.
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>Activity Power Spectrum</b></li>
-                                                <ul>
-                                                    <li>Power concentration in frequencies equal to or above 20 Hz</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/JMhqdxsbSZg0Zs?quality=400" alt="muscle activity power spectrum" width="40%" />
-                                                </ul>
-                                                <br/>
                                                 <li><b>Scalp Topography</b></li>
                                                 <ul>
                                                     <li>Could be dipolar located near the skull</li>
                                                     <li>more localized/concentrated topography</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/u90H9VaEBhJuTV?quality=400" alt="muscle scalp topography" width="40%" />
+                                                    <img src={musclescalptopography1} alt="muscle scalp topography" width="40%" />
+                                                </ul>
+                                                <br/>
+                                                <li><b>Time series</b></li>
+                                                <ul>
+                                                    <li>May see bursts of high amplitude, high frequency activity</li>
+                                                    <img src={muscletimeseries1} alt="muscle time series" width="40%" />
+                                                </ul>
+                                                <br/>
+                                                <li><b>Continuous data</b></li>
+                                                <ul>
+                                                    <li>Epoched activity may be inconsistent across trials depending on task(s)</li>
                                                 </ul>
                                                 <br/>
                                                 <li><b>Dipole</b></li>
                                                 <ul>
                                                     <li>May be located near skull or scalp</li>
                                                     <li>Typically has residual variance &gt;15%</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/6BzLbFgMk60JLt?quality=400" alt="muscle dipole" width="40%" />
+                                                    <img src={muscledipole1} alt="muscle dipole" width="40%" />
                                                 </ul>
-                                                <br/>
-                                                <li><b>IC activity</b></li>
+                                                <li><b>PSD</b></li>
                                                 <ul>
-                                                    <li>High amplitude, high frequency time series activity</li>
-                                                    <li>Epoched activity may be inconsistent across trials depending on task(s)</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/OI0b7MViPvriuP?quality=480" alt="muscle ic activity" width="60%" />
+                                                    <li>Power concentration in frequencies equal to or above 20 Hz</li>
+                                                    <img src={musclepsd1} alt="muscle activity power spectrum" width="40%" />
                                                 </ul>
                                                 <br/>
                                                 <li><b>Cross-frequency PPC</b></li>
@@ -311,8 +359,8 @@ const TutorialPage = () => {
                                                     <li>Broadband correlation (i.e. power coupling) in frequencies &lt;20 Hz</li>
                                                     <li>Could see parallel lines at higher frequency levels</li>
                                                     <div style={{display: 'flex', width: '100%'}}>
-                                                        <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/ELNKrHWUOOpQkc?quality=640" alt="muslce cross-frequency ppc" width="40%"/>
-                                                        <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/tNQoJ2c_D7nzeu?quality=800" alt="muscle parallel lines" width="60%" />
+                                                        <img src={muscleppc1} alt="muslce cross-frequency ppc" width="40%"/>
+                                                        <img src={muscleppc2} alt="muscle parallel lines" width="60%" />
                                                     </div>
                                                 </ul>
                                             </ul>
@@ -321,10 +369,10 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/dcelveScxhEYl7?quality=640" alt="Muscle example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={muscleexample1} alt="Muscle example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Muscle Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/5eAdJehJwDpIxh?quality=640" alt="Muscle example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={muscleexample2} alt="Muscle example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Muscle Data </figcaption>
                                                 <p>
                                                     Example #1 and #2 represent Muscle ICs. The topographies contain highly concentrated and dipolar projections. The 
@@ -333,7 +381,7 @@ const TutorialPage = () => {
                                                     value of 10 Hz, especially past 20 Hz.
                                                 </p>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/xaW1x_TNaAZYD-?quality=480" alt="Muscle example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={muscleexample3} alt="Muscle example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #3 of Muscle Data </figcaption>
                                                 <p>
                                                     This example could be confusing or a little challenging to label due to its scalp topography and dipole location. 
@@ -351,29 +399,22 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                                Eye components are derived from eye movements. When the eye interacts with light, 
-                                                the cells in the retina trigger nerve impulses and the generated electrical field 
-                                                can be modeled as an equivalent current dipole (ECD). The Eye components can be 
-                                                divided further depending on the eye movements, horizontal, vertical, rotation, or 
-                                                blinking. Although eye components generally present a power concentration at around 
-                                                or below 5 Hz, the components could present different characteristics with different 
-                                                eye movements. For instance, components associated with vertical eye movements show 
-                                                ECDs near the eye area (either positive or negative on both eyes). In the time series 
-                                                plot, the signal will indicate regular spikes due to blinking. On the other hand, 
-                                                components with horizontal eye movements will present topography in which ECD is 
-                                                located between the two eyes. Therefore, one eye area will be positive or negative 
-                                                and the other eye will be the opposite. These horizontal eye movement components also 
-                                                will indicate time series plots which signal transitions to various values. Additionally, 
-                                                the Eye components show block(s) of high cross-frequency PPC near each end of the 
-                                                positive correlation line on the cross-frequency PPC plot. 
+                                            Due to the negatively charged retina and a less negatively charged cornea, the two eyes can be modeled as an equivalent 
+                                            current dipole (ECD). In addition to movement of the eyes inducing electrical fields that are recorded in the EEG, the 
+                                            muscle activity that moves the eyes and closes the eye lids contribute electrical activity that is recorded with EEG. 
+                                            The Eye components can be divided further depending on the eye movements, horizontal, vertical, rotation, or blinking. 
+                                            Although eye components generally present a power concentration at around or below 5 Hz, the components could present 
+                                            different characteristics with different eye movements. For instance, components associated with vertical eye movements 
+                                            show ECDs near the eye area and the time series plots will indicate regular high-amplitude activity due to blinking. 
+                                            Components with horizontal eye movements will present topographies with lateralized positive and negative poles. These 
+                                            horizontal eye movement components also will indicate time series plots which signal transitions to various values often 
+                                            with high velocity indicating saccadic eye movements. Eye components often contain more than one dimension of eye movements 
+                                            (blink and horizontal movements and / or muscle activity of eye movement). Additionally, the Eye components show block(s) of 
+                                            high cross-frequency PPC near each end of the positive correlation line on the cross-frequency PPC plot.   
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>PSD</b></li>
-                                                <ul>
-                                                    <li>Peak at or below 5 Hz</li>
-                                                </ul>
                                                 <li><b>Scalp Topography</b></li>
                                                 <ul>
                                                     <li>Higher concentration near the eye area</li>
@@ -382,18 +423,26 @@ const TutorialPage = () => {
                                                         <li>Horizontal eye movements: Two eyes could be opposite of each other (one positive, one negative)</li>
                                                     </ul>
                                                 </ul>
+                                                <li><b>IC Time Series</b></li>
+                                                <ul>
+                                                    <li>Regular peaks that represent blinks (for vertical eye movements)</li>
+                                                </ul>
+                                                <li><b>Continuous data</b></li>
+                                                <ul>
+                                                    <li>Changes in IC RMS uV over time across most trials</li>
+                                                </ul>
                                                 <li><b>Dipole</b></li>
                                                 <ul>
                                                     <li>Dipoles located at eye areas</li>
                                                 </ul>
-                                                <li><b>Time Series</b></li>
+                                                <li><b>PSD</b></li>
                                                 <ul>
-                                                    <li>Regular peaks that represent blinks (for vertical eye movements)</li>
+                                                    <li>Peak at or below 5 Hz</li>
                                                 </ul>
                                                 <li><b>Cross-frequency PPC</b></li>
                                                 <ul>
                                                     <li>Block(s) of high correlation near the edges of the positive-correlation line (top right and/or bottom left)</li>
-                                                    <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/2_pZYQOcq8M4CR?quality=1920" alt="eye cross-frequency ppc" width="90%" />
+                                                    <img src={eyeppc1} alt="eye cross-frequency ppc" width="90%" />
                                                 </ul>
                                             </ul>
 
@@ -401,34 +450,39 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/QIUaeTB9Y2Wudk?quality=960" alt="Eye Vertical example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
-                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Eye Vertical Data </figcaption>
+                                                <img src={eyeexample1} alt="Eye Blinks example" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example of Eye Blinks</figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/j0g4RudAAIjRMy?quality=640" alt="Eye Vertical example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
-                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Eye Vertical Data </figcaption>
+                                                <img src={eyeexample2} alt="Eye Vertical example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Eye Vertical Data</figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/1zoCr_B1zKcIih?quality=640" alt="Eye Vertical example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
-                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Eye Vertical Data </figcaption>
+                                                <img src={eyeexample3} alt="Eye Vertical example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Eye Vertical Data</figcaption>
                                                 <p>
-                                                    The three examples above are vertical Eye components. Both components show higher concentrated projections near the eye areas, 
-                                                    and the projections are positive for both eyes. More detailed projection locations can be viewed by looking at the position of 
-                                                    dipoles, which are located near the eyes. High powers and correlations occurring below 5 Hz can be seen on the power spectrum 
-                                                    and cross-frequency PPC plots as well. Additionally, frequent high peaks in time series plots refer to eye blinks.
+                                                    This component has a mixture of eye features (dipole location near eye, frontal scalp topography, high spectral 
+                                                    power &lt;8 Hz) and muscle activity (plateau of PSD starting at 20 Hz).
+                                                </p>
+                                                <p>
+                                                    The two examples above are Eye components. Both components show higher concentrated projections near the eye areas, 
+                                                    and the projections are positive for both eyes. More detailed projection locations can be viewed by looking at the 
+                                                    position of dipoles, which are located near the eyes. High powers and correlations occurring below 5 Hz can be seen 
+                                                    on the power spectrum and cross-frequency PPC plots as well. Additionally, frequent high peaks in time series plots 
+                                                    refer to eye blinks.
                                                 </p>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/3vtJd0WAkeJifM?quality=640" alt="Eye Horizontal example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={eyeexample4} alt="Eye Horizontal example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Eye Horizontal Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/_HH3PRB5Ic7aGa?quality=640" alt="Eye Horizontal example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={eyeexample5} alt="Eye Horizontal example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Eye Horizontal Data </figcaption>
-                                                <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/EK1qCsqvx-NzAX?quality=640" alt="Eye Horizontal example 3" width="100%" style={{border: '2px solid #D3D3D3'}} />
-                                                <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #3 of Eye Horizontal Data </figcaption>
                                                 <p>
-                                                    The three examples above are horizontal Eye components. The scalp topographies also show higher concentrations near the eyes 
-                                                    like the previous Eye IC examples, but the projections are dipolar (one is positive, and the other is negative). Therefore, 
-                                                    the dipoles are located near the eyes and the power spectrum shows higher power before 5 Hz. The higher power can be seen 
-                                                    on the cross-frequency PPC where the plots contain higher correlations before about 5 to 10 Hz.
+                                                    This component has a mixture of horizontal movement and blink-related eye activity.
+                                                </p>
+                                                <p>
+                                                    The next two examples are primarily horizontal Eye components. The scalp topographies are concentrated near the eyes 
+                                                    like the previous Eye IC examples, but the projections are dipolar (one is positive, and the other is negative). The 
+                                                    dipoles are located near the eyes and the power spectrum shows high power below 5 Hz. The high power can be seen on the 
+                                                    cross-frequency PPC where the plots contain large correlations between 2-15 Hz.
                                                 </p>
                                                 <br/>
                                             </Container>
@@ -439,58 +493,65 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                                Heart components contain electrical signals from the heart, which recording is called electrocardiography (ECG/EKG). 
-                                                The heart ICs can be easily determined by recognizing the QRS complex pattern on the Component Time Series plot. 
-                                                The power of these complexes will also be placed at around 1Hz. Additionally, the heart is located far from the 
-                                                EEG recording site. Therefore, the dipoles will be placed further away from the brain, and the topography will 
-                                                represent a linear gradient. In rare occasions, the topography could also represent localized projections when 
-                                                an electrode is placed near the superficial vein or artery.
-
+                                                Heart components contain electrical signals from the heart, which recording is called electrocardiography (ECG/EKG). The heart 
+                                                ICs can sometimes be easily determined by recognizing a clear QRS complex in the Component Time Series plot. However, often, only 
+                                                the R-peak might be observable in the time series plot. The power of Heart ICs is most pronounced in the low frequency range 
+                                                around 1Hz. Additionally, the heart is located far from the EEG recording site. Therefore, the dipoles will be placed further 
+                                                away from the brain, and the topography will represent a linear gradient. In rare occasions, the topography could also represent 
+                                                localized projections when an electrode is placed near the superficial vein or artery.  
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>Component Time Series</b></li>
+                                                <li><b>Scalp Topography</b></li>
+                                                <ul>
+                                                    <li>Linear gradient</li>
+                                                    <li>(Rarely) localized/concentrated projections</li>
+                                                </ul>
+                                                <li><b>IC time Series</b></li>
                                                 <ul>
                                                     <li>QRS complexes</li>
                                                 </ul>
-                                                <li><b>Power Spectral Density</b></li>
+                                                <li><b>Continuous data</b></li>
                                                 <ul>
-                                                    <li>Peak at only around 1 Hz</li>
+                                                    <li>Changes in IC RMS uV over time across most trials</li>
                                                 </ul>
                                                 <li><b>Dipole</b></li>
                                                 <ul>
                                                     <li>Placed far away from the brain</li>
                                                 </ul>
-                                                <li><b>Topography</b></li>
+                                                <li><b>PSD</b></li>
                                                 <ul>
-                                                    <li>Linear gradient</li>
-                                                    <li>(Rarely) localized/concentrated projections</li>
+                                                    <li>Peak at only around 1 Hz</li>
                                                 </ul>
+                                                <li><b>Cross-frequency PPC</b></li>
+                                                <ul>
+                                                    <li>No clear pattern- might demonstrate patterns of other classes that are mixed in</li>
+                                                </ul>
+                                                
                                             </ul>
 
                                             <br/>
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/WHCDjLbDCZt85t?quality=640" alt="Heart example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={heartexample1} alt="Heart example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Heart Data </figcaption>
                                                 <p>
-                                                    This component is not the best example of a Heart component. The component is clearly a heart component 
-                                                    since it shows distinct QRS complexes on the time series plot and lower location of the dipole. However, 
-                                                    the component is most likely mixed with other types of signals. Firstly, the scalp topography does not 
-                                                    show a linear gradient. Secondly, the power spectrum contains multiple peaks. For instance, the component 
-                                                    seems to be mixed with a Line Noise component (refer to Line Noise section) due to a peak at 50 Hz.
+                                                    This component is primarily a heart component since it shows distinct QRS complexes on the time series plot and 
+                                                    lower location of the dipole (in or near the neck). The component is most likely mixed with other types of signals 
+                                                    as indicated by the power spectrum which contains multiple peaks (e.g. peak at 50 Hz; refer to Line Noise section).
                                                 </p>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/CXNikXhQSVCJwi?quality=640" alt="Heart example 2" width="90%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={heartexample2} alt="Heart example 2" width="90%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Heart Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/fYyOFFTn8Mf4kT?quality=640" alt="Heart example 3" width="90%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={heartexample3} alt="Heart example 3" width="90%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #3 of Heart Data </figcaption>
                                                 <p>
-                                                    The two ICs are also examples of heart components because of the gradient projections on the topographies, 
-                                                    QRS complexes in the time series plots, dipole locations placed far away from the brain and peaks at around 
-                                                    1Hz. Nonetheless, same as the previous example, the component is also mixed with some other components
+                                                    The two ICs are also examples of heart components because of the gradient projections on the topographies, QRS 
+                                                    complexes in the time series plots, dipole locations placed far away from the brain and peaks at around 1-4 Hz, 
+                                                    as well as some additional low frequency peaks representing other aspects of the ECG. Nonetheless, same as the 
+                                                    previous example, the component is also mixed with some other components.
                                                 </p>
                                                 <br/>
                                             </Container>
@@ -501,19 +562,38 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                            Line Noise components include any artifacts caused by any electrical systems near 
-                                            the EEG system during recordings. Line Noise components show a strong level of power 
-                                            at around 50 Hz or 60 Hz, causing a high peak at one of those frequencies in PSD. 
-                                            When these components’ interferences are spatially stationary across the EEG system, 
-                                            the Line Noise components are easy to discern. However, in other cases, the Line Noise 
-                                            components are usually mixed with other types of components.
+                                            Line Noise components include any artifacts caused by any electrical systems near the EEG system during recordings. 
+                                            Line Noise components show a strong level of power at around 50 Hz or 60 Hz, causing a high peak at one of those 
+                                            frequencies in PSD. When these components’ interferences are spatially stationary across the EEG system, the Line 
+                                            Noise components are easy to discern. However, in other cases, the Line Noise components are usually mixed with 
+                                            other types of components.  
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>Power Spectral Density</b></li>
+                                                <li><b>Scalp Topography</b></li>
+                                                <ul>
+                                                    <li>No typical topography, can be distributed across the entire scalp, localized to single electrodes or mixtures thereof</li>
+                                                </ul>
+                                                <li><b>Time series</b></li>
+                                                <ul>
+                                                    <li>No specific characteristics other than a high frequency (50 Hz or 60 Hz) activity</li>
+                                                </ul>
+                                                <li><b>Continuous data</b></li>
+                                                <ul>
+                                                    <li>Near zero RMS uV across all trials</li>
+                                                </ul>
+                                                <li><b>Dipole</b></li>
+                                                <ul>
+                                                    <li>When topography is multipolar, high residual variance without consistent location</li>
+                                                </ul>
+                                                <li><b>PSD</b></li>
                                                 <ul>
                                                     <li>High peak at 50 Hz or 60 Hz</li>
+                                                </ul>
+                                                <li><b>Cross-frequency PPC</b></li>
+                                                <ul>
+                                                    <li>May see no correlation at 50 or 60 Hz</li>
                                                 </ul>
                                             </ul>
 
@@ -521,14 +601,14 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/AFFKUYsWfT-pqs?quality=640" alt="Line Noise example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={linenoiseexample1} alt="Line Noise example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Line Noise Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/AFFKUYsWfT-pqs?quality=640" alt="Line Noise example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={linenoiseexample2} alt="Line Noise example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Line Noise Data </figcaption>
                                                 <p>
-                                                    These components are clearly Line Noise components because of drastic peaks at 60 Hz. Also, the 
-                                                    other features are not necessarily representations of other classifications.
+                                                    These components are clearly Line Noise components because of drastic peaks at 60 Hz. The PPC correlation 
+                                                    is zero at 60 Hz. Also, the other features are not necessarily representations of other classifications.
                                                 </p>
                                                 <br/>
                                             </Container>
@@ -539,28 +619,40 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                            Channel Noise components are any recorded artifacts caused by physical interactions of 
-                                            the EEG channels. These components represent a highly concentrated projection located 
-                                            at a specific channel on each topography. Due to this feature, the Channel Noise 
-                                            component could look similar to Muscle components. However, while the Power Spectral 
-                                            Density (PSD) of Muscle components contain high peak above 20 Hz, the PSD of Channel 
-                                            Noise components will rather have a 1/f spectrum. Also, either large, consistent or 
-                                            both artifacts can be seen in the component activations.
+                                            Channel Noise components are any recorded artifacts introduced by the electrodes (e.g. movement at 
+                                            the electrolyte-skin interface). These components represent a highly concentrated projection located 
+                                            at a specific channel on each topography. Due to this feature, the Channel Noise component could 
+                                            look similar to Muscle components. However, while the Power Spectral Density (PSD) of Muscle 
+                                            components contain high peak above 20 Hz, the PSD of Channel Noise components will rather have 
+                                            a 1/f spectrum. Also, either large, consistent or both artifacts can be seen in the component 
+                                            activations.
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
-                                                <li><b>Topography</b></li>
+                                                <li><b>Scalp topography</b></li>
                                                 <ul>
                                                     <li>Extremely concentrated projection at a specific channel location</li>
                                                 </ul>
-                                                <li><b>Power Spectral Density</b></li>
+                                                <li><b>Time series</b></li>
+                                                <ul>
+                                                    <li>Large and/or consistent artifacts</li>
+                                                </ul>
+                                                <li><b>Continuous data</b></li>
+                                                <ul>
+                                                    <li>May have only a small percentage of trials with activity</li>
+                                                </ul>
+                                                <li><b>Dipole</b></li>
+                                                <ul>
+                                                    <li>Superficial, outside of brain</li>
+                                                </ul>
+                                                <li><b>PSD</b></li>
                                                 <ul>
                                                     <li>1/f spectrum</li>
                                                 </ul>
-                                                <li><b>Component Time Series</b></li>
+                                                <li><b>Crossfrequency PPC</b></li>
                                                 <ul>
-                                                    <li>Large and/or consistent artifacts</li>
+                                                    <li>No consistent pattern</li>
                                                 </ul>
                                             </ul>
 
@@ -568,16 +660,18 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/P_qs7JOzoZ0OZy?quality=640" alt="Channel Noise example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={channelnoiseexample1} alt="Channel Noise example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Channel Noise Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/-uv9Rc4EpqXjgE?quality=640" alt="Channel Noise example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={channelnoiseexample2} alt="Channel Noise example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Channel Noise Data </figcaption>
                                                 <p>
-                                                    Both components are examples of Channel Noise. The biggest clues are the highly localized and 
-                                                    concentrated projections on the scalp topographies. The center of higher projections is located 
-                                                    where an EEG electrode would be placed. Also, other than a little bit of line noise at 50 or 60 Hz 
-                                                    on the power spectrum, the plot shows a 1/f trend.
+                                                    Both components are examples of Channel Noise. One important feature reflecting Channel Noise with 
+                                                    high probability is the clearly localized and concentrated projections on the scalp topographies. 
+                                                    The center of such a projection is often located around one electrode with an extrapolation of 
+                                                    activity to all neighboring electrodes. In addition, these components also have mix of channel and 
+                                                    line noise, which is illustrated by the PSD having a peak at 50 or 60 Hz with an otherwise visible 
+                                                    1/f trend.
                                                 </p>
                                                 <br/>
                                             </Container>
@@ -588,17 +682,17 @@ const TutorialPage = () => {
                                         <Accordion.Body style={{textAlign: 'left'}}>
                                             <Divider title={"Summary"} />
                                             <br/>
-                                                Any ICs which features do not fall into any of the IC types mentioned above will fall under Other. 
-                                                In fact, most ICs are meaningless signals and actual signal components, such as the Brain components, 
-                                                can be mixed with Other components. The best method to discern Other components is to recognize the 
-                                                unusual characteristics in the features. One characteristic to note is that Other components could 
-                                                include non-dipolar topography. 
+                                            Any ICs which features do not fall into any of the IC types mentioned above will fall under Other. 
+                                            In fact, several ICs might reflect meaningless signals and actual signal components, such as the 
+                                            Brain components, can be mixed with Other components. The best method to discern Other components 
+                                            is to recognize the unusual characteristics in the features. One characteristic to note is that 
+                                            Other components could include non-dipolar topography.
 
                                             <br/><br/>
                                             <Divider title={"Characteristics"} />
                                             <ul>
                                                 <li>Characteristics that do not fit under any other categories</li>
-                                                <li><b>Topography</b></li>
+                                                <li><b>Scalp topography</b></li>
                                                 <ul>
                                                     <li>Non-dipolar</li>
                                                 </ul>
@@ -608,10 +702,10 @@ const TutorialPage = () => {
                                             <Divider title={"Examples"} />
                                             <Container>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/jqE6ADj5TQ3_a1?quality=640" alt="Other example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={otherexample1} alt="Other example 1" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #1 of Other Data </figcaption>
                                                 <br/>
-                                                <img src="https://sway.office.com/s/PHFEUcvlOfTRODVv/images/OhaQcnIsRGC-4R?quality=640" alt="Other example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
+                                                <img src={otherexample2} alt="Other example 2" width="100%" style={{border: '2px solid #D3D3D3'}} />
                                                 <figcaption style={{textAlign: 'center', fontStyle: 'italic'}}>Example #2 of Other Data </figcaption>
                                                 <p>
                                                     These components are examples of Other ICs. All the features are not 
