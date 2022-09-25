@@ -48,6 +48,31 @@ generateDBXAuth = () => {
 //Initial authentication for dropbox
 generateDBXAuth();
 
+//////////////////////////
+///// HELPER METHODS /////
+//////////////////////////
+getFilenamesContinue = (cursor) => {
+    return new Promise((resolve, reject) => {
+        dropbox({
+            resource:'files/list_folder/continue',
+            parameters: {
+                cursor: cursor
+            }
+        }, (err, result, response) => {
+            //If error in getting continued folder
+            if (err) { reject(error); }
+
+            let listContinue = {
+                entries: result.entries,
+                has_more: result.has_more,
+                cursor: result.cursor,
+            }
+
+            resolve(listContinue);
+        });
+    });
+}
+
 
 ////////////////////////
 ///// ROUTER PATHS /////
@@ -318,12 +343,24 @@ router.get('/filenames', async (req, res) => {
             parameters: {
                 path: folderpath
             }
-        }, (err, result, response) => {
+        }, async (err, result, response) => {
             //If error returned
             if (err) { return console.log('err: ', err); }
 
+            //Initialize list with first 500 filenames
+            let filelist = result.entries;
+            let has_more = result.has_more;
+            let cursor = result.cursor;
+
+            while (has_more) {
+                const listContinueObject = await getFilenamesContinue(cursor);
+                filelist = filelist.concat(listContinueObject.entries);
+                has_more = listContinueObject.has_more;
+                cursor = listContinueObject.cursor;
+            }
+
             //Filter out filenames
-            let filelist = result.entries.filter((entry) => {
+            filelist = filelist.filter((entry) => {
                 return entry['.tag'] === 'file';
             });
 

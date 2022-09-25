@@ -10,39 +10,49 @@ const DataPage = () => {
     
     const [dataList, setDataList] = useState([]);
     const [refresh, setRefresh] = useState('Refresh Data List');
+    const [compData, setCompData] = useState([]);
 
     const getDataList = () => {
         setRefresh('Refreshing . . .')
 
+        //Get filenames from dropbox
         axios.get('/dropbox/filenames')
         .then((res) => {
-            let data = res.data;
-            data.sort();
+            let dropboxData = res.data;
+            dropboxData.sort();
 
-            let tableData = [];
-            for (let i = 0; i < data.length - 1; i++) {
-                let extIndex = data[i].lastIndexOf('.');
+            //Get filenames from MongoDB
+            axios.get('/api/components/complist')
+            .then((res) => {
+                let mongodbData = res.data;
+                
+                let tableData = [];
+                for (let i = 0; i < dropboxData.length - 1; i++) {
+                    //Get the index of exten
+                    let extIndex = dropboxData[i].lastIndexOf('.');
+                    const datum = mongodbData.find(element => element.name === dropboxData[i]);
 
-                if (data[i].substring(0, extIndex) === data[i + 1].substring(0, extIndex)) {
-                    tableData.push({ 
-                        name: data[i].substring(0, extIndex),
-                        jpg: 'Yes',
-                        mat: 'Yes'
-                    });
-
-                    i++;
-                    continue;
-                } else {
-                    tableData.push({
-                        name: data[i].substring(0, extIndex),
-                        jpg: (data[i].substring(extIndex) === '.jpg' ? 'Yes' : 'No'),
-                        mat: (data[i].substring(extIndex) === '.mat' ? 'Yes' : 'No')
-                    });
+                    if (typeof datum !== 'undefined') {
+                        tableData.push({
+                            name: dropboxData[i].substring(0, extIndex),
+                            dropbox: 'Yes',
+                            mongodb: 'Yes',
+                            labels: datum.labels.length,
+                        });
+                    } else {
+                        tableData.push({
+                            name: dropboxData[i].substring(0, extIndex),
+                            dropbox: 'Yes',
+                            mongodb: 'No',
+                            labels: 0,
+                        });
+                    }
                 }
-            }
 
-            setDataList(tableData);
-            setRefresh('Refresh Data List');
+                setCompData(mongodbData);
+                setDataList(tableData);
+                setRefresh('Refresh Data List');
+            });
         });
     }
 
@@ -73,8 +83,9 @@ const DataPage = () => {
                                     <thead>
                                         <tr>
                                             <th>Data Name</th>
-                                            <th>JPG Data?</th>
-                                            <th>Mat Data?</th>
+                                            <th>Dropbox</th>
+                                            <th>MongoDB</th>
+                                            <th>No. Labels</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,8 +93,9 @@ const DataPage = () => {
                                             return (
                                                 <tr key={datapoint.name}>
                                                     <th>{datapoint.name}</th>
-                                                    <th>{datapoint.jpg}</th>
-                                                    <th>{datapoint.mat}</th>
+                                                    <th>{datapoint.dropbox}</th>
+                                                    <th>{datapoint.mongodb}</th>
+                                                    <th>{datapoint.labels}</th>
                                                 </tr>
                                             );
                                         })}
