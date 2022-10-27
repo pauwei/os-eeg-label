@@ -51,6 +51,8 @@ generateDBXAuth();
 //////////////////////////
 ///// HELPER METHODS /////
 //////////////////////////
+
+// Continues to get the list of files as limit for one read is 500
 getFilenamesContinue = (cursor) => {
     return new Promise((resolve, reject) => {
         dropbox({
@@ -71,6 +73,71 @@ getFilenamesContinue = (cursor) => {
             resolve(listContinue);
         });
     });
+}
+
+// Select appropriate experiment based on weights and return filtered list of components
+filterByExperiment = (complist, lastExp=false) => {
+
+    // Grab weights from file if possible, otherwise return list unchanged
+    let data = {}
+    try {
+        data = fs.readFileSync('./temp/experiment-weights.json', 'utf8');
+    } catch (err) {
+        console.log(err);
+        return complist;
+    }
+
+    const weighter = JSON.parse(data);
+    let exp = "";
+
+    // If drawing from previous experiment, just set using stored value
+    // Else calculate the value from weights given
+    if (lastExp) {
+        exp = weighter.lastExp;
+    } else {
+        const drawnWeight = Math.random();
+        const weights = weighter.weights;
+        let currWeight = 0.0;
+
+        // Get the experiment based from weights
+        for (const expNo in weights) {
+            if (weights.hasOwnProperty(expNo)) {
+                currWeight = currWeight + weights[expNo];
+
+                // Break if currWeight has exceeded drawnWeight
+                if (currWeight > drawnWeight) {
+                    exp = expNo;
+                    break;
+                }
+            }
+        }
+
+        // If somehow experiment not set, just use previous
+        if (exp.length === 0) {
+            exp = weighter.lastExp;
+        }
+    }
+
+    // Save current experiment number for reference later
+    weighter.lastExp = exp;
+    const jsonWeighter = JSON.stringify(weighter);
+    
+    try {
+        fs.writeFileSync('./temp/experiment-weights.json', jsonWeighter, 'utf8');
+    } catch (err) {
+        if (err) { console.log(err) }
+    }
+
+    // Filter out all entries that are not part of the experiment
+    return complist.filter((entry) => {
+        if (typeof entry === 'string') {
+            return entry.slice(0, 1) === exp;
+        } else if (typeof entry === 'object' && "name" in entry) {
+            return entry.name.slice(0, 1) === exp;
+        } else {
+            return true;
+        }
+    })
 }
 
 
@@ -142,12 +209,25 @@ router.get('/imagefile', async (req, res) => {
             parameters: {
                 path: folderpath
             }
-        }, (err, result, response) => {
+        }, async (err, result, response) => {
             //If error returned
             if (err) { return console.log('get imagefile err: ', err); }
 
+            //Initialize list with first 500 filenames
+            dropboxlist = result.entries;
+            let has_more = result.has_more;
+            let cursor = result.cursor;
+
+            //Continue getting filenames until all filenames have been retrieved
+            while (has_more) {
+                const listContinueObject = await getFilenamesContinue(cursor);
+                dropboxlist = dropboxlist.concat(listContinueObject.entries);
+                has_more = listContinueObject.has_more;
+                cursor = listContinueObject.cursor;
+            }
+
             //Filter out filenames (from folders)
-            dropboxlist = result.entries.filter((entry) => {
+            dropboxlist = dropboxlist.filter((entry) => {
                 return entry['.tag'] === 'file';
             });
 
@@ -161,7 +241,6 @@ router.get('/imagefile', async (req, res) => {
                 const extIndex = file.lastIndexOf('.');
                 return file.substring(extIndex) == '.jpg';
             });
-
 
 
             ///////////////////////////////////////////
@@ -201,8 +280,6 @@ router.get('/imagefile', async (req, res) => {
                     }
                     
 
-
-
                     //Algorithm to determine which image to send back
 
                     //////////////////////////////
@@ -224,6 +301,12 @@ router.get('/imagefile', async (req, res) => {
                     mongodblist = mongodblist.filter((component) => {
                         return component.labels.length < cap;
                     });
+
+                    ///////////////////////////
+                    /////SELECT EXPERIMENT/////
+                    ///////////////////////////
+                    dropboxlist = filterByExperiment(dropboxlist);
+                    mongodblist = filterByExperiment(mongodblist, lastExp=true);
 
                     ////////////////////////
                     /////SELECTING FILE/////
@@ -270,25 +353,27 @@ router.get('/imagefile', async (req, res) => {
                     //If somehow file is still not filled just select from components below
                     if (file.length === 0) {
                         const files = [
-                            "test0101_IC46.jpg",
-                            "test0101_IC43.jpg",
-                            "test0101_IC45.jpg",
-                            "test0101_IC51.jpg",
-                            "test0101_IC66.jpg",
-                            "test0101_IC71.jpg",
-                            "test0101_IC73.jpg",
-                            "test0101_IC8.jpg",
-                            "test0101_IC12.jpg",
-                            "test0101_IC14.jpg",
-                            "test0101_IC26.jpg",
-                            "test0101_IC9.jpg",
-                            "test0101_IC17.jpg",
-                            "test0101_IC28.jpg",
-                            "test0101_IC34.jpg",
-                            "test0101_IC29.jpg",
-                            "test0101_IC30.jpg",
-                            "test0101_IC38.jpg",
-                            "test0101_IC39.jpg"
+                            "1001001.jpg",
+                            "1001002.jpg",
+                            "1001003.jpg",
+                            "1001004.jpg",
+                            "1001005.jpg",
+                            "1001006.jpg",
+                            "1001007.jpg",
+                            "1001008.jpg",
+                            "1001009.jpg",
+                            "1001010.jpg",
+                            "1001011.jpg",
+                            "1001012.jpg",
+                            "1001013.jpg",
+                            "1001019.jpg",
+                            "1001034.jpg",
+                            "1001038.jpg",
+                            "1001042.jpg",
+                            "1001061.jpg",
+                            "1001065.jpg",
+                            "1001077.jpg",
+                            "1001088.jpg",
                         ];
 
                         file = files[Math.floor(Math.random() * files.length)];
@@ -331,11 +416,158 @@ router.get('/imagedata', (req, res) => {
 
 })
 
-//Getting the matlab file for eeg labelling
+// Getting the matlab file for eeg labelling
 router.get('/mat', (req, res) => {
     res.send('Sending .mat file');
 })
 
+// Submitting weights to be calculated
+router.post('/weights', (req, res) => {
+    const weights = req.body;
+    let currWeight = 0.0;
+
+    //Add all weights together
+    for (const expNo in weights) {
+        if (weights.hasOwnProperty(expNo)) {
+            currWeight = currWeight + weights[expNo];
+        }
+    }
+
+    //Check if weight is valid with margin of error
+    if (currWeight > 1.0001 || currWeight < 0.9999) {
+        res.send("Invalid weights were submitted");
+        return;
+    }
+
+    //Read from file and override with new weights
+    fs.readFile('./temp/experiment-weights.json', 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+            res.send("Unable to read previous weights")
+            return;
+        }
+
+        const weighter = JSON.parse(data);
+        weighter.weights = weights
+        const jsonWeighter = JSON.stringify(weighter);
+        fs.writeFile('./temp/experiment-weights.json', jsonWeighter, 'utf8', (err, data) => {
+            if (err) { console.log(err) }
+            res.send("Successfully submitted weights");
+        });
+    });
+})
+
+// Getting the statistics to display for the data page
+router.get('/statistics', async (req, res) => {
+
+    let weighter;
+    try {
+        weighter = fs.readFileSync('./temp/experiment-weights.json', 'utf8');
+    } catch (err) {
+        console.log(err);
+    }
+
+    if (dropbox) {
+        dropbox({
+            resource: 'files/list_folder',
+            parameters: {
+                path: folderpath
+            }
+        }, async (err, result, response) => {
+            //If error returned
+            if (err) { return console.log('err: ', err); }
+
+            //Initialize list with first 500 filenames
+            let filelist = result.entries;
+            let has_more = result.has_more;
+            let cursor = result.cursor;
+
+            while (has_more) {
+                const listContinueObject = await getFilenamesContinue(cursor);
+                filelist = filelist.concat(listContinueObject.entries);
+                has_more = listContinueObject.has_more;
+                cursor = listContinueObject.cursor;
+            }
+
+            //Filter out filenames
+            filelist = filelist.filter((entry) => {
+                return entry['.tag'] === 'file';
+            });
+
+            //Extract out file name
+            filelist = filelist.map((file) => {
+                return file['name'];
+            });
+
+            let mongodblist = [];
+            Component.find({}, (err, data) => {
+                if (err) { 
+                    console.log(err);
+                    res.status(500).json({ error: "MongoDB not responding"});
+                    return;
+                }
+
+                //No error and assign data
+                if (data) {
+                    mongodblist = data;
+                }
+
+                //Assemble statistics
+                let stats = {}
+
+                //Count the total number of label images
+                filelist.forEach( (element) => {
+                    const exp = element.slice(0, 1);
+                    if (exp in stats) {
+                        stats[exp].total = stats[exp].total + 1;
+                    } else {
+                        stats[exp] = {
+                            total: 0,
+                            completed: 0,
+                            weight: 0,
+                        };
+                    }
+                });
+
+                //Count the total number of completed labels
+                mongodblist.forEach( (element) => {
+                    const exp = element.name.slice(0, 1);
+                    if (exp in stats) {
+                        stats[exp].completed = stats[exp].completed + 1;
+                    } else {
+                        stats[exp] = {
+                            total: 0,
+                            completed: 0,
+                            weight: 0,
+                        };
+                    }
+                });
+
+                //Get the associated weights
+                weighter = JSON.parse(weighter);
+                let weights = weighter.weights;
+                stats["lastExp"] = weighter.lastExp;
+                for (exp in weights) {
+                    if (exp in stats) {
+                        stats[exp].weight = weights[exp];
+                    } else {
+                        stats[exp] = {
+                            total: 0,
+                            completed: 0,
+                            weight: weights[exp],
+                        };
+                    }
+                }
+
+                res.send(stats);
+            });
+        });
+    } else {
+        res.status(500).json({ error: "Dropbox not authenticated." })
+    }
+})
+
+// Getting the filenames from dropbox
 router.get('/filenames', async (req, res) => {
     if (dropbox) {
         dropbox({
