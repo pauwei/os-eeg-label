@@ -38,6 +38,7 @@ const ResponsiveAppBar = () => {
                                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                                             <Nav.Link href="/users">Users</Nav.Link>
                                             <Nav.Link href="/datalist">Data</Nav.Link>
+                                            <Nav.Link href="/statistics">Statistics</Nav.Link>
                                             <Nav.Link href="/logout">Logout</Nav.Link>
                                         </Nav>
                                     </Offcanvas.Body>
