@@ -340,7 +340,17 @@ const Dashboard = () => {
                             <div style={{paddingLeft: width > 768 ? "250px" : "0px", paddingTop: '90px'}}>
                                 <Container style={{paddingTop: '70px'}}>
                                     <Card>
-                                        <p>You are not authenticated. Please login.</p>
+                                        <Card.Header as='h3'>Sorry, looks like you are in the wrong place?</Card.Header>
+                                        <Card.Body>
+                                            <Row style={{padding: '5px'}}>
+                                                <p>You are not authenticated to view the page.</p>
+                                            </Row>
+                                            <Row style={{padding: '5px'}}>
+                                                <p>
+                                                    Please <a href="/login">login</a> with to access the page.
+                                                </p>
+                                            </Row>
+                                        </Card.Body>
                                     </Card>
                                 </Container>
                             </div>
