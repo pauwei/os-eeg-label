@@ -127,7 +127,7 @@ const DataPage = () => {
                 if (Auth === 'Admin') {
                     return (
                         <div style={{paddingTop: '90px'}}>
-                            <p>This page is in progress. You can view the data that can be pulled from dropbox.</p>
+                            <p>This is the data page. You can view the data that is pulled from dropbox and export labelling data below.</p>
                             
                             <Container fluid style={{width: '75%'}}>
                                 <Button
