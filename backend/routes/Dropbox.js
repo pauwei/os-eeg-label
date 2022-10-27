@@ -450,7 +450,7 @@ router.post('/weights', (req, res) => {
         const weighter = JSON.parse(data);
         weighter.weights = weights
         const jsonWeighter = JSON.stringify(weighter);
-        fs.writeFile('.temp/experiment-weights.json', jsonWeighter, 'utf8', (err, data) => {
+        fs.writeFile('./temp/experiment-weights.json', jsonWeighter, 'utf8', (err, data) => {
             if (err) { console.log(err) }
             res.send("Successfully submitted weights");
         });
