@@ -81,7 +81,7 @@ filterByExperiment = (complist, lastExp=false) => {
     // Grab weights from file if possible, otherwise return list unchanged
     let data = {}
     try {
-        data = fs.readFileSync('./temp/experiment-weights.json', 'utf8');
+        data = fs.readFileSync('./backend/temp/experiment-weights.json', 'utf8');
     } catch (err) {
         console.log(err);
         return complist;
@@ -123,7 +123,7 @@ filterByExperiment = (complist, lastExp=false) => {
     const jsonWeighter = JSON.stringify(weighter);
     
     try {
-        fs.writeFileSync('./temp/experiment-weights.json', jsonWeighter, 'utf8');
+        fs.writeFileSync('./backend/temp/experiment-weights.json', jsonWeighter, 'utf8');
     } catch (err) {
         if (err) { console.log(err) }
     }
@@ -440,7 +440,7 @@ router.post('/weights', (req, res) => {
     }
 
     //Read from file and override with new weights
-    fs.readFile('./temp/experiment-weights.json', 'utf8', (err, data) => {
+    fs.readFile('./backend/temp/experiment-weights.json', 'utf8', (err, data) => {
         if (err) {
             console.log(err);
             res.send("Unable to read previous weights")
@@ -450,7 +450,7 @@ router.post('/weights', (req, res) => {
         const weighter = JSON.parse(data);
         weighter.weights = weights
         const jsonWeighter = JSON.stringify(weighter);
-        fs.writeFile('.temp/experiment-weights.json', jsonWeighter, 'utf8', (err, data) => {
+        fs.writeFile('./backend/experiment-weights.json', jsonWeighter, 'utf8', (err, data) => {
             if (err) { console.log(err) }
             res.send("Successfully submitted weights");
         });
@@ -462,7 +462,7 @@ router.get('/statistics', async (req, res) => {
 
     let weighter;
     try {
-        weighter = fs.readFileSync('./temp/experiment-weights.json', 'utf8');
+        weighter = fs.readFileSync('./backend/temp/experiment-weights.json', 'utf8');
     } catch (err) {
         console.log(err);
     }
