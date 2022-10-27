@@ -267,18 +267,42 @@ const StatisticsPage = () => {
                 //If logged in user
                 else if (Auth === 'User') {
                     return (
-                        <div>
-                            <p>You are not authorized to view the page.</p>
-                        </div>
+                        <Container style={{paddingTop: '120px'}}>
+                            <Card>
+                                <Card.Header as='h3'>Sorry, looks like you are in the wrong place?</Card.Header>
+                                <Card.Body>
+                                    <Row style={{padding: '5px'}}>
+                                        <p>You are not authorized to view the page.</p>
+                                    </Row>
+                                    <Row style={{padding: '5px'}}>
+                                        <p>
+                                            Please <a href="/logout">logout</a> and then login with correct credentials to access the page
+                                        </p>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Container>
                     )
                 }
 
                 //If guest
                 else {
                     return (
-                        <div>
-                            <p>You are not authenticated to view the page.</p>
-                        </div>
+                        <Container style={{paddingTop: '120px'}}>
+                            <Card>
+                                <Card.Header as='h3'>Sorry, looks like you are in the wrong place?</Card.Header>
+                                <Card.Body>
+                                    <Row style={{padding: '5px'}}>
+                                        <p>You are not authenticated to view the page.</p>
+                                    </Row>
+                                    <Row style={{padding: '5px'}}>
+                                        <p>
+                                            Please <a href="/login">login</a> with correct credentials to access the page
+                                        </p>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Container>
                     )
                 }
             }

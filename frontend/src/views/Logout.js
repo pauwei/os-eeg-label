@@ -26,6 +26,7 @@ const Logout = () => {
                         <div>
                             <Container style={{paddingTop: '120px'}} >
                                 <Card>
+                                    <Card.Header as='h3'>Bye Bye Bye</Card.Header>
                                     <Card.Body>
                                         <Row>
                                             <p>Hey, progress has been saved. Sign back in to view any changes.</p>
@@ -46,6 +47,7 @@ const Logout = () => {
                         <div>
                             <Container style={{paddingTop: '120px'}}>
                                 <Card>
+                                    <Card.Header as='h3'>See you next time!</Card.Header>
                                     <Card.Body>
                                         <Row>
                                             <p>Hey, thanks for labelling. Have a great day!</p>
@@ -66,6 +68,7 @@ const Logout = () => {
                         <div>
                             <Container style={{paddingTop: '120px'}}>
                                 <Card>
+                                    <Card.Header as='h3'>Sorry, looks like you are in the wrong place?</Card.Header>
                                     <Card.Body>
                                         <Row>
                                             <p>You are not authenticated. Please login.</p>
