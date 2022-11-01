@@ -102,11 +102,11 @@ filterByExperiment = (complist, lastExp=false) => {
         // Get the experiment based from weights
         for (const expNo in weights) {
             if (weights.hasOwnProperty(expNo)) {
-                currWeight = currWeight + weights[expNo];
+                currWeight = currWeight + parseFloat(weights[expNo]);
 
                 // Break if currWeight has exceeded drawnWeight
                 if (currWeight > drawnWeight) {
-                    exp = expNo;
+                    exp = String(expNo);
                     break;
                 }
             }
