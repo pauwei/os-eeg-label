@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dbx = require("./routes/Dropbox.js");
+require("dotenv").config()
 
 const app = express();
 

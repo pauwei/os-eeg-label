@@ -3,6 +3,7 @@ const axios = require('axios');
 const router = express.Router();
 const fs = require('fs');
 const db = require("../models");
+require("dotenv").config()
 const Component = db.component;
 const User = db.user;
 

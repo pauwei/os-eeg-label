@@ -26,6 +26,7 @@ const ResultsPage = () => {
     //overall stats
     const [ostats, setOstats] = useState(null);
     const [total, setTotal] = useState(0);
+    const [fullyLabeled, setFullyLabeled] = useState(0);
 
 
     const handleWindowSizeChange = () => {
@@ -53,6 +54,7 @@ const ResultsPage = () => {
         .then( (res) => {
             //Setting overall stats
             setOstats(res.data);
+            window.ostats = ostats
         })
     }
 
@@ -82,10 +84,15 @@ const ResultsPage = () => {
         }
 
         let sum = 0;
+        let fullyLabeledCount = 0;
         for (let i = 0; i < ostats.length; i++) {
             sum += ostats[i].labels.length;
+            if (ostats[i].labels.length >= 5) {
+                fullyLabeledCount += 1;
+            }
         }
 
+        setFullyLabeled(fullyLabeledCount);
         setTotal(sum);
     }, [ostats])
 
@@ -133,6 +140,10 @@ const ResultsPage = () => {
                                                                 <tr>
                                                                     <td>Total Components Labeled</td>
                                                                     <td>{total}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{fullyLabeled}</td>
                                                                 </tr>
                                                             </tbody>
                                                         )}
@@ -239,6 +250,10 @@ const ResultsPage = () => {
                                                                     <td>Total Components Labeled</td>
                                                                     <td>{total}</td>
                                                                 </tr>
+                                                                <tr>
+                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{fullyLabeled}</td>
+                                                                </tr>
                                                             </tbody>
                                                         )}
                                                         
@@ -343,6 +358,10 @@ const ResultsPage = () => {
                                                                 <tr>
                                                                     <td>Total Components Labeled</td>
                                                                     <td>{total}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{fullyLabeled}</td>
                                                                 </tr>
                                                             </tbody>
                                                         )}
