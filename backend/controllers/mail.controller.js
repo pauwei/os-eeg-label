@@ -1,4 +1,5 @@
 const SibApiV3Sdk = require("sib-api-v3-sdk");
+require("dotenv").config()
 
 //Authenticate for sendin blue
 const defaultClient = SibApiV3Sdk.ApiClient.instance;
