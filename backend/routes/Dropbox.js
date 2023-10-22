@@ -3,7 +3,8 @@ const axios = require('axios');
 const router = express.Router();
 const fs = require('fs');
 const db = require("../models");
-require("dotenv").config()
+const path = require('path')
+require("dotenv").config({ path: path.join(__dirname, '../.env') })
 const Component = db.component;
 const User = db.user;
 
@@ -406,14 +407,14 @@ router.get('/imagedata', (req, res) => {
     }, (err, result, response) => {
         if (err) { return console.log('get image data err: ', err); }
 
-        fs.readFile('./temp/labelling-image.jpg', (err, data) => {
+        fs.readFile(path.join(__dirname, "..", "temp", "labelling-image.jpg"), (err, data) => {
             if (err) throw err;
 
             res.writeHead(200, {'Content-Type': 'image/jpeg'});
             res.end(data);
         });
        
-    }).pipe(fs.createWriteStream('./temp/labelling-image.jpg'));
+    }).pipe(fs.createWriteStream(path.join(__dirname, "..", "temp", "labelling-image.jpg")));
 
 })
 

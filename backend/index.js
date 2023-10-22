@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const dbx = require("./routes/Dropbox.js");
@@ -22,10 +23,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/dropbox", dbx);
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static("../frontend/build"));
-}
-
 const db = require("./models");
 
 db.mongoose
@@ -45,6 +42,14 @@ require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/component.routes")(app);
 require("./routes/mail.routes")(app);
+
+if (process.env.NODE_ENV === "production") {
+    console.log("Serving static frontend.")
+    app.use(express.static(path.join(__dirname, "..", "frontend", "build")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"));
+    });
+}
 
 const port = process.env.PORT || 8080;
 

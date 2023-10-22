@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-require("dotenv").config()
+const path = require('path')
+require("dotenv").config({ path: path.join(__dirname, '../.env') })
 const User = db.user;
 const Role = db.role;
 

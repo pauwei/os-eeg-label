@@ -4,7 +4,8 @@ const Role = db.role;
 
 let jwt = require("jsonwebtoken");
 let bcrypt = require("bcryptjs");
-require("dotenv").config()
+const path = require('path')
+require("dotenv").config({ path: path.join(__dirname, '../.env') })
 
 exports.signup = (req, res) => {
 
