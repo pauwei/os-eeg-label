@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
+    "start": "node backend/index.js",
     "install": "concurrently \"cd backend && npm i\" \"cd frontend && npm i --legacy-peer-deps\" ",
     "heroku-postbuild": "cd backend && npm install && cd ../frontend && npm install --legacy-peer-deps && npm run build"
   },
