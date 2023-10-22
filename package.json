@@ -20,7 +20,7 @@
     "url": "https://github.com/pauwei/os-eeg-label/issues"
   },
   "homepage": "https://github.com/pauwei/os-eeg-label#readme",
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^7.1.0"
   }
 }
