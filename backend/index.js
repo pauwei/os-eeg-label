@@ -6,7 +6,10 @@ require("dotenv").config()
 const app = express();
 
 let corsOptions = {
-    origin: "http://localhost:3000",
+    origin: process.env.NODE_ENV !== "production" ? "http://localhost:3000" : [
+        "https://icmobi.org",
+        "https://icmobi.herokuapp.com"
+    ],
 };
 
 app.use(cors(corsOptions));
@@ -18,6 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/dropbox", dbx);
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("../frontend/build"));
+}
 
 const db = require("./models");
 
