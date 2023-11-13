@@ -9,6 +9,7 @@ const app = express();
 let corsOptions = {
     origin: process.env.NODE_ENV !== "production" ? "http://localhost:3000" : [
         "https://icmobi.org",
+        "https://www.icmobi.org",
         "https://icmobi.herokuapp.com"
     ],
 };

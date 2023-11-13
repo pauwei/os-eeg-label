@@ -2,7 +2,8 @@ import axios from "axios";
 import React from "react";
 
 const AuthContext = React.createContext();
-const auth_API_URL = "http://localhost:8080/api/auth/";
+
+const auth_API_URL = "/api/auth/"
 
 class AuthProvider extends React.Component {
     state = { Email: "guest", Domain: "guest", Weight: 1.0, Auth: "Guest", Info: "Guest", Name: "Guest" };
