@@ -9,6 +9,8 @@ import { Trophy } from 'react-bootstrap-icons';
 import { AuthConsumer } from '../helpers/AuthContext';
 import Sidebar from '../components/Sidebar';
 
+const FULLY_LABELED_THRESHOLD = 4;
+
 const ResultsPage = () => {
 
     //Width variables
@@ -54,7 +56,6 @@ const ResultsPage = () => {
         .then( (res) => {
             //Setting overall stats
             setOstats(res.data);
-            window.ostats = ostats
         })
     }
 
@@ -87,7 +88,7 @@ const ResultsPage = () => {
         let fullyLabeledCount = 0;
         for (let i = 0; i < ostats.length; i++) {
             sum += ostats[i].labels.length;
-            if (ostats[i].labels.length >= 5) {
+            if (ostats[i].labels.length >= FULLY_LABELED_THRESHOLD) {
                 fullyLabeledCount += 1;
             }
         }
@@ -142,7 +143,7 @@ const ResultsPage = () => {
                                                                     <td>{total}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{`Fully Labeled Components (${FULLY_LABELED_THRESHOLD} Or More Labels)`}</td>
                                                                     <td>{fullyLabeled}</td>
                                                                 </tr>
                                                             </tbody>
@@ -251,7 +252,7 @@ const ResultsPage = () => {
                                                                     <td>{total}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{`Fully Labeled Components (${FULLY_LABELED_THRESHOLD} Or More Labels)`}</td>
                                                                     <td>{fullyLabeled}</td>
                                                                 </tr>
                                                             </tbody>
@@ -360,7 +361,7 @@ const ResultsPage = () => {
                                                                     <td>{total}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Fully Labeled Components (5 Or More Labels)</td>
+                                                                    <td>{`Fully Labeled Components (${FULLY_LABELED_THRESHOLD} Or More Labels)`}</td>
                                                                     <td>{fullyLabeled}</td>
                                                                 </tr>
                                                             </tbody>

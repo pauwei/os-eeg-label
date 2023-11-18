@@ -14,6 +14,7 @@ const User = db.user;
 
 //Instantiate Dropbox instance
 const dropboxV2Api = require('dropbox-v2-api');
+const { FULLY_LABELED_THRESHOLD } = require('../constants/constants');
 let dropbox = null;
 const folderpath = '/ICMOBI_website/IC_images'
 
@@ -299,7 +300,7 @@ router.get('/imagefile', async (req, res) => {
                     });
 
                     //Get rid of components already at cap
-                    const cap = 5;
+                    const cap = FULLY_LABELED_THRESHOLD;
                     mongodblist = mongodblist.filter((component) => {
                         return component.labels.length < cap;
                     });

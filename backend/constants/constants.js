@@ -1,0 +1,1 @@
+module.exports.FULLY_LABELED_THRESHOLD = 4;
